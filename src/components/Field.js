@@ -20,7 +20,7 @@ export default {
         // case 'CustomLookup':
         //     return <CustomSelectField ref="field" field={this.field} options={this.options} data={this.data}></CustomSelectField>
         default:
-            throw new Error(`Unexpected Type: ${this.field.TypeAsString}`)
+           throw new Error(`Unexpected Type: ${this.field.TypeAsString}`)
         }
     },
     computed: {
