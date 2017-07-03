@@ -29,7 +29,7 @@ async function request (url, body) {
     if (body != null) {
         digest['X-RequestDigest'] = await requestFormDigest()
     }
-    return fetch('/_api/' + url, {
+    return fetch(url, {
         method: body == null ? 'GET' : 'POST',
         body: body == null ? body : JSON.stringify(body),
         headers: {
@@ -43,31 +43,33 @@ async function request (url, body) {
 }
 
 // API
-
-export function getFieldsList (listId) {
-    return request(`web/lists(guid'${listId}')/fields`)
-        .then(r => r.results
-                    .filter(f => f.InternalName === 'Title' || !f.FromBaseType)
-                    .map(f => ({
-                        DefaultValue: f.DefaultValue,
-                        Description: f.Description,
-                        Id: f.Id,
-                        InternalName: f.InternalName,
-                        Title: f.Title,
-                        Required: f.Required,
-                        TypeAsString: f.TypeAsString,
-                        LookupList: f.LookupList ? f.LookupList.replace('{', '').replace('}', '') : '',
-                        LookupField: f.LookupField,
-                        QueryLookup: f.QueryLookup
-                    })))
+export async function getFieldsList (listId) {
+    let digest = {}
+    digest['X-RequestDigest'] = await requestFormDigest()
+    return fetch('/_Layouts/15/BaseSolution/Services.aspx/GetFieldsList', {
+        method: 'POST',
+        body: JSON.stringify({ listId: 'D683087D-D4CF-46F4-8EBB-B93D0CBFA607' }), // JSON.stringify({'listId': listId}),
+        headers: {
+            Accept: 'application/json;odata=verbose',
+            'Content-Type': 'application/json;odata=verbose',
+            credentials: 'include',
+            ...digest
+        }
+    }).then(r => r.json())
+    .then(r => {
+        return r.d
+    })
 }
 
 export function addItem (listId, item) {
-    return request(`web/lists(guid'${listId}')/items`, item)
+    return request(`/_api/web/lists(guid'${listId}')/items`, item)
 }
 export function getItems (listId) {
-    return request(`web/lists(guid'${listId}')/items`).then(r => r.results)
+    return request(`/_api/web/lists(guid'${listId}')/items`).then(r => r.results)
+}
+export function getFiltredItems (listId, query) {
+    return request(`/_api/web/lists(guid'${listId}')/items?${query}`).then(r => r.results)
 }
 export function getItemById (listId, itemId) {
-    return request(`web/lists(guid'${listId}')/items?$select=Id eq ${itemId}`).then(r => r.results)
+    return request(`/_api/web/lists(guid'${listId}')/items?$select=Id eq ${itemId}`).then(r => r.results)
 }
