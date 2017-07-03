@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getItems } from '../api/index.js'
+import { getFiltredItems } from '../api/index.js'
 
 export default {
     props: ['field', 'data'],
@@ -24,18 +24,26 @@ export default {
     },
     computed: {
         related () {
-            const relatedFields = this.field.RelatedTo
+            const relatedFields = this.field.RelatedFields
             let relatedData = {}
-            for (relatedField of relatedFields) {
-                relatedData[relatedField] = this.data.filter(d => d.Id === relatedField)[0]
+            for (let relatedField of relatedFields) {
+                relatedData[relatedField] = (this.data || {})[relatedField]
             }
             return relatedData
         }
     },
     asyncComputed: {
         options () {
+            console.log('data:', this.data)
+            console.log('related:', this.related)
             return getFiltredItems(this.field.LookupList, this.related)
-        }}
+        }
+    },
+    watch: {
+        'data': function (v, o) {
+            console.log('data', v, o)
+        }
+    }
 }
 </script>
 

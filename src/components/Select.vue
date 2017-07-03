@@ -1,7 +1,7 @@
 <template>
 <div>
      <label>{{field.Title}}</label>:
-       <el-select v-model="value" placeholder="انتخاب">
+       <el-select v-model="value" placeholder="انتخاب" @change="change">
         <el-option
         v-for="item in options"
         key="item.Id"
@@ -20,6 +20,11 @@ export default {
     data () {
         return {
             value: ''
+        }
+    },
+    methods: {
+        change (v) {
+            this.$emit('change', v)
         }
     },
     asyncComputed: {

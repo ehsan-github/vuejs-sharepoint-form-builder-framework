@@ -10,11 +10,11 @@ export default {
     name: 'app',
     components: { DefaultTemplate },
     methods: {
+        saveData () {
+            return this.$refs.template.values
+        },
         click () {
-            const item = this.$refs.template.values.reduce((r, f) => {
-                return {...r, ...f.value}
-            }, {})
-            insertField(this.listId, item).then(r => console.log(r))
+            insertField(this.listId, this.saveData()).then(r => console.log(r))
         }
     },
     asyncComputed: {
