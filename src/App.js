@@ -1,6 +1,6 @@
 import { getFieldsOfList, insertField } from './services/list_fields'
-import { getListId } from './services/url_params'
 import PageTemplate from './templates'
+import { mapState } from 'vuex'
 
 export default {
     name: 'app',
@@ -13,16 +13,15 @@ export default {
             insertField(this.listId, this.saveData()).then(r => console.log(r))
         }
     },
-    data () {
-        return {
-            listId: getListId(),
-            listFields: null,
-            listMeta: null
-        }
+    computed: {
+        ...mapState({
+            listId: s => s.listId,
+            listFields: s => s.fields
+        })
     },
     async mounted () {
-        this.listFields = await getFieldsOfList(this.listId)
-        console.log('Got fields:', this.listFields)
+        const listFields = await getFieldsOfList(this.listId)
+        this.$store.commit('loadFields', listFields)
     },
     render () {
         const {listFields} = this
