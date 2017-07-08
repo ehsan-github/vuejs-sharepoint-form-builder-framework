@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <Field v-for="f in fields" :field="f" key="f.Id" ref="fields" :data="values" @change="change" />
-  </div>
+  <el-form ref='form' :model='form'>
+    <el-form-item v-for='f in fields' key='f.Id' :label='f.Title'>
+      <Field :field="f" ref="fields" :data="values" @change="change" />
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -10,14 +12,12 @@ import Field from '../components/Field'
 export default {
     components: {Field},
     props: {
-        fields: {
-            type: Array,
-            default: []
-        }
+        fields: Array
     },
     data () {
         return {
-            values: {}
+            values: {},
+            form: {}
         }
     },
     mounted () {

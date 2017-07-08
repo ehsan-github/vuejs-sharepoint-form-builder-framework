@@ -1,10 +1,26 @@
 import { getFieldsOfList, insertField } from './services/list_fields'
-import PageTemplate from './templates'
 import { mapState } from 'vuex'
+import PageContent from './components/Content'
+import PageHeader from './components/Header'
+import PageFooter from './components/Footer'
 
 export default {
     name: 'app',
-    components: { PageTemplate },
+    components: { PageContent, PageHeader, PageFooter },
+    render () {
+        return (
+            <div id="app" dir='rtl'>
+                <PageHeader/>
+                <PageContent loading={this.loading}/>
+                <PageFooter/>
+            </div>
+        )
+    },
+    data () {
+        return {
+            loading: true
+        }
+    },
     methods: {
         saveData () {
             return this.$refs.template.values
@@ -22,14 +38,6 @@ export default {
     async mounted () {
         const listFields = await getFieldsOfList(this.listId)
         this.$store.commit('loadFields', listFields)
-    },
-    render () {
-        const {listFields} = this
-        return (
-            <div id="app" dir='rtl' v-loading={!listFields}>
-                <PageTemplate fields={listFields || []} ref='template' />
-                <el-button onClick={this.click}>save</el-button>
-            </div>
-        )
+        this.loading = false
     }
 }
