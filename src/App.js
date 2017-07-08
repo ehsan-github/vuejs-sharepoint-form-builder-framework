@@ -1,8 +1,8 @@
 import { getFieldsOfList, insertField } from './services/list_fields'
-import { mapState } from 'vuex'
 import PageContent from './components/Content'
 import PageHeader from './components/Header'
 import PageFooter from './components/Footer'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
     name: 'app',
@@ -27,7 +27,8 @@ export default {
         },
         click () {
             insertField(this.listId, this.saveData()).then(r => console.log(r))
-        }
+        },
+        ...mapMutations(['loadFields'])
     },
     computed: {
         ...mapState({
@@ -37,7 +38,7 @@ export default {
     },
     async mounted () {
         const listFields = await getFieldsOfList(this.listId)
-        this.$store.commit('loadFields', listFields)
+        this.loadFields(listFields)
         this.loading = false
     }
 }
