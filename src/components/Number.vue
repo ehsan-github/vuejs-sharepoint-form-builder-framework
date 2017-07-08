@@ -15,13 +15,10 @@ export default {
         change (v) {
             setTimeout(() => { this.value = Math.floor(parseFloat(v) || 0) }, 0)
         }
-    },
-    watch: {
-        value (v) { console.log(v) }
     }
 }
 </script>
 
 <style>
-    
+
 </style>

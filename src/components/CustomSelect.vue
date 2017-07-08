@@ -19,7 +19,8 @@ export default {
     props: ['field', 'data'],
     data () {
         return {
-            value: ''
+            value: '',
+            options: []
         }
     },
     computed: {
@@ -32,21 +33,12 @@ export default {
             return relatedData
         }
     },
-    asyncComputed: {
-        options () {
-            console.log('data:', this.data)
-            console.log('related:', this.related)
-            return getFiltredItems(this.field.LookupList, this.related)
-        }
-    },
-    watch: {
-        'data': function (v, o) {
-            console.log('data', v, o)
-        }
+    async mounted () {
+        this.options = await getFiltredItems(this.field.LookupList, this.related)
     }
 }
 </script>
 
 <style>
-    
+
 </style>

@@ -19,7 +19,8 @@ export default {
     props: ['field'],
     data () {
         return {
-            value: ''
+            value: '',
+            options: []
         }
     },
     methods: {
@@ -27,13 +28,12 @@ export default {
             this.$emit('change', v)
         }
     },
-    asyncComputed: {
-        options () {
-            return getItems(this.field.LookupList)
-        }}
+    async mounted () {
+        this.options = await getItems(this.field.LookupList)
+    }
 }
 </script>
 
 <style>
-    
+
 </style>

@@ -4,12 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import AsyncComputed from 'vue-async-computed'
 
 window.__disableNativeFetch = true
 require('fetch-ie8')
 
-Vue.use(AsyncComputed)
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

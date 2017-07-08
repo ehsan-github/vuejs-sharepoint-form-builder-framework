@@ -17,16 +17,16 @@ export default {
             insertField(this.listId, this.saveData()).then(r => console.log(r))
         }
     },
-    asyncComputed: {
-        listId () {
-            return getListId()
-        },
-        listFields () {
-            return this.listId && getFieldsOfList(this.listId)
-        },
-        listMeta () {
-            return Promise.resolve('default')
+    data () {
+        return {
+            listId: getListId(),
+            listFields: null,
+            listMeta: null
         }
+    },
+    async mounted () {
+        this.listFields = await getFieldsOfList(this.listId)
+        console.log('Got fields:', this.listFields)
     },
     render () {
         /* eslint-disable no-unused-vars */
