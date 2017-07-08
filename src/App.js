@@ -1,14 +1,10 @@
 import { getFieldsOfList, insertField } from './services/list_fields'
 import { getListId } from './services/url_params'
-import DefaultTemplate from './templates/Default'
-
-const templates = {
-    default: DefaultTemplate
-}
+import PageTemplate from './templates'
 
 export default {
     name: 'app',
-    components: { DefaultTemplate },
+    components: { PageTemplate },
     methods: {
         saveData () {
             return this.$refs.template.values
@@ -29,12 +25,10 @@ export default {
         console.log('Got fields:', this.listFields)
     },
     render () {
-        /* eslint-disable no-unused-vars */
-        const Template = templates[this.listMeta]
-
+        const {listFields} = this
         return (
-            <div id="app" dir='rtl' v-loading={!this.listFields}>
-                <Template fields={this.listFields} ref="template" />
+            <div id="app" dir='rtl' v-loading={!listFields}>
+                <PageTemplate fields={listFields || []} ref='template' />
                 <el-button onClick={this.click}>save</el-button>
             </div>
         )
