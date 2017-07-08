@@ -1,8 +1,7 @@
-import { insertField } from './services/list_fields'
 import PageContent from './components/Content'
 import PageHeader from './components/Header'
 import PageFooter from './components/Footer'
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'app',
@@ -22,19 +21,7 @@ export default {
         }
     },
     methods: {
-        saveData () {
-            return this.$refs.template.values
-        },
-        click () {
-            insertField(this.listId, this.saveData()).then(r => console.log(r))
-        },
         ...mapActions(['loadFields'])
-    },
-    computed: {
-        ...mapState({
-            listId: s => s.listId,
-            listFields: s => s.fields
-        })
     },
     async mounted () {
         await this.loadFields()
