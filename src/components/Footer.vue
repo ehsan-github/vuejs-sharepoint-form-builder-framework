@@ -1,7 +1,7 @@
 <template>
   <el-row type='flex' justify='center' align='middle' id='site-footer'>
     <el-col :span='18'>
-      // Footer
+      /* Footer */
     </el-col>
   </el-row>
 </template>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getListId } from './services/url_params'
-import { getFieldsOfList } from './services/list_fields'
+import { getListId } from '../services/url_params'
+import { getFieldsOfList } from '../services/list_fields'
 
 Vue.use(Vuex)
 
