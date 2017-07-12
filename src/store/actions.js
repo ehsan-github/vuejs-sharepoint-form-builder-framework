@@ -4,3 +4,7 @@ export async function loadFields ({commit, state}) {
     const listFields = await getFieldsOfList(state.listId)
     commit('loadFields', listFields)
 }
+
+export async function saveData ({state}) {
+    return true
+}
