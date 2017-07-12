@@ -1,7 +1,7 @@
 import PageContent from './PageContent'
 import PageHeader from './PageHeader'
 import PageFooter from './PageFooter'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
     name: 'app',
@@ -15,16 +15,15 @@ export default {
             </div>
         )
     },
-    data () {
-        return {
-            loading: true
-        }
+    computed: {
+        ...mapState({
+            loading: s => s.loading
+        })
     },
     methods: {
         ...mapActions(['loadFields'])
     },
-    async mounted () {
-        await this.loadFields()
-        this.loading = false
+    mounted () {
+        this.loadFields()
     }
 }

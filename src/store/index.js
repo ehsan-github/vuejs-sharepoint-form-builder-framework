@@ -8,12 +8,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
+        loading: true,
         listId: getListId(),
         fields: null
     },
     mutations: {
         loadFields (state, fields) {
             state.fields = fields
+            state.loading = false
         }
     },
     actions
