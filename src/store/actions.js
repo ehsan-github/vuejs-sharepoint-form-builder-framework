@@ -1,10 +1,11 @@
-import { getFieldsOfList } from '../services/list_fields'
+import { getFieldsList } from '../api'
 
-export async function loadFields ({commit, state}) {
-    const listFields = await getFieldsOfList(state.listId)
-    commit('loadFields', listFields)
+export function loadFields ({commit, state}) {
+    getFieldsList(state.listId).fork(
+        err => commit('addError', err),
+        result => commit('loadFields', result)
+    )
 }
 
-export async function saveData ({state}) {
-    return true
+export function saveData ({state}) {
 }

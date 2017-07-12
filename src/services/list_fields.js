@@ -1,8 +1,4 @@
-import { getFieldsList, addItem, getEntityTypeName } from '../api'
-
-export function getFieldsOfList (listId) {
-    return getFieldsList(listId)
-}
+import { addItem, getEntityTypeName } from '../api'
 
 export async function insertField (listId, item) {
     // pass metaData
