@@ -1,6 +1,6 @@
-import PageContent from './components/Content'
-import PageHeader from './components/Header'
-import PageFooter from './components/Footer'
+import PageContent from './PageContent'
+import PageHeader from './PageHeader'
+import PageFooter from './PageFooter'
 import { mapActions } from 'vuex'
 
 export default {

@@ -6,8 +6,8 @@ import ElementUI from 'element-ui'
 import './assets/global.css'
 import 'element-ui/lib/theme-default/index.css'
 
-import App from './App'
-import store from './store/index.js'
+import App from './components/App'
+import store from './store'
 
 window.__disableNativeFetch = true
 require('fetch-ie8')
