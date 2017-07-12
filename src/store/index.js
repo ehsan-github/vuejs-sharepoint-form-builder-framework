@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         addError (state, error) {
             state.errors.push(error)
         },
-        delError (state, error) {
+        removeError (state, error) {
             state.errors = R.reject(R.equals(error), state.errors)
         }
     },

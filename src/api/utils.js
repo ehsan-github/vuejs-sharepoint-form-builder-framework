@@ -36,22 +36,21 @@ const digestHdr = digest => ({ 'X-RequestDigest': digest })
 
 // General request apis
 
-const requestFormDigest = R.chain(
-    Future.of('/_api/contextinfo'),
+const requestFormDigest = R.pipeK(
     fetchF(R.merge(postOpt, headerOpt(acceptHdr))),
     json,
     path(r => r.d.GetContextWebInformation.FormDigestValue)
-)
+)('/_api/contextinfo')
 
-export const getApiF = addr => R.chain(
-    fetchF(R.merge(getOpt, headerOpt(acceptHdr, contentHdr, credHdr)), addr),
+export const getApiF = R.pipeK(
+    fetchF(R.merge(getOpt, headerOpt(acceptHdr, contentHdr, credHdr))),
     json,
     path(r => r.d)
 )
 
-export const postApiF = (addr, body) => R.chain(
-    R.sequence(Future.of, [jsonifyF(body), requestFormDigest]),
-    ([body, digest]) => fetchF(R.merge(postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest))), addr),
+export const postApiF = R.pipeK(
+    (addr, body) => R.sequence(Future.of, [Future.of(addr), jsonifyF(body), requestFormDigest]),
+    ([addr, body, digest]) => fetchF(R.merge(postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest))), addr),
     json,
     path(r => r.d)
 )

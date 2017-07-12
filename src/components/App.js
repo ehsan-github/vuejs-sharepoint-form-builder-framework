@@ -1,7 +1,7 @@
 import PageContent from './PageContent'
 import PageHeader from './PageHeader'
 import PageFooter from './PageFooter'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
     name: 'app',
@@ -16,12 +16,28 @@ export default {
         )
     },
     computed: {
+        ...mapGetters({
+            isError: 'isError',
+            error: 'firstError'
+        }),
         ...mapState({
             loading: s => s.loading
         })
     },
     methods: {
-        ...mapActions(['loadFields'])
+        ...mapActions(['loadFields', 'removeError'])
+    },
+    watch: {
+        isError: function (isError) {
+            if (isError) {
+                this.$message.error({
+                    message: `An error occured: ${this.error}`,
+                    duration: 5000,
+                    showClose: true,
+                    onClose: () => this.removeError(this.error)
+                })
+            }
+        }
     },
     mounted () {
         this.loadFields()
