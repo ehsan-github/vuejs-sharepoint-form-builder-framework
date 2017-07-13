@@ -13,8 +13,7 @@ module.exports = {
     extends: 'vue',
     // required to lint *.vue files
     plugins: [
-        'html',
-        'flowtype-errors'
+        'html'
     ],
     // add your custom rules here
     'rules': {
@@ -25,7 +24,5 @@ module.exports = {
         'indent': ['error', 4],
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-        // error on flowtype errors
-        'flowtype-errors/show-errors': 2
     }
 }
