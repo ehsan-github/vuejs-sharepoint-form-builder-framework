@@ -8,7 +8,7 @@ export default {
     components: { PageContent, PageHeader, PageFooter },
     render () {
         return (
-            <div id="app" dir='rtl'>
+            <div id='app' dir='rtl'>
                 <PageHeader/>
                 <PageContent loading={this.loading}/>
                 <PageFooter/>

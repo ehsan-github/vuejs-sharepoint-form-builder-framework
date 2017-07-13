@@ -1,15 +1,15 @@
 import { getFieldsList } from '../api'
 
-export function loadFields ({commit, state}) {
+export function loadFields ({ commit, state }) {
     getFieldsList(state.listId).fork(
         err => commit('addError', err),
         result => commit('loadFields', result)
     )
 }
 
-export function saveData ({state}) {
+export function saveData ({ state }) {
 }
 
-export function removeError ({commit}, error) {
+export function removeError ({ commit }, error) {
     commit('removeError', error)
 }

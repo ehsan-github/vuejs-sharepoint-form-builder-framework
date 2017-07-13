@@ -1,5 +1,5 @@
 import R from 'ramda'
-import {Future} from 'ramda-fantasy'
+import { Future } from 'ramda-fantasy'
 
 // General fetch future
 
@@ -27,7 +27,7 @@ const jsonifyF = R.tryCatch(
 
 const getOpt = { method: 'GET' }
 const postOpt = { method: 'POST' }
-const headerOpt = (...headers) => ({headers: R.mergeAll(headers)})
+const headerOpt = (...headers) => ({ headers: R.mergeAll(headers) })
 
 const acceptHdr = { Accept: 'application/json;odata=verbose' }
 const contentHdr = { 'Content-Type': 'application/json;odata=verbose' }
