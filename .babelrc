@@ -4,7 +4,13 @@
     "stage-2",
     "flow"
   ],
-  "plugins": ["transform-runtime", "transform-vue-jsx"],
+  "plugins": [
+    "transform-runtime",
+    "transform-vue-jsx",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-syntax-flow",
+    "babel-plugin-transform-flow-strip-types"
+  ],
   "comments": false,
   "env": {
     "test": {
