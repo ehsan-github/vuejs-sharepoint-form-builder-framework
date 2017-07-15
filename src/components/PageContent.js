@@ -14,7 +14,7 @@ export default {
     props: {
         loading: Boolean
     },
-    components: {PageTemplate},
+    components: { PageTemplate },
     methods: {
         ...mapActions(['saveData']),
         click () {

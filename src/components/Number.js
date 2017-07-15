@@ -9,7 +9,7 @@ export default {
     `,
     props: ['field'],
     data () {
-        return {value: 0}
+        return { value: 0 }
     },
     methods: {
         change (v) {

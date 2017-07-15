@@ -1,5 +1,6 @@
 // http://eslint.org/docs/user-guide/configuring
 
+/* eslint-disable no-undef */
 module.exports = {
     root: true,
     parserOptions: {
@@ -28,6 +29,8 @@ module.exports = {
         'generator-star-spacing': 0,
         'indent': ['error', 4],
         // allow debugger during development
-        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+        'object-curly-spacing': ['error', 'always'],
+        quotes: ['error', 'single']
     }
 }
