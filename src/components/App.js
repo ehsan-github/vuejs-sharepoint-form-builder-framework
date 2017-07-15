@@ -1,3 +1,4 @@
+// @flow
 import PageContent from './PageContent'
 import PageHeader from './PageHeader'
 import PageFooter from './PageFooter'

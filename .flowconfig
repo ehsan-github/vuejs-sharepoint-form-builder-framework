@@ -6,5 +6,6 @@
 [libs]
 
 [options]
+module.file_ext=.vue
 
 [lints]

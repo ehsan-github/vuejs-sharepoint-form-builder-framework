@@ -50,7 +50,10 @@ export const getApiF = R.pipeK(
 
 export const postApiF = R.pipeK(
     (addr, body) => R.sequence(Future.of, [Future.of(addr), jsonifyF(body), requestFormDigest]),
-    ([addr, body, digest]) => fetchF(R.merge(postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest))), addr),
+    ([addr, body, digest]) => {
+        const opts = R.mergeAll([postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest)), { body }])
+        return fetchF(opts, addr)
+    },
     json,
     path(r => r.d)
 )

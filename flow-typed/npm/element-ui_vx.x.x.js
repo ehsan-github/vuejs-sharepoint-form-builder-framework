@@ -2263,3 +2263,5 @@ declare module 'element-ui/src/utils/vdom.js' {
 declare module 'element-ui/src/utils/vue-popper.js' {
   declare module.exports: $Exports<'element-ui/src/utils/vue-popper'>;
 }
+declare module 'element-ui/lib/theme-default/index.css' {
+}
