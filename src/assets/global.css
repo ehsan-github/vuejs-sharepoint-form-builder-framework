@@ -3,3 +3,38 @@ html, body {
   margin: 0;
   height: 100%;
 }
+
+.site-footer {
+  background-color: #324057;
+  height: 120px;
+  margin-top: 30px;
+  color: #ccc;
+}
+
+.site-header {
+  background-color: #20A0FF;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.site-header .banner {
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.site-header .menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-header .menu:hover {
+  cursor: pointer;
+  color: #666;
+}
+
+.site-header .menu-active {
+  font-weight: bold;
+  border-bottom: 3px solid #ccc;
+}
