@@ -11,6 +11,7 @@ import App from './components/App'
 import store from './store'
 
 window.__disableNativeFetch = true
+/* eslint-disable no-undef */
 require('fetch-ie8')
 
 Vue.use(ElementUI)

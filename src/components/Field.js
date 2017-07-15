@@ -25,8 +25,7 @@ export default {
         case 'RelatedCustomLookupQuery':
             return <CustomSelectField ref='field' field={this.field} data={this.data}></CustomSelectField>
         default:
-            // throw new Error(`Unexpected Type: ${this.field.Type}`)
-            console.log(`Unexpected Type: ${this.field.Type}`)
+            throw new Error(`Unexpected Type: ${this.field.Type}`)
         }
     },
     computed: {
@@ -37,7 +36,7 @@ export default {
         }
     },
     methods: {
-        change (val) {
+        change (/*val*/) {
             this.$emit('change', this.value)
         }
     }

@@ -7,7 +7,7 @@ export function loadFields ({ commit, state }) {
     )
 }
 
-export function saveData ({ state }) {
+export function saveData (/*{ state }*/) {
 }
 
 export function removeError ({ commit }, error) {
