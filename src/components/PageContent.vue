@@ -19,17 +19,7 @@ export default {
     methods: {
         ...mapActions(['saveData']),
         click () {
-            this.saveData().then(r => {
-                this.$notify.success({
-                    title: 'موفقیت',
-                    message: 'داده ها با موفقیت زخیره شد'
-                })
-            }).catch(e => {
-                this.$notify.error({
-                    title: 'خطا',
-                    message: 'در هنگام زخیره خطایی رخ داده است'
-                })
-            })
+            this.saveData()
         }
     }
 }
