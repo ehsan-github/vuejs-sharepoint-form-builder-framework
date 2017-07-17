@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         change (id, value) {
-            this.form = R.assign(id, value, this.form)
+            this.form = R.assoc(id, value, this.form)
         }
     }
 }

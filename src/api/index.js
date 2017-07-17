@@ -1,4 +1,4 @@
-import { getApiF, postApiF, path, transformFieldsList } from './utils'
+import { getApiF, postApiF, path } from './utils'
 
 export const getEntityTypeName = listId => getApiF(
     `/_api/lists(guid'${listId}')/listItemEntityTypeFullName`
@@ -7,7 +7,7 @@ export const getEntityTypeName = listId => getApiF(
 export const getFieldsList = listId => postApiF(
     '/_Layouts/15/BaseSolution/Services.aspx/GetFieldsList',
     { listId }
-).chain(transformFieldsList)
+)
 
 export const addItem = (listId, item) => postApiF(
     `/_api/web/lists(guid'${listId}')/items`,
