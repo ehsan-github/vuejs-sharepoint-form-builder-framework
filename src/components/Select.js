@@ -1,33 +1,38 @@
 // @flow
-import { getItems } from '../api/index.js'
+import { mapActions, mapState } from 'vuex'
 
 export default {
     template: `
-        <div>
-            <label>{{field.Title}}</label>:
-            <el-select v-model="value" placeholder="انتخاب" @change="change">
-                <el-option
-                    v-for="item in options"
-                    key="item.Id"
-                    :label="item.Title"
-                    :value="item.Id">
-                </el-option>
-            </el-select>
-        </div>
+        <el-select v-model="model" placeholder="انتخاب" @change="change">
+            <el-option
+                v-for="item in options"
+                :key="item.Id"
+                :label="item.Title"
+                :value="item.Id">
+            </el-option>
+        </el-select>
     `,
-    props: ['field'],
+    props: ['fieldId'],
     data () {
         return {
-            value: '',
-            options: []
+            model: null
         }
+    },
+    computed: {
+        ...mapState({
+            field(state) { return state.fields[this.fieldId] },
+        }),
+        options() { return this.field.options }
     },
     methods: {
-        change (v) {
-            this.$emit('change', v)
+        ...mapActions(['changeField']),
+        change (value) {
+            this.changeField({ id: this.fieldId, value })
+            this.$emit('input', value)
+            this.$emit('change', value)
         }
     },
-    async mounted () {
-        this.options = await getItems(this.field.LookupList)
+    mounted() {
+        this.model = this.field.value
     }
 }

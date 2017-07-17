@@ -5,7 +5,7 @@ import R from 'ramda'
 
 export default {
     template: `
-        <el-form ref='form' :model='form'>
+        <el-form ref='form' :model='form' label-position="top">
             <el-form-item v-for='(f, id) in fields' :key='id' :label='f.Title' :prop='id'>
                 <Field :fieldId='id' ref='fields' @change='v => change(id, v)' />
             </el-form-item>

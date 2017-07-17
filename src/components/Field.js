@@ -1,5 +1,5 @@
 // @flow
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 import TextField from './Text'
 import NumberField from './Number'
@@ -12,32 +12,31 @@ export default {
     components: { TextField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField },
     props: ['fieldId'],
     render () {
-        switch (this.field.Type) {
+        switch (this.fieldType) {
         case 'Text':
-            return <TextField ref='field' field={this.field}></TextField>
+            return <TextField fieldId={this.fieldId} onChange={this.change}></TextField>
         case 'Number':
-            return <NumberField ref='field' field={this.field}></NumberField>
+            return <NumberField fieldId={this.fieldId} onChange={this.change}></NumberField>
         case 'Boolean':
-            return <BooleanField ref='field' field={this.field}></BooleanField>
+            return <BooleanField fieldId={this.fieldId} onChange={this.change}></BooleanField>
         case 'Lookup':
-            return <SelectField ref='field' field={this.field} onChange={this.change}></SelectField>
+            return <SelectField fieldId={this.fieldId} onChange={this.change}></SelectField>
         case 'DateTime':
-            return <DateTimeField ref='field' field={this.field}></DateTimeField>
+            return <DateTimeField fieldId={this.fieldId} onChange={this.change}></DateTimeField>
         case 'RelatedCustomLookupQuery':
-            return <CustomSelectField ref='field' field={this.field} data={this.data}></CustomSelectField>
+            return <CustomSelectField fieldId={this.fieldId} onChange={this.change}></CustomSelectField>
         default:
-            return <div>Unexpected Type: {this.field.Type}</div>
+            return <div>Unexpected Type: {this.fieldType}</div>
         }
     },
     computed: {
         ...mapState({
-            field(state) { return state.fields[this.fieldId] }
+            fieldType(state) { return state.fields[this.fieldId].Type }
         })
     },
     methods: {
-        ...mapActions(['changeField']),
         change (value) {
-            this.changeField({ id: this.fieldId, value })
+            this.$emit('input', value)
             this.$emit('change', value)
         }
     }
