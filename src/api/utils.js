@@ -1,5 +1,7 @@
+// @flow
 import R from 'ramda'
 import { Future } from 'ramda-fantasy'
+import type { FieldType } from './type'
 
 // General fetch future
 
@@ -21,6 +23,12 @@ export const path = pfn => res => new Future((l, r) => R.pipe(
 const jsonifyF = R.tryCatch(
     R.compose(Future.of, JSON.stringify),
     Future.reject
+)
+
+export const transformFieldsList: (xs: FieldType[]) => * = R.pipe(
+    R.groupBy((f: FieldType) => f.Guid),
+    R.map(R.head),
+    Future.of
 )
 
 // fetch options
