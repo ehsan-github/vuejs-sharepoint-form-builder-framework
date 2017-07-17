@@ -1,3 +1,4 @@
+// @flow
 import Vue from 'vue'
 import Vuex from 'vuex'
 import R from 'ramda'
@@ -6,13 +7,17 @@ import * as actions from './actions'
 
 Vue.use(Vuex)
 
+/*::
+type StoreType = {}
+*/
+
 const store = new Vuex.Store({
-    state: {
+    state: ({
         loading: true,
         listId: new URLSearchParams(location.search).get('List'),
-        fields: null,
+        fields: {},
         errors: []
-    },
+    }: StoreType),
     getters: {
         isError: s => s.errors.length > 0,
         firstError: s => s.errors[0]
@@ -27,6 +32,9 @@ const store = new Vuex.Store({
         },
         removeError (state, error) {
             state.errors = R.reject(R.equals(error), state.errors)
+        },
+        changeField (state, { id, value }) {
+            state.fields = R.assocPath([id, 'value'], value, state.fields)
         }
     },
     actions

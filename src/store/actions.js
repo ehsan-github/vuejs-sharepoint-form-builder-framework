@@ -1,9 +1,11 @@
+// @flow
 import { getFieldsList } from '../api'
+import type { FieldType } from '../api/type'
 
 export function loadFields ({ commit, state }) {
     getFieldsList(state.listId).fork(
         err => commit('addError', err),
-        result => commit('loadFields', result)
+        (result: FieldType) => commit('loadFields', result)
     )
 }
 
@@ -23,4 +25,8 @@ export function saveData (/*{ state }*/) {
 
 export function removeError ({ commit }, error) {
     commit('removeError', error)
+}
+
+export function changeField({ commit }, payload) {
+    commit('changeField', payload)
 }
