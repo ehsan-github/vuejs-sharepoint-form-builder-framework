@@ -1,3 +1,6 @@
+// @flow
+import { mapActions, mapState } from 'vuex'
+
 import TextField from './Text'
 import NumberField from './Number'
 import BooleanField from './Boolean'
@@ -7,7 +10,7 @@ import DateTimeField from './DateTime'
 
 export default {
     components: { TextField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField },
-    props: ['field', 'data'],
+    props: ['fieldId'],
     render () {
         switch (this.field.Type) {
         case 'Text':
@@ -20,24 +23,22 @@ export default {
             return <SelectField ref='field' field={this.field} onChange={this.change}></SelectField>
         case 'DateTime':
             return <DateTimeField ref='field' field={this.field}></DateTimeField>
-      //  case 'MD':
-       //     return <SelectField ref="field" field={this.field}></SelectField>
         case 'RelatedCustomLookupQuery':
             return <CustomSelectField ref='field' field={this.field} data={this.data}></CustomSelectField>
         default:
-            throw new Error(`Unexpected Type: ${this.field.Type}`)
+            return <div>Unexpected Type: {this.field.Type}</div>
         }
     },
     computed: {
-        value () {
-            return this.field.Type === 'Lookup'
-            ? { [`${this.field.InternalName}Id`]: this.$refs.field.value }
-            : { [this.field.InternalName]: this.$refs.field.value }
-        }
+        ...mapState({
+            field(state) { return state.fields[this.fieldId] }
+        })
     },
     methods: {
-        change (/*val*/) {
-            this.$emit('change', this.value)
+        ...mapActions(['changeField']),
+        change (value) {
+            this.changeField({ id: this.fieldId, value })
+            this.$emit('change', value)
         }
     }
 }

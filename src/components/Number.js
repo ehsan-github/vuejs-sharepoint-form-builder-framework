@@ -1,7 +1,7 @@
 // @flow
 
 export default {
-    tmeplate: `
+    template: `
         <el-row>
             <label>{{field.Title}}</label>:
             <el-input-number ref="input" v-model="value" :controls="false" size="small" @change="change"></el-input-number>
