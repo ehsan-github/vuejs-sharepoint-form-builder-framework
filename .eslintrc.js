@@ -30,6 +30,7 @@ module.exports = {
         'indent': ['error', 4],
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+        'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
         'object-curly-spacing': ['error', 'always'],
         quotes: ['error', 'single']
     }
