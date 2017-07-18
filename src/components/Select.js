@@ -25,7 +25,7 @@ export default {
         options() { return this.field.options }
     },
     methods: {
-        ...mapActions(['changeField']),
+        ...mapActions(['changeField', 'loadOptions']),
         change (value) {
             this.changeField({ id: this.fieldId, value })
             this.$emit('input', value)
@@ -34,5 +34,6 @@ export default {
     },
     mounted() {
         this.model = this.field.value
+        this.loadOptions({ id: this.fieldId, listId: this.field.LookupList })
     }
 }

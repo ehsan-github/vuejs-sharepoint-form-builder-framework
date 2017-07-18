@@ -27,6 +27,9 @@ const store = new Vuex.Store({
             state.fields = fields
             state.loading = false
         },
+        loadOptions (state, { id, options }) {
+            state.fields[id] = { ...state.fields[id], options }
+        },
         addError (state, error) {
             state.errors.push(error)
         },

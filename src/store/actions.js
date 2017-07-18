@@ -1,6 +1,5 @@
 // @flow
 import R from 'ramda'
-import { Future } from 'ramda-fantasy'
 import { getFieldsList, getItems } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
@@ -15,22 +14,21 @@ const assignValue = R.pipe(
     x => R.assoc('value', ...x)
 )
 
-const lookupOptionsAssigner = listId => field =>
-    getItems(listId).map(R.assoc('options', R.__, field))
-const fetchExtra = listId => R.cond([
-    [R.propEq('Type', 'Lookup'), lookupOptionsAssigner(listId)],
-    [R.T, Future.of]
-])
-const loadDependencies = listId => R.traverse(Future.of, fetchExtra(listId))
-
 export function loadFields ({ commit, state }) {
     return getFieldsList(state.listId)
         .map(R.map(assignValue))
-        .chain(loadDependencies(state.listId))
         .map(transformFieldsList)
         .fork(
             err => commit('addError', err),
-            result => commit('loadFields', result)
+            res => commit('loadFields', res)
+        )
+}
+
+export function loadOptions({ commit }, { id, listId }) {
+    return getItems(listId)
+        .fork(
+            err     => commit('addError', err),
+            options => commit('loadOptions', { id, options })
         )
 }
 
