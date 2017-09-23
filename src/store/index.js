@@ -58,7 +58,7 @@ const store = new Vuex.Store({
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
         },
         MDLoadOptions (state, { id, masterId, options }) {
-            state.fields[masterId].options[id] = options
+            state.fields[masterId].options = R.assoc(id, options, state.fields[masterId].options)
         },
         addError (state, error) {
             state.errors.push(error)
