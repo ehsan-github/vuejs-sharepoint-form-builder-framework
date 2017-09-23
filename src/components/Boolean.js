@@ -1,20 +1,18 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
+import Boolean from '../widgets/Boolean'
 
 export default {
+    components: { Boolean },
     template: `
-        <el-checkbox v-model="model" @change="change"></el-checkbox>
+        <Boolean :value='value' @change='change' />
     `,
     props: ['fieldId'],
-    data () {
-        return {
-            model: null
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
-        })
+        }),
+        value() { return this.field.value }
     },
     methods: {
         ...mapActions(['changeField']),
@@ -23,8 +21,5 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         }
-    },
-    mounted() {
-        this.model = this.field.value
     }
 }

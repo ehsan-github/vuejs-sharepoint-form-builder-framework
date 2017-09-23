@@ -3,10 +3,10 @@ import { mapState } from 'vuex'
 
 import TextField from './Text'
 import NumberField from './Number'
-import BooleanField from './Boolean'
 import SelectField from './Select'
 import CustomSelectField from './CustomSelect'
 import DateTimeField from './DateTime'
+import BooleanField from './Boolean'
 
 export default {
     components: { TextField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField },
