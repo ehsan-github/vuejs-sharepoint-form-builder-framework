@@ -2,9 +2,14 @@
 
 export default {
     template: `
-        <el-input-number v-model="model" :controls="false" size="small" @change="change"></el-input-number>
+        <div>
+            <el-input-number :name="name" v-validate="rules" v-model="model" :controls="false" size="small" @change="change"></el-input-number>
+            <div>
+                <span v-show="veeErrors.has(name)">{{ veeErrors.first(name) }}</span>
+            </div>
+        </div>
     `,
-    props: ['value'],
+    props: ['value', 'rules', 'name'],
     data () {
         return {
             model: null
