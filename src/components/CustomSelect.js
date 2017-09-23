@@ -1,27 +1,18 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
+import CustomSelect from '../widgets/CustomSelect'
 
 export default {
+    components: { CustomSelect },
     template: `
-         <el-select v-model="model" placeholder="انتخاب" @change="change">
-             <el-option
-                 v-for="item in options"
-                 key="item.Id"
-                 :label="item.Title"
-                 :value="item.Id">
-             </el-option>
-         </el-select>
+        <CustomSelect :value='value' :options='options' @change='change' />
     `,
     props: ['fieldId'],
-    data () {
-        return {
-            model: null
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
         }),
+        value() { return this.field.value },
         options() { return this.field.options },
         related () {
             const relatedFields = this.field.RelatedFields
@@ -33,7 +24,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['changeField']),
+        ...mapActions(['changeField', 'loadOptions']),
         change(value) {
             this.changeField({ id: this.fieldId, value })
             this.$emit('input', value)
@@ -41,6 +32,6 @@ export default {
         }
     },
     mounted() {
-        this.model = this.field.value
+        this.loadOptions({ id: this.fieldId, listId: this.field.LookupList, query: this.field.Query })
     }
 }
