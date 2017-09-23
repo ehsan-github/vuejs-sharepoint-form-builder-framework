@@ -63,6 +63,9 @@ export default {
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='idx'>
                                     <MultiChoiceField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiChoiceField>
                                 </div>
+                                <div v-else-if="f.Type === 'CustomComputedField'">
+                                    <el-input :disabled="true" :value="f.value"></el-input>
+                                </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
                                 </div>
@@ -80,12 +83,6 @@ export default {
             </tfoot>
         </table>
     `,
-    props:  ['fieldId'],
-    data () {
-        return {
-            form: {}
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] },
@@ -93,7 +90,20 @@ export default {
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
         options() { return this.field.options },
-        value() { return this.field.MasterLookupName }
+        value() { return this.field.MasterLookupName },
+        computedValues() {},
+        computedQueries() {
+            let computedRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')))(this.rows)
+            return Object.keys(computedRows).map(rowId => {
+                return R.map(({ Query }) => {
+                    let requiredValues = transformFieldsList(this.rows[rowId])
+                    let query = replaceQueryFields(Query, requiredValues)
+                    return query
+                }, computedRows[rowId])
+            })
+        },
+        customSelectQueries() {},
+        customSelectOptions() { /* */ },
     },
     methods: {
         ...mapActions([
@@ -103,15 +113,26 @@ export default {
             'MDDelRow',
             'changeField',
             'MDLoadAllOptions',
+            'MDLoadComputed'
         ]),
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
+            this.updateComputed(rowId)
             this.$emit('input', value)
             this.$emit('change', value)
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
+        updateComputed (rowId) {
+            let computedRow = R.filter(R.propEq('Type', 'CustomComputedField'))(this.rows[rowId])
+            R.map(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
+                let requiredValues = transformFieldsList(this.rows[rowId])
+                let query = replaceQueryFields(Query, requiredValues)
+                query.indexOf('null') === -1
+                    ? this.MDLoadComputed ({ id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction })
+                : null
+            }, computedRow)
         }
     },
     async mounted () {
@@ -122,4 +143,14 @@ export default {
     }
 }
 
-function isLookup (x) { return x.Type == 'Lookup' }
+// {1: {InternalName: x, value: y}, ...} => {[x]: y, ...}
+const transformFieldsList = R.pipe(
+    R.values,
+    R.reduce((acc, curr) => ({ ...acc, [curr.InternalName]: curr.value }), {})
+)
+
+const replaceQueryFields = (query, fields) => R.reduce(
+    (q, field) => R.replace('{{'+field+'}}', fields[field], q),
+    query,
+    R.keys(fields)
+)

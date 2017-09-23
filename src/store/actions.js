@@ -104,6 +104,38 @@ export function MDAddRow ({ commit }, { id }) {
 export function MDDelRow ({ commit }, { id, idx }) {
     commit('MDDelRow', { id, idx })
 }
+
+const computeFunction = func => {
+    switch(func) {
+    case 'Sum':
+        return R.sum
+    case 'Multi':
+        return R.product
+    case 'Avg':
+        return R.mean
+    case 'Min':
+        return R.apply(R.min)
+    case 'Max':
+        return R.apply(R.max)
+    case 'First':
+        return R.head
+    }
+}
+
+export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query , select , func }) {
+    let realFunc = computeFunction(func)
+    return getFilteredItems(listId, query)
+        .map(R.map(R.prop(select)))
+        .fork(
+            err      => commit('addError', err),
+            computed => {
+                let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
+                value *= 10
+                commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value })
+            }
+        )
+}
+
 const transFormFields= R.pipe(
     R.values,
     R.project(['InternalName', 'Type', 'value', 'rows', 'LookupList']),
