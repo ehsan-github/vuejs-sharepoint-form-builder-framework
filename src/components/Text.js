@@ -1,20 +1,18 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
+import TextField from '../widgets/Text'
 
 export default {
+    components: { TextField },
     template: `
-        <el-input placeholder="Please input" v-model="model" @change="change"></el-input>
+        <TextField :value='value' @change='change' />
     `,
     props: ['fieldId'],
-    data() {
-        return {
-            model: null
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
-        })
+        }),
+        value () { return this.field.value }
     },
     methods: {
         ...mapActions(['changeField']),
@@ -24,7 +22,4 @@ export default {
             this.$emit('change', value)
         }
     },
-    mounted() {
-        this.model = this.field.value
-    }
 }
