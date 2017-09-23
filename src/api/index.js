@@ -25,3 +25,8 @@ export const getFiltredItems = (listId, query) => getApiF(
 export const getItemById = (listId, itemId) => getApiF(
     `/_api/web/lists(guid'${listId}')/items?$select=Id eq ${itemId}`
 ).chain(path(r => r.results))
+
+export const getContractSpec = cid => getApiF(
+    `/_api/web/lists(guid'548C9C76-AAC3-404D-A24A-20BCD884A31B')/items?$filter=Id eq ${cid}`
+)
+    .chain(path(r => r.results))
