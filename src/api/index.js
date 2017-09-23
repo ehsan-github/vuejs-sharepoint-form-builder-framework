@@ -14,6 +14,11 @@ export const addItem = (listId, item) => postApiF(
     item
 )
 
+export const setFilledFields = (guid, fields) => postApiF(
+    '/_Layouts/15/BaseSolution/Services.aspx/SaveFieldItems',
+    { guid, fields }
+)
+
 export const getItems = listId => getApiF(
     `/_api/web/lists(guid'${listId}')/items`
 ).chain(path(r => r.results))
