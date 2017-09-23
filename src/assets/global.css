@@ -38,3 +38,14 @@ html, body {
   font-weight: bold;
   border-bottom: 3px solid #ccc;
 }
+
+.table-form {
+    width: 125px;
+}
+.el-input {
+    max-width: 230px;
+}
+
+.el-col-12 {
+    float: right !important;
+}
