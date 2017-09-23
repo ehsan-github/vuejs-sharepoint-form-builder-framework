@@ -26,7 +26,7 @@ export default {
         })
     },
     methods: {
-        ...mapActions(['loadFields', 'removeError'])
+        ...mapActions(['loadFields', 'removeError', 'loadContractSpec'])
     },
     watch: {
         isError: function (isError) {
@@ -42,5 +42,6 @@ export default {
     },
     mounted () {
         this.loadFields()
+        this.loadContractSpec()
     }
 }
