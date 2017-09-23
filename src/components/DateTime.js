@@ -1,25 +1,18 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
+import DateTimeField from '../widgets/DateTime'
 
 export default {
+    components: { DateTimeField },
     template: `
-        <el-date-picker
-            v-model="model"
-            type="date"
-            placeholder="Pick a day"
-            @change="change">
-        </el-date-picker>
+        <DateTimeField value="value" @change="change" />
     `,
     props: ['fieldId'],
-    data () {
-        return {
-            model: null
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
-        })
+        }),
+        value() { return this.field.value }
     },
     methods: {
         ...mapActions(['changeField']),
@@ -28,8 +21,5 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         }
-    },
-    mounted() {
-        this.model = this.field.value
     }
 }
