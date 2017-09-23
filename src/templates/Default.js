@@ -8,11 +8,15 @@ export default {
     template: `
     <div>
         <ContractSpecForm />
-        <el-form ref='form' :model='form' label-position="top">
-            <el-form-item v-for='(f, id) in fields' :key='id' :label='f.Title' :prop='id'>
-                <Field :fieldId='id' ref='fields' @change='v => change(id, v)' />
-            </el-form-item>
-        </el-form>
+        <el-row justify="end" :gutter="10">
+            <el-form ref='form' :model='form' label-position="top">
+                <el-col v-for='(f, id) in fields' :key='id' :span="f.Type == 'MasterDetail' ? 24 : 12">
+                    <el-form-item :key='id' :label='f.Title' :prop='id'>
+                        <Field :fieldId='id' ref='fields' @change='v => change(id, v)' />
+                    </el-form-item>
+                </el-col'>
+            </el-form>
+        </el-row>
     </div>
     `,
     components: { Field, ContractSpecForm },
