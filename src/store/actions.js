@@ -1,6 +1,6 @@
 // @flow
 import R from 'ramda'
-import { getFieldsList, getItems } from '../api'
+import { getFieldsList, getItems, getContractSpec } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -29,6 +29,15 @@ export function loadOptions({ commit }, { id, listId }) {
         .fork(
             err     => commit('addError', err),
             options => commit('loadOptions', { id, options })
+        )
+}
+
+export function loadContractSpec({ commit, state }){
+    return getContractSpec(state.contractId)
+        .map(R.head) //TODO: should change for deployment!
+        .fork(
+            err => commit('addError', err),
+            res => commit('loadContractSpec', res)
         )
 }
 

@@ -15,6 +15,8 @@ const store = new Vuex.Store({
     state: ({
         loading: true,
         listId: new URLSearchParams(location.search).get('List'),
+        contractId: new URLSearchParams(location.search).get('Cid'),
+        contractSpecs: {},
         fields: {},
         errors: []
     }: StoreType),
@@ -38,6 +40,9 @@ const store = new Vuex.Store({
         },
         changeField (state, { id, value }) {
             state.fields = R.assocPath([id, 'value'], value, state.fields)
+        },
+        loadContractSpec (state, specs) {
+            state.contractSpecs = specs
         }
     },
     actions
