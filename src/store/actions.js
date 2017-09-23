@@ -59,17 +59,22 @@ export function changeField({ commit }, payload) {
 const filterList = (relatedFields, f) => relatedFields.includes(f.InternalName)
 
 export function MDLoadFields ({ commit }, { id, relatedFields, listId } ) {
-    return getFieldsList(listId)
-        .map(R.map(assignValue))
-        .map(transformFieldsList)
-        .map(R.filter(f => filterList(relatedFields, f)))
-        .fork(
-            err => commit('addError', err),
-            fields => {
-                commit('MDLoadFields', { id, fields })
-                commit('MDAddRow', { id })
-            }
-        )
+    return new Promise((resolve, reject) => {
+        getFieldsList(listId)
+            .map(R.map(assignValue))
+            .map(transformFieldsList)
+            .map(R.filter(f => filterList(relatedFields, f)))
+            .fork(
+                err => {
+                    commit('addError', err);
+                    reject(err);
+                },
+                fields => {
+                    commit('MDLoadFields', { id, fields })
+                    resolve(fields)
+                }
+            )
+    })
 }
 
 export function MDChangeFieldRow ({ commit }, payload) {
