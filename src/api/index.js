@@ -23,8 +23,8 @@ export const getItems = listId => getApiF(
     `/_api/web/lists(guid'${listId}')/items`
 ).chain(path(r => r.results))
 
-export const getFiltredItems = (listId, query) => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?${query}`
+export const getFilteredItems = (listId, query) => getApiF(
+    `/_api/web/lists(guid'${listId}')/items?$filter=${query}`
 ).chain(path(r => r.results))
 
 export const getItemById = (listId, itemId) => getApiF(

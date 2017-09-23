@@ -24,7 +24,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['changeField', 'loadOptions']),
+        ...mapActions(['changeField', 'loadFilteredOptions']),
         change(value) {
             this.changeField({ id: this.fieldId, value })
             this.$emit('input', value)
@@ -32,6 +32,6 @@ export default {
         }
     },
     mounted() {
-        this.loadOptions({ id: this.fieldId, listId: this.field.LookupList, query: this.field.Query })
+        this.loadFilteredOptions({ id: this.fieldId, listId: this.field.LookupList, query: this.field.Query })
     }
 }
