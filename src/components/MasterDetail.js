@@ -101,8 +101,8 @@ export default {
             'MDChangeFieldRow',
             'MDAddRow',
             'MDDelRow',
-            'MDLoadOptions',
-            'changeField'
+            'changeField',
+            'MDLoadAllOptions',
         ]),
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
@@ -112,20 +112,13 @@ export default {
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
-        loadOptions () {
-            let keys = R.keys(R.filter(isLookup, this.fields))
-            keys.map((fieldId) => {
-                this.MDLoadOptions({ id: fieldId, masterId: this.fieldId, listId: this.fields[fieldId].LookupList })
-            })
         }
     },
-    mounted () {
+    async mounted () {
         this.changeField({ id: this.fieldId, value: this.value })
-        this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
-    },
-    updated () {
-        // TODO: place loadOptions in the right lifecycle method
-        this.loadOptions()
+        await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
+        this.MDLoadAllOptions({ masterId: this.fieldId })
+        this.addRow()
     }
 }
 

@@ -89,6 +89,14 @@ export function MDLoadOptions ({ commit }, { id, masterId, listId }) {
         )
 }
 
+export function MDLoadAllOptions ({ commit, state }, { masterId } ) {
+    R.pipe (R.filter(R.propEq('Type', 'Lookup')), R.mapObjIndexed(
+        (v, k) =>
+            MDLoadOptions({ commit },
+                          { id: k, masterId, listId: v.LookupList })
+    ))(state.fields[masterId].fields)
+}
+
 export function MDAddRow ({ commit }, { id }) {
     commit('MDAddRow', { id })
 }
