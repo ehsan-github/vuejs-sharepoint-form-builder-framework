@@ -116,7 +116,7 @@ export function saveData ({ commit, state }) {
     return saveFieldItems(state.listId, data)
         .fork(
             err  => commit('addError', err),
-            succ => alert('Data was successfuly saved')
+            succ => alert('Data was successfuly saved'+succ)
         )
     // .then(r => {
     //     this.$notify.success({
