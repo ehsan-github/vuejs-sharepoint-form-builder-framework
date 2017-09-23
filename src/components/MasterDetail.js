@@ -86,7 +86,8 @@ export default {
         }),
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
-        options() { return this.field.options }
+        options() { return this.field.options },
+        value() { return this.field.MasterLookupName }
     },
     methods: {
         ...mapActions([
@@ -94,7 +95,8 @@ export default {
             'MDChangeFieldRow',
             'MDAddRow',
             'MDDelRow',
-            'MDLoadOptions'
+            'MDLoadOptions',
+            'changeField'
         ]),
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
@@ -112,6 +114,7 @@ export default {
         }
     },
     mounted () {
+        this.changeField({ id: this.fieldId, value: this.value })
         this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
     },
     updated () {
