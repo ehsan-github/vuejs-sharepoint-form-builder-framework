@@ -1,6 +1,6 @@
 // @flow
 import R from 'ramda'
-import { getFieldsList, getItems, getContractSpec, setFilledFields } from '../api'
+import { getFieldsList, getItems, getContractSpec, saveFieldItems } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -105,13 +105,10 @@ const transFormForSave = R.pipe(
 
 export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
-    console.log(JSON.stringify(data, null, 2))
-    return setFilledFields(state.listId, data)
+    return saveFieldItems(state.listId, data)
         .fork(
-            err     => {
-                commit('addError', err)
-            },
-            success => success
+            err  => commit('addError', err),
+            succ => alert('Data was successfuly saved')
         )
     // .then(r => {
     //     this.$notify.success({
