@@ -31,7 +31,7 @@ export default {
                         <el-form ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='idx'>
                                 <div v-if="f.Type === 'Text'" :key='idx'>
-                                    <TextField :value='f.value' @change='v => change(r, idx, v)'></TextField>
+                                    <TextField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, idx, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'" :key='idx'>
                                     <NoteField :value='f.value' @change='v => change(r, idx, v)'></NoteField>
@@ -43,7 +43,7 @@ export default {
                                     <SelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'" :key='idx'>
-                                    <NumberField :value='f.value' @change='v => change(r, idx, v)'></NumberField>
+                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, idx, v)'></NumberField>
                                 </div>
                                 <div v-else-if="f.Type === 'DateTime'" :key='idx'>
                                     <DateTimeField :value='f.value' @change='v => change(r, idx, v)'></DateTimeField>
