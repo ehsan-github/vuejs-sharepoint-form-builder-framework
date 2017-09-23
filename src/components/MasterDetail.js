@@ -14,6 +14,12 @@ import MultiChoiceField from '../widgets/MultiChoice'
 export default {
     name: 'MasterDetail',
     components: { TextField, NoteField, SelectField, NumberField, DateTimeField, ChoiceField, BooleanField, MultiSelectField, MultiChoiceField },
+    props:  ['fieldId'],
+    data () {
+        return {
+            form: {}
+        }
+    },
     template: `
         <table class="el-table__header">
             <thead>
@@ -27,29 +33,29 @@ export default {
                     <td>
                         <el-button v-if="r != 0" @click='() => delRow(r)'>Delete Row</el-button>
                     </td>
-                    <td v-for='(f, idx) in row' :key='idx'>
-                        <el-form ref='form[r]' :model='form[r]' label-position="top">
+                    <td v-for='(f, idx) in row' :key='r+idx'>
+                        <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='idx'>
-                                <div v-if="f.Type === 'Text'" :key='idx'>
+                                <div v-if="f.Type === 'Text'">
                                     <TextField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, idx, v)'></TextField>
                                 </div>
-                                <div v-else-if="f.Type === 'Note'" :key='idx'>
+                                <div v-else-if="f.Type === 'Note'">
                                     <NoteField :value='f.value' @change='v => change(r, idx, v)'></NoteField>
                                 </div>
                                 <div v-else-if="f.Type === 'Boolean'" :key='idx'>
                                     <BooleanField :value='f.value' @change='v => change(r, idx, v)'></BooleanField>
                                 </div>
-                                <div v-else-if="f.Type === 'Lookup'" :key='idx'>
+                                <div v-else-if="f.Type === 'Lookup'">
                                     <SelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></SelectField>
-                                </div>
-                                <div v-else-if="f.Type === 'Number'" :key='idx'>
-                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, idx, v)'></NumberField>
-                                </div>
-                                <div v-else-if="f.Type === 'DateTime'" :key='idx'>
-                                    <DateTimeField :value='f.value' @change='v => change(r, idx, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='idx'>
                                     <ChoiceField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></ChoiceField>
+                                </div>
+                                <div v-else-if="f.Type === 'Number'">
+                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, idx, v)'></NumberField>
+                                </div>
+                                <div v-else-if="f.Type === 'DateTime'">
+                                    <DateTimeField :value='f.value' @change='v => change(r, idx, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='idx'>
                                     <MultiSelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiSelectField>
@@ -58,7 +64,7 @@ export default {
                                     <MultiChoiceField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else>
-                                    1
+                                    Not Supported Type: {{f.Type}}
                                 </div>
                             </el-form-item>
                         </el-form>
