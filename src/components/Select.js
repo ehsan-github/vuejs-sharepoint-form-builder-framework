@@ -1,28 +1,19 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
+import SelectField from '../widgets/Select'
 
 export default {
+    components: { SelectField },
     template: `
-        <el-select v-model="model" placeholder="انتخاب" @change="change">
-            <el-option
-                v-for="item in options"
-                :key="item.Id"
-                :label="item.Title"
-                :value="item.Id">
-            </el-option>
-        </el-select>
+        <SelectField :value='value' :options='options' @change='change' />
     `,
     props: ['fieldId'],
-    data () {
-        return {
-            model: null
-        }
-    },
     computed: {
         ...mapState({
-            field(state) { return state.fields[this.fieldId] },
+            field(state) { return state.fields[this.fieldId] }
         }),
-        options() { return this.field.options }
+        value() { return this.field.value },
+        options() { return this.field.options },
     },
     methods: {
         ...mapActions(['changeField', 'loadOptions']),
@@ -33,7 +24,6 @@ export default {
         }
     },
     mounted() {
-        this.model = this.field.value
         this.loadOptions({ id: this.fieldId, listId: this.field.LookupList })
     }
 }
