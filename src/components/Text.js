@@ -5,14 +5,22 @@ import TextField from '../widgets/Text'
 export default {
     components: { TextField },
     template: `
-        <TextField :value='value' @change='change' />
+        <TextField :value='value' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId'],
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
         }),
-        value () { return this.field.value }
+        value () { return this.field.value },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        }
     },
     methods: {
         ...mapActions(['changeField']),
@@ -21,5 +29,5 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         }
-    },
+    }
 }

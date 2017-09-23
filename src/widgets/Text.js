@@ -2,9 +2,12 @@
 
 export default {
     template: `
-        <el-input placeholder="Please input" v-model="model" @change="change"></el-input>
+        <div>
+            <el-input placeholder="Please input" v-validate.initial="rules" :name='name' v-model="model" @change="change"></el-input>
+            <span v-show="veeErrors.has(name)">{{ veeErrors.first(name) }}</span>
+        </div>
     `,
-    props: ['value'],
+    props: ['value', 'rules', 'name'],
     data() {
         return {
             model: null
