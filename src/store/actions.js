@@ -1,5 +1,7 @@
 // @flow
 import R from 'ramda'
+import uuidv1 from 'uuid/v1'
+
 import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
@@ -81,32 +83,36 @@ export function MDChangeFieldRow ({ commit }, payload) {
     commit('MDChangeFieldRow', payload)
 }
 
-export function MDLoadOptions ({ commit }, { id, masterId, listId }) {
+export function MDLoadOptions ({ commit }, { id, masterId, rowId, listId }) {
     return getItems(listId)
         .fork(
             err     => commit('addError', err),
-            options => commit('MDLoadOptions', { id, masterId, options })
+            options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
 }
 
-export function MDLoadAllOptions ({ commit, state }, { masterId } ) {
+export function MDLoadAllRowOptions ({ commit, state }, { masterId, rowId } ) {
     R.pipe (R.filter(R.propEq('Type', 'Lookup')), R.mapObjIndexed(
         (v, k) =>
             MDLoadOptions({ commit },
-                          { id: k, masterId, listId: v.LookupList })
+                          { id: k, masterId, rowId, listId: v.LookupList })
     ))(state.fields[masterId].fields)
 }
 
-export function MDLoadFilteredOptions ({ commit }, { id, masterId, listId, query }) {
+export function MDLoadFilteredOptions ({ commit }, { id, masterId, rowId, listId, query }) {
     return getFilteredItems(listId, query)
         .fork(
             err     => commit('addError', err),
-            options => commit('MDLoadOptions', { id, masterId, options })
+            options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
 }
 
 export function MDAddRow ({ commit }, { id }) {
-    commit('MDAddRow', { id })
+    return new Promise(resolve => {
+        let rowId = uuidv1()
+        commit('MDAddRow', { id, rowId })
+        resolve(rowId)
+    })
 }
 
 export function MDDelRow ({ commit }, { id, idx }) {

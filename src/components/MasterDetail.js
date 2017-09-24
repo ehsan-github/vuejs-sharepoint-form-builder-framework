@@ -47,7 +47,7 @@ export default {
                                     <BooleanField :value='f.value' @change='v => change(r, idx, v)'></BooleanField>
                                 </div>
                                 <div v-else-if="f.Type === 'Lookup'">
-                                    <SelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></SelectField>
+                                    <SelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='idx'>
                                     <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></ChoiceField>
@@ -59,7 +59,7 @@ export default {
                                     <DateTimeField :value='f.value' @change='v => change(r, idx, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='idx'>
-                                    <MultiSelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiSelectField>
+                                    <MultiSelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='idx'>
                                     <MultiChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></MultiChoiceField>
@@ -68,7 +68,7 @@ export default {
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></CustomSelectField>
+                                    <CustomSelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></CustomSelectField>
                                 </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
@@ -94,7 +94,6 @@ export default {
         }),
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
-        options() { return this.field.options },
         value() { return this.field.MasterLookupName },
         computedValues() {},
         computedQueries() {
@@ -117,7 +116,7 @@ export default {
             'MDAddRow',
             'MDDelRow',
             'changeField',
-            'MDLoadAllOptions',
+            'MDLoadAllRowOptions',
             'MDLoadFilteredOptions',
             'MDLoadComputed'
         ]),
@@ -129,7 +128,10 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         },
-        addRow () { this.MDAddRow({ id: this.fieldId }) },
+        addRow () { this.MDAddRow({ id: this.fieldId }).then(rowId => {
+            console.log('rowId', rowId)
+            this.MDLoadAllRowOptions({ masterId: this.fieldId, rowId })
+        }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
         updateComputed (rowId) {
             let computedRow = R.filter(R.propEq('Type', 'CustomComputedField'))(this.rows[rowId])
@@ -150,7 +152,7 @@ export default {
                 let query0 = replaceQueryFields(Query, requiredValues)
                 let query = replaceQueryMasterFields(query0, requiredMasterValues)
                 query.indexOf('null') === -1
-                ? this.MDLoadFilteredOptions({ id: Guid, masterId: this.fieldId, listId: LookupList, query })
+                    ? this.MDLoadFilteredOptions({ id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query })
                 : null
             }, customLookupRow)
         }
@@ -158,7 +160,6 @@ export default {
     async mounted () {
         this.changeField({ id: this.fieldId, value: this.value })
         await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
-        this.MDLoadAllOptions({ masterId: this.fieldId })
         this.addRow()
     }
 }

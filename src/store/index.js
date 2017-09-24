@@ -2,7 +2,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import R from 'ramda'
-import uuidv1 from 'uuid/v1'
 
 import * as actions from './actions'
 
@@ -39,26 +38,26 @@ const store = new Vuex.Store({
         MDLoadFields (state, { id, fields }) {
             state.fields[id] = { ...state.fields[id], fields }
             state.fields[id] = { ...state.fields[id], rows: {} }
-            state.fields[id] = { ...state.fields[id], options: {} }
         },
         MDChangeFieldRow (state, { masterId, rowId, fieldId, value }) {
             let rows = state.fields[masterId].rows
             rows[rowId] = R.assocPath([fieldId, 'value'], value, rows[rowId])
             state.fields = R.assocPath([masterId, 'rows'], rows, state.fields)
         },
-        MDAddRow (state, { id }) {
-            let uuid = uuidv1()
+        MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
             let rows = state.fields[id].rows
-            rows[uuid] = fields
+            rows[rowId] = fields
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
         },
         MDDelRow (state, { id, idx }) {
             let rows = R.dissoc(idx, state.fields[id].rows)
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
         },
-        MDLoadOptions (state, { id, masterId, options }) {
-            state.fields[masterId].options = R.assoc(id, options, state.fields[masterId].options)
+        MDLoadOptions (state, { id, masterId, rowId, options }) {
+            let rows = state.fields[masterId].rows
+            rows[rowId] = R.assocPath([id, 'options'], options, rows[rowId])
+            state.fields = R.assocPath([masterId, 'rows'], rows, state.fields)
         },
         addError (state, error) {
             state.errors.push(error)
