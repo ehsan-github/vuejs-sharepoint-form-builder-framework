@@ -2,7 +2,7 @@
 
 export default {
     template: `
-        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Text Area" v-model="model" @change="change"></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="model" @change="change"></el-input>
     `,
     props: ['value'],
     data() {
