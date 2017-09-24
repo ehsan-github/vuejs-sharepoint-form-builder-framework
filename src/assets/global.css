@@ -43,7 +43,7 @@ html, body {
     width: 125px;
 }
 .el-input {
-    max-width: 230px;
+    max-width: 120px;
 }
 
 .el-col-12 {
@@ -59,6 +59,7 @@ html, body {
     background-color: #d10505 !important;
     color: white !important;
 }
+
 .cov-datepicker {
     width: 100px;
 }
