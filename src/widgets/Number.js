@@ -1,11 +1,12 @@
 // @flow
 
 export default {
+    inject: ['$validator'],
     template: `
         <div>
             <el-input-number :name="name" v-validate="rules" v-model="model" :controls="false" size="small" @change="change"></el-input-number>
             <div>
-                <span v-show="veeErrors.has(name)">{{ veeErrors.first(name) }}</span>
+                <span v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
             </div>
         </div>
     `,

@@ -43,7 +43,7 @@ const veeValidateConfig = {
         dirty: 'dirty' // control has been interacted with
     },
     events: 'input|blur',
-    inject: true,
+    inject: false,
     validity: true,
     aria: true
 }
