@@ -3,6 +3,7 @@ import PageTemplate from '../templates'
 import { mapActions } from 'vuex'
 
 export default {
+    inject: ['$validator'],
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='20'>
@@ -20,7 +21,12 @@ export default {
     methods: {
         ...mapActions(['saveData']),
         click () {
-            this.saveData()
+            this.$validator.errors.any()
+            ? this.$notify.error({
+                title: 'خطا',
+                message: 'در هنگام زخیره خطایی رخ داده است'
+            })
+            : this.saveData()
         }
     }
 }
