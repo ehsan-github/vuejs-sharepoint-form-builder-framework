@@ -32,7 +32,7 @@ export default {
             <tbody>
                 <tr v-for='(row, r) in rows'>
                     <td>
-                        <el-button v-if="r != 0" @click='() => delRow(r)'>Delete Row</el-button>
+                        <el-button class="red" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
                     <td v-for='(f, idx) in row' :key='r+idx'>
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
@@ -81,7 +81,7 @@ export default {
             <tfoot>
                 <tr>
                     <td>
-                        <el-button @click='addRow'>Add Row</el-button>
+                        <el-button class="green" @click='addRow'>ردیف جدید</el-button>
                     </td>
                 </tr>
             </tfoot>
@@ -129,7 +129,6 @@ export default {
             this.$emit('change', value)
         },
         addRow () { this.MDAddRow({ id: this.fieldId }).then(rowId => {
-            console.log('rowId', rowId)
             this.MDLoadAllRowOptions({ masterId: this.fieldId, rowId })
         }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },

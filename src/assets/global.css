@@ -49,3 +49,13 @@ html, body {
 .el-col-12 {
     float: right !important;
 }
+
+.green {
+    background-color: #057b05 !important;
+    color: white !important;
+}
+
+.red {
+    background-color: #d10505 !important;
+    color: white !important;
+}
