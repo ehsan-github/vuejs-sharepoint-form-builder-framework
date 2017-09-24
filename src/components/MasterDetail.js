@@ -49,7 +49,7 @@ export default {
                                     <SelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='idx'>
-                                    <ChoiceField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></ChoiceField>
+                                    <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></ChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'">
                                     <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, idx, v)'></NumberField>
@@ -61,7 +61,7 @@ export default {
                                     <MultiSelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='idx'>
-                                    <MultiChoiceField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></MultiChoiceField>
+                                    <MultiChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
