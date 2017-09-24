@@ -97,6 +97,14 @@ export function MDLoadAllOptions ({ commit, state }, { masterId } ) {
     ))(state.fields[masterId].fields)
 }
 
+export function MDLoadFilteredOptions ({ commit }, { id, masterId, listId, query }) {
+    return getFilteredItems(listId, query)
+        .fork(
+            err     => commit('addError', err),
+            options => commit('MDLoadOptions', { id, masterId, options })
+        )
+}
+
 export function MDAddRow ({ commit }, { id }) {
     commit('MDAddRow', { id })
 }

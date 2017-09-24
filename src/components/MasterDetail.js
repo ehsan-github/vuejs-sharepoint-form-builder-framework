@@ -10,10 +10,11 @@ import ChoiceField from '../widgets/Choice'
 import BooleanField from '../widgets/Boolean'
 import MultiSelectField from '../widgets/MultiSelect'
 import MultiChoiceField from '../widgets/MultiChoice'
+import CustomSelectField from '../widgets/CustomSelect'
 
 export default {
     name: 'MasterDetail',
-    components: { TextField, NoteField, SelectField, NumberField, DateTimeField, ChoiceField, BooleanField, MultiSelectField, MultiChoiceField },
+    components: { TextField, NoteField, SelectField, NumberField, DateTimeField, ChoiceField, BooleanField, MultiSelectField, MultiChoiceField, CustomSelectField },
     props:  ['fieldId'],
     data () {
         return {
@@ -66,6 +67,9 @@ export default {
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
+                                <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
+                                    <CustomSelectField :value='f.value' :options='options[idx]' @change='v => change(r, idx, v)'></CustomSelectField>
+                                </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
                                 </div>
@@ -86,6 +90,7 @@ export default {
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] },
+            masterFields(state) { return state.fields }
         }),
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
@@ -113,12 +118,14 @@ export default {
             'MDDelRow',
             'changeField',
             'MDLoadAllOptions',
+            'MDLoadFilteredOptions',
             'MDLoadComputed'
         ]),
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
             this.updateComputed(rowId)
+            this.updateCustomLookup(rowId)
             this.$emit('input', value)
             this.$emit('change', value)
         },
@@ -133,6 +140,19 @@ export default {
                     ? this.MDLoadComputed ({ id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction })
                 : null
             }, computedRow)
+        },
+        updateCustomLookup (rowId) {
+            let customLookupRow = R.filter(R.propEq('Type', 'RelatedCustomLookupQuery'))(this.rows[rowId])
+            let requiredValues = transformFieldsList(this.rows[rowId])
+            let requiredMasterValues = transformFieldsList(this.masterFields)
+
+            R.map(({ Guid, LookupList, Query }) => {
+                let query0 = replaceQueryFields(Query, requiredValues)
+                let query = replaceQueryMasterFields(query0, requiredMasterValues)
+                query.indexOf('null') === -1
+                ? this.MDLoadFilteredOptions({ id: Guid, masterId: this.fieldId, listId: LookupList, query })
+                : null
+            }, customLookupRow)
         }
     },
     async mounted () {
@@ -151,6 +171,12 @@ const transformFieldsList = R.pipe(
 
 const replaceQueryFields = (query, fields) => R.reduce(
     (q, field) => R.replace('{{'+field+'}}', fields[field], q),
+    query,
+    R.keys(fields)
+)
+
+const replaceQueryMasterFields = (query, fields) => R.reduce(
+    (q, field) => R.replace('{{m.'+field+'}}', fields[field], q),
     query,
     R.keys(fields)
 )
