@@ -130,7 +130,6 @@ export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query
             err      => commit('addError', err),
             computed => {
                 let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
-                value *= 10
                 commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value })
             }
         )
@@ -161,7 +160,17 @@ export function saveData ({ commit, state }) {
     return saveFieldItems(state.listId, data)
         .fork(
             err  => commit('addError', err),
-            succ => alert('Data was successfuly saved'+succ)
+            succ => {
+                succ == ''
+                    ? this.$notify.success({
+                        title: 'موفقیت',
+                        message: 'داده ها با موفقیت زخیره شد'
+                    })
+                : this.$notify.error({
+                    title: 'خطا',
+                    message : 'در هنگام زخیره خطایی رخ داده است' + succ
+                })
+            }
         )
     // .then(r => {
     //     this.$notify.success({
