@@ -22,11 +22,22 @@ export default {
         ...mapActions(['saveData']),
         click () {
             this.$validator.errors.any()
-            ? this.$notify.error({
-                title: 'خطا',
-                message: 'در هنگام زخیره خطایی رخ داده است'
-            })
+                ? this.$notify.error({
+                    title: 'خطا',
+                    message: 'در اطلاعات وارد شده خطا وجود دارد'
+                })
             : this.saveData()
+                .then(succ => {
+                    succ == 'ok'
+                        ? this.$notify.success({
+                            title: 'موفقیت ',
+                            message: 'داده ها با موفقیت زخیره شد'
+                        })
+                    : this.$notify.error({
+                        title: 'خطا',
+                        message : succ
+                    })
+                })
         }
     }
 }
