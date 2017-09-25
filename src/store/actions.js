@@ -159,7 +159,7 @@ const transFormFields= R.pipe(
 const transFormRows = R.map(
     R.ifElse(
         R.propEq('Type', 'MasterDetail'),
-        field => R.assoc('rows', (R.map(transFormFields, field.rows)), field),
+        field => R.assoc('rows', R.values(R.map(transFormFields, field.rows)), field),
         R.identity
     )
 )
