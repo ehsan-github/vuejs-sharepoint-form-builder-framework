@@ -171,32 +171,16 @@ const transFormForSave = R.pipe(
 
 export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
-    return saveFieldItems(state.listId, data)
-        .fork(
-            err  => commit('addError', err),
-            succ => {
-                succ == ''
-                    ? this.$notify.success({
-                        title: 'موفقیت',
-                        message: 'داده ها با موفقیت زخیره شد'
-                    })
-                : this.$notify.error({
-                    title: 'خطا',
-                    message : 'در هنگام زخیره خطایی رخ داده است' + succ
-                })
-            }
-        )
-    // .then(r => {
-    //     this.$notify.success({
-    //         title: 'موفقیت',
-    //         message: 'داده ها با موفقیت زخیره شد'
-    //     })
-    // }).catch(e => {
-    //     this.$notify.error({
-    //         title: 'خطا',
-    //         message: 'در هنگام زخیره خطایی رخ داده است'
-    //     })
-    // })
+    return new Promise((resolve, reject) => {
+        saveFieldItems(state.listId, data)
+            .fork(
+                err  => {
+                    commit('addError', err)
+                    reject(err)
+                },
+                succ => resolve(succ)
+            )
+    })
 }
 
 export function removeError ({ commit }, error) {
