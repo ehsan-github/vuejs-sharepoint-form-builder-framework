@@ -75,3 +75,7 @@ html, body {
 .error {
     color: #ff4949;
 }
+
+.error-box input.el-input__inner{
+    border-color: #ff4949 !important;
+}

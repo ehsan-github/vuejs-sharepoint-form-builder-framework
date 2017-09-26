@@ -4,7 +4,7 @@ export default {
     inject: ['$validator'],
     template: `
         <div>
-            <el-input v-validate.initial="rules" :name='name' v-model="model" @change="change"></el-input>
+            <el-input v-validate.initial="rules" :class="{'error-box': $validator.errors.has(name)}" :name='name' v-model="model" @change="change"></el-input>
             <span class="error" v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
         </div>
     `,
