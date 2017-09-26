@@ -25,8 +25,8 @@ export default {
         <table class="el-table__header">
             <thead>
                 <tr>
-                    <th></th>
-                    <th class='is-leaf' v-for='f in fields' :key='f.Guid'>{{f.Title}}</th>
+                    <th class="button"></th>
+                    <th class='is-leaf' v-for='f in fields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@ export default {
                     <td>
                         <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
-                    <td v-for='(f, idx) in row' :key='r+idx'>
+                    <td v-for='(f, idx) in row' :key='r+idx' :class="f.Type">
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='idx'>
                                 <div v-if="f.Type === 'Text'">
