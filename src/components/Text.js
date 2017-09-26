@@ -5,7 +5,7 @@ import TextField from '../widgets/Text'
 export default {
     components: { TextField },
     template: `
-        <TextField :value='value' :name="name" :rules="rules" @change='change' />
+        <TextField :class="{requir: rules.IsRequire}" :value='value' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId'],
     computed: {

@@ -64,6 +64,14 @@ html, body {
     width: 100px;
 }
 
+.require:before {
+    content: "*" !important;
+    color: #ff4949;
+    margin-right: 4px;
+    float: right;
+    padding-left: 5px;
+}
+
 .error {
     color: #ff4949;
 }
