@@ -7,16 +7,16 @@ export default {
         <h3>مشخصات پیمان</h3>
         <el-form ref='form' label-position="top">
             <el-col :span="12">
-                <el-form-item class="contractSpecs" label="Title">{{specs.Title}}</el-form-item>
+                <el-form-item class="contractSpecs" label="موضوع">{{Title}}</el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item class="contractSpecs" label="Area ID">{{specs.AreaId}}</el-form-item>
+                <el-form-item class="contractSpecs" label="حوزه">{{Area}}</el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item class="contractSpecs" label="Contractor ID">{{specs.ContractorUserId}}</el-form-item>
+                <el-form-item class="contractSpecs" label="پیمانکار">{{Contractor}}</el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item class="contractSpecs" label="Consultant ID">{{specs.ConsultentUserId}}</el-form-item>
+                <el-form-item class="contractSpecs" label="مشاور">{{Consultant}}</el-form-item>
             </el-col>
         </el-form>
     </div>
@@ -24,6 +24,10 @@ export default {
     computed: {
         ...mapState({
             specs: s => s.contractSpecs,
-        })
+        }),
+        Title () { return this.specs.Title },
+        Area () { return this.specs.Area ? this.specs.Area.Title : 'loading' },
+        Contractor () { return this.specs.ContractorUser ? this.specs.ContractorUser.Title : 'loading' },
+        Consultant () { return this.specs.ConsultentUser ? this.specs.ConsultentUser.Title : 'loading' },
     }
 }
