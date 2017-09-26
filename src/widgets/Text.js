@@ -5,7 +5,7 @@ export default {
     template: `
         <div>
             <el-input v-validate.initial="rules" :name='name' v-model="model" @change="change"></el-input>
-            <span v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
+            <span class="error" v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
         </div>
     `,
     props: ['value', 'rules', 'name'],

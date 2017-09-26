@@ -63,3 +63,7 @@ html, body {
 .cov-datepicker {
     width: 100px;
 }
+
+.error {
+    color: #ff4949;
+}
