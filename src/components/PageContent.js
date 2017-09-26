@@ -6,10 +6,10 @@ export default {
     inject: ['$validator'],
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
-            <el-col :span='20'>
+            <el-col :span='24'>
                 <PageTemplate/>
                 <el-row type='flex' justify='right'>
-                    <el-button type='primary' @click='click'>ذخیره</el-button>
+                    <el-button class="save" type='primary' @click='click'>ذخیره</el-button>
                 </el-row>
             </el-col>
         </el-row>

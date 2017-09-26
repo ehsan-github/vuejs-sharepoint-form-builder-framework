@@ -32,7 +32,7 @@ export default {
             <tbody>
                 <tr v-for='(row, r) in rows'>
                     <td>
-                        <el-button class="red" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
+                        <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
                     <td v-for='(f, idx) in row' :key='r+idx'>
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
@@ -81,7 +81,7 @@ export default {
             <tfoot>
                 <tr>
                     <td>
-                        <el-button class="green" @click='addRow'>ردیف جدید</el-button>
+                        <el-button class="green button" @click='addRow'>ردیف جدید</el-button>
                     </td>
                 </tr>
             </tfoot>
