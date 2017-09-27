@@ -7,7 +7,7 @@ export default {
         <h3>مشخصات پیمان</h3>
         <el-form ref='form' label-position="top">
             <el-col :span="12">
-                <el-form-item class="contractSpecs" label="موضوع">{{Title}}</el-form-item>
+                <el-form-item class="contractSpecs" label="پیمان">{{Title}}</el-form-item>
             </el-col>
             <el-col :span="12">
                 <el-form-item class="contractSpecs" label="حوزه">{{Area}}</el-form-item>
