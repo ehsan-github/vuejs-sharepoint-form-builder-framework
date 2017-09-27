@@ -23,7 +23,10 @@ const store = new Vuex.Store({
     getters: {
         isError: s => s.errors.length > 0,
         firstError: s => s.errors[0],
-        filteredFields: s => R.reject(R.propEq('InternalName', 'Contract'), s.fields)
+        filteredFields: s => R.pipe(
+            R.reject(R.propEq('InternalName', 'Contract')),
+            R.reject(R.propEq('InternalName', 'Title'))
+        )(s.fields)
     },
     mutations: {
         loadFields (state, fields) {
