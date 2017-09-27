@@ -6,7 +6,7 @@ export default {
         <div>
             <el-input-number :name="name" v-validate="rules" v-model="model" :controls="false" size="small" @change="change"></el-input-number>
             <div>
-                <span :class="error" v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
+                <span class="error" v-show="$validator.errors.has(name)">{{ $validator.errors.first(name) }}</span>
             </div>
         </div>
     `,
