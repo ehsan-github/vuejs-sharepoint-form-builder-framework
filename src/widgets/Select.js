@@ -2,7 +2,7 @@
 
 export default {
     template: `
-        <el-select v-model="model" placeholder="انتخاب" @change="change">
+        <el-select :disabled="disabled" v-model="model" placeholder="انتخاب" @change="change">
             <el-option
                 v-for="item in options"
                 :key="item.Id"
@@ -11,7 +11,7 @@ export default {
             </el-option>
         </el-select>
     `,
-    props: ['options', 'value'],
+    props: ['options', 'value', 'disabled'],
     data () {
         return {
             model: null

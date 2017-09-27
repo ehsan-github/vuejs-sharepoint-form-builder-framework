@@ -5,7 +5,7 @@ import SelectField from '../widgets/Select'
 export default {
     components: { SelectField },
     template: `
-        <SelectField :value='value' :options='options' @change='change' />
+        <SelectField :value='value' :disabled='this.field.InternalName == "Contract"' :options='options' @change='change' />
     `,
     props: ['fieldId'],
     computed: {
