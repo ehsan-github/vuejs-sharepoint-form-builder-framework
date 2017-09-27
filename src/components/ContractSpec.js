@@ -27,7 +27,7 @@ export default {
         }),
         Title () { return this.specs.Title },
         Area () { return this.specs.Area ? this.specs.Area.Title : 'loading' },
-        Contractor () { return this.specs.ContractorUser ? this.specs.ContractorUser.Title : 'loading' },
-        Consultant () { return this.specs.ConsultentUser ? this.specs.ConsultentUser.Title : 'loading' },
+        Contractor () { return this.specs.Contractor ? this.specs.Contractor.Title : 'loading' },
+        Consultant () { return this.specs.Consultant ? this.specs.Consultant.Title : 'loading' },
     }
 }
