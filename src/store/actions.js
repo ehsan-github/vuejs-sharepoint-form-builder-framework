@@ -16,13 +16,24 @@ const assignValue = R.pipe(
     x => R.assoc('value', ...x)
 )
 
-const isIDType = R.propEq('Type', 'Counter')
+const getFieldId = (InternalName, fields) => R.pipe( //find the key of first item with this internalName
+    R.filter(R.propEq('InternalName', InternalName)),
+    R.keys,
+    R.head
+)(fields)
+
+const setContractValue = (value, items) => {
+    let id = getFieldId('Contract', items)
+    let newItems = R.assocPath([id, 'value'], value, items)
+    return newItems
+}
 
 export function loadFields ({ commit, state }) {
     return getFieldsList(state.listId)
         .map(R.map(assignValue))
         .map(transformFieldsList)
-        .map(R.reject(isIDType))
+        .map(R.reject(R.propEq('Type', 'Counter')))
+        .map(items => setContractValue(Number(state.contractId), items))
         .fork(
             err => commit('addError', err),
             res => commit('loadFields', res)
