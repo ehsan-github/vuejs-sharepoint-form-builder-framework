@@ -9,7 +9,8 @@ export default {
             <el-col :span='24'>
                 <PageTemplate/>
                 <el-row type='flex' justify='right'>
-                    <el-button class="save" type='primary' @click='click'>ذخیره</el-button>
+                    <el-button class="save" type='success' @click='click'>ذخیره</el-button>
+                    <el-button class="cancel" type='danger' @click='cancel'>انصراف</el-button>
                 </el-row>
             </el-col>
         </el-row>
@@ -38,6 +39,9 @@ export default {
                         message : succ
                     })
                 })
+        },
+        cancel () {
+            alert('Canceled')
         }
     }
 }
