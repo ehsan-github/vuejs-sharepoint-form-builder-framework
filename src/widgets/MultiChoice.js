@@ -2,7 +2,7 @@
 
 export default {
     template: `
-        <el-select v-model="model" multiple placeholder="انتخاب" @change="change">
+        <el-select filterable v-model="model" multiple placeholder="انتخاب" @change="change">
             <el-option
                 v-for="item in options"
                 :key="item"
