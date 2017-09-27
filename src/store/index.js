@@ -22,7 +22,8 @@ const store = new Vuex.Store({
     }: StoreType),
     getters: {
         isError: s => s.errors.length > 0,
-        firstError: s => s.errors[0]
+        firstError: s => s.errors[0],
+        filteredFields: s => R.reject(R.propEq('InternalName', 'Contract'), s.fields)
     },
     mutations: {
         loadFields (state, fields) {

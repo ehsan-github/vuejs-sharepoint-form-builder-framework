@@ -1,7 +1,7 @@
 // @flow
 import Field from '../components/Field'
 import ContractSpecForm from '../components/ContractSpec'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import R from 'ramda'
 
 export default {
@@ -27,8 +27,10 @@ export default {
     },
     computed: {
         ...mapState({
-            fields: s => s.fields,
             specs: s => s.contractSpecs,
+        }),
+        ...mapGetters({
+            fields: 'filteredFields'
         })
     },
     methods: {
