@@ -217,7 +217,7 @@ export function loadTemplateMetaData({ commit, state }) {
                 let secondTemplate = firstTemplate.replace(
                         /{{(\w+)(:[^}]+)?}}/,
                     (s, fname, fields) => {
-                        return `<Field fieldId='{{${fname}}}' @change="v => change('{{${fname}}}', v)" class="${fname}" showFields="[${fields.substr(1).split(',')}]" ></Field>`
+                        return `<Field fieldId='{{${fname}}}' @change="v => change('{{${fname}}}', v)" class="${fname}" showFields="${fields.substr(1).split(',')}" ></Field>`
                     }
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
