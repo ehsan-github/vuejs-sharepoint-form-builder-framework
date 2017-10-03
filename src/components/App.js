@@ -47,7 +47,7 @@ export default {
     },
     async mounted () {
         await this.loadFields()
-        this.loadTemplateMetaData()
+        await setTimeout(() => this.loadTemplateMetaData(), 500)
         this.loadContractSpec()
     }
 }
