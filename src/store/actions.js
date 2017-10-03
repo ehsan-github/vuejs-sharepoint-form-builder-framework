@@ -2,7 +2,7 @@
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
 
-import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems } from '../api'
+import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -205,3 +205,50 @@ export function saveData ({ commit, state }) {
 export function removeError ({ commit }, error) {
     commit('removeError', error)
 }
+
+export function loadTemplateMetaData({ commit, state }) {
+    getTemplate('EB9C37D1-FC44-458E-BADF-AB61DCCC004A', state.listId)
+        .map(R.head)
+        .fork(
+            err  => commit('addError', err),
+            succ => {
+                let fields = transformFields(state.fields)
+                let firstTemplate = replaceTemplateStr(succ.tamplate, fields)
+                let secondTemplate = firstTemplate.replace(
+                        /{{(\w+)(:[^}]+)?}}/,
+                    (s, fname, fields) => {
+                        return `<Field fieldId='{{${fname}}}' @change="v => change('{{${fname}}}', v)" class="${fname}" showFields="[${fields.substr(1).split(',')}]" />`
+                    }
+                )
+                let template = replaceNameWithId(secondTemplate, fields)
+                console.log(template)
+                commit('loadTemplateMetaData', { templateName: succ.tamplateName, template })
+            }
+        )
+}
+
+const transformFields= R.pipe(
+    R.values,
+    R.reduce((acc, curr) => ({
+        ...acc,
+        [curr.InternalName]: curr.Guid
+    }), {})
+)
+
+const replaceTemplateStr = (str, fields) => R.reduce(
+    (q, field) => R.replace(
+        '{{'+field+'}}',
+        `<Field fieldId="${fields[field]}" @change="v => change('${fields[field]}', v)" class="${field}" />`,
+        q),
+    str,
+    R.keys(fields)
+)
+
+const replaceNameWithId = (str, fields) => R.reduce(
+    (q, field) => R.replace(
+        new RegExp('{{'+field+'}}', 'g'),
+        `${fields[field]}`,
+        q),
+    str,
+    R.keys(fields)
+)
