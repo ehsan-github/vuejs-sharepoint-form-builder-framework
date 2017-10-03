@@ -1,4 +1,5 @@
 import store from '../store'
+import Field from '../components/Field'
 
 
 const tstr = new Promise(resolve => {
@@ -15,5 +16,6 @@ const tstr = new Promise(resolve => {
 })
 
 export default async () => ({
+    components: { Field },
     template: await tstr
 })
