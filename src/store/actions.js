@@ -231,14 +231,15 @@ const transformFields= R.pipe(
     R.values,
     R.reduce((acc, curr) => ({
         ...acc,
-        [curr.InternalName]: curr.Guid
+        [curr.InternalName]: { 'id': curr.Guid, 'title': curr.Title }
     }), {})
 )
 
 const replaceTemplateStr = (str, fields) => R.reduce(
     (q, field) => R.replace(
         '{{'+field+'}}',
-        `<Field fieldId="${fields[field]}" @change="v => change('${fields[field]}', v)" class="${field}" ></Field>`,
+        `<span>${fields[field].title}</span>
+        <Field fieldId="${fields[field].id}" class="${field}" ></Field>`,
         q),
     str,
     R.keys(fields)
@@ -247,7 +248,7 @@ const replaceTemplateStr = (str, fields) => R.reduce(
 const replaceNameWithId = (str, fields) => R.reduce(
     (q, field) => R.replace(
         new RegExp('{{'+field+'}}', 'g'),
-        `${fields[field]}`,
+        `${fields[field].id}`,
         q),
     str,
     R.keys(fields)
