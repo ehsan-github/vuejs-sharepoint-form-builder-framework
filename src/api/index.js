@@ -35,3 +35,7 @@ export const getContractSpec = cid => getApiF(
     `/_api/web/lists(guid'548C9C76-AAC3-404D-A24A-20BCD884A31B')/items?$filter=Id eq ${cid}&$select=Title,Area/Title,Contractor/Title,Consultant/Title&$expand=Area,Contractor,Consultant`
 )
     .chain(path(r => r.results))
+
+export const getTemplate = (listId, title) => getApiF(
+    `/_api/web/lists(guid'${listId}')/items?$filter=Title eq '${title}'`
+).chain(path(r => r.results))
