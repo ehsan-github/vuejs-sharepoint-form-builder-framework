@@ -5,7 +5,7 @@ export default {
     template: `
     <div>
         <h3>مشخصات پیمان</h3>
-        <el-form ref='form' label-position="top">
+        <el-form ref='form' label-position="top" class="contractForm">
             <el-col :span="12">
                 <el-form-item class="contractSpecs" label="پیمان">{{Title}}</el-form-item>
             </el-col>
@@ -25,9 +25,9 @@ export default {
         ...mapState({
             specs: s => s.contractSpecs,
         }),
-        Title () { return this.specs.Title },
-        Area () { return this.specs.Area ? this.specs.Area.Title : 'loading' },
-        Contractor () { return this.specs.Contractor ? this.specs.Contractor.Title : 'loading' },
-        Consultant () { return this.specs.Consultant ? this.specs.Consultant.Title : 'loading' },
+        Title () { return this.specs.Title || 'در حال بارگذاری' },
+        Area () { return this.specs.Area ? this.specs.Area.Title : 'در حال بارگذاری' },
+        Contractor () { return this.specs.Contractor ? this.specs.Contractor.Title : 'در حال بارگذاری' },
+        Consultant () { return this.specs.Consultant ? this.specs.Consultant.Title : 'در حال بارگذاری' },
     }
 }
