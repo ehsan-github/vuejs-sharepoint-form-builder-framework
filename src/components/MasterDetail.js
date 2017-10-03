@@ -95,15 +95,16 @@ export default {
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
         value() { return this.field.MasterLookupName },
+        listOfShowFields(){ return this.showFields ? this.showFields.split(',') : [] },
         showingFields(){
-            return this.showFields === undefined ?
+            return this.listOfShowFields.length ===  0 ?
                 R.values(this.fields)
-                : getSortedList(this.showFields, this.fields)
+                : getSortedList(this.listOfShowFields, this.fields)
         },
         showingRows(){
-            return this.showFields === undefined ?
-                this.rows
-                : R.map(getSortedList(this.showFields), this.rows)
+            return this.listOfShowFields.length === 0 ?
+                R.map(R.values, this.rows)
+                : R.map(getSortedList(this.listOfShowFields), this.rows)
         },
         computedValues() {},
         computedQueries() {
