@@ -221,7 +221,6 @@ export function loadTemplateMetaData({ commit, state }) {
                     }
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
-                console.log(template)
                 commit('loadTemplateMetaData', { templateName: succ.tamplateName, template })
             }
         )
