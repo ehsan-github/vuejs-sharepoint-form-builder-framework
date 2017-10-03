@@ -26,7 +26,12 @@ export default {
         })
     },
     methods: {
-        ...mapActions(['loadFields', 'removeError', 'loadContractSpec'])
+        ...mapActions([
+            'loadFields',
+            'removeError',
+            'loadContractSpec',
+            'loadTemplateMetaData'
+        ])
     },
     watch: {
         isError: function (isError) {
@@ -40,8 +45,9 @@ export default {
             }
         }
     },
-    mounted () {
-        this.loadFields()
+    async mounted () {
+        await this.loadFields()
+        this.loadTemplateMetaData()
         this.loadContractSpec()
     }
 }
