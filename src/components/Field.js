@@ -15,7 +15,7 @@ import MultiChoiceField from './MultiChoice'
 
 export default {
     components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField },
-    props: ['fieldId'],
+    props: ['fieldId', 'showFields'],
     render () {
         switch (this.fieldType) {
         case 'Text':
@@ -33,7 +33,7 @@ export default {
         case 'RelatedCustomLookupQuery':
             return <CustomSelectField fieldId={this.fieldId} multiple={false} onChange={this.change}></CustomSelectField>
         case 'MasterDetail':
-            return <MasterDetail fieldId={this.fieldId} onChange={this.change}></MasterDetail>
+            return <MasterDetail fieldId={this.fieldId} onChange={this.change} showFields={this.showFields}></MasterDetail>
         case 'Choice':
             return <ChoiceField fieldId={this.fieldId} onChange={this.change}></ChoiceField>
         case 'MultiChoice':
