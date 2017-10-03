@@ -126,12 +126,15 @@ export function MDLoadFilteredOptions ({ commit }, { id, masterId, rowId, listId
         )
 }
 
-export function MDAddRow ({ commit }, { id }) {
+export function MDAddRow ({ commit, state }, { id }) {
     return new Promise(resolve => {
         let rowId = uuidv1()
         commit('MDAddRow', { id, rowId })
         resolve(rowId)
     })
+        .then(rowId => {
+            MDLoadAllRowOptions({ commit, state },{ masterId: id, rowId })
+        })
 }
 
 export function MDDelRow ({ commit }, { id, idx }) {

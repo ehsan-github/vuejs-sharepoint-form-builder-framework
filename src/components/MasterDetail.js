@@ -127,7 +127,6 @@ export default {
             'MDAddRow',
             'MDDelRow',
             'changeField',
-            'MDLoadAllRowOptions',
             'MDLoadFilteredOptions',
             'MDLoadComputed'
         ]),
@@ -139,9 +138,7 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         },
-        addRow () { this.MDAddRow({ id: this.fieldId }).then(rowId => {
-            this.MDLoadAllRowOptions({ masterId: this.fieldId, rowId })
-        }) },
+        addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
         updateComputed (rowId) {
             let computedRow = R.filter(R.propEq('Type', 'CustomComputedField'))(this.rows[rowId])
@@ -168,8 +165,8 @@ export default {
         }
     },
     async mounted () {
-        this.changeField({ id: this.fieldId, value: this.value })
         await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
+        this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
     }
 }
