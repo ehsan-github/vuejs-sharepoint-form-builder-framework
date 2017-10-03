@@ -19,7 +19,7 @@ const store = new Vuex.Store({
         contractSpecs: {},
         fields: {},
         errors: [],
-        templateName: 'TwoColumn',
+        templateName: 'Loading',
         templateStr: ''
     }: StoreType),
     getters: {
