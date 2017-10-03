@@ -15,7 +15,7 @@ import CustomSelectField from '../widgets/CustomSelect'
 export default {
     name: 'MasterDetail',
     components: { TextField, NoteField, SelectField, NumberField, DateTimeField, ChoiceField, BooleanField, MultiSelectField, MultiChoiceField, CustomSelectField },
-    props:  ['fieldId'],
+    props:  ['fieldId', 'showFields'],
     data () {
         return {
             form: {}
@@ -26,49 +26,49 @@ export default {
             <thead>
                 <tr>
                     <th class="button"></th>
-                    <th class='is-leaf' v-for='f in fields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
+                    <th class='is-leaf' v-for='f in showingFields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for='(row, r) in rows'>
+                <tr v-for='(row, r) in showingRows'>
                     <td>
                         <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
-                    <td v-for='(f, idx) in row' :key='r+idx' :class="f.Type">
+                    <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
-                            <el-form-item class='table-form' :prop='idx'>
+                            <el-form-item class='table-form' :prop='f.Guid'>
                                 <div v-if="f.Type === 'Text'">
-                                    <TextField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, idx, v)'></TextField>
+                                    <TextField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'">
-                                    <NoteField :value='f.value' @change='v => change(r, idx, v)'></NoteField>
+                                    <NoteField :value='f.value' @change='v => change(r, f.Guid, v)'></NoteField>
                                 </div>
-                                <div v-else-if="f.Type === 'Boolean'" :key='idx'>
-                                    <BooleanField :value='f.value' @change='v => change(r, idx, v)'></BooleanField>
+                                <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
+                                    <BooleanField :value='f.value' @change='v => change(r, f.Guid, v)'></BooleanField>
                                 </div>
                                 <div v-else-if="f.Type === 'Lookup'">
-                                    <SelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></SelectField>
+                                    <SelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></SelectField>
                                 </div>
-                                <div v-else-if="f.Type === 'Choice'" :key='idx'>
-                                    <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></ChoiceField>
+                                <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
+                                    <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'">
-                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, idx, v)'></NumberField>
+                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, f.Guid, v)'></NumberField>
                                 </div>
                                 <div v-else-if="f.Type === 'DateTime'">
-                                    <DateTimeField :value='f.value' @change='v => change(r, idx, v)'></DateTimeField>
+                                    <DateTimeField :value='f.value' @change='v => change(r, f.Guid, v)'></DateTimeField>
                                 </div>
-                                <div v-else-if="f.Type === 'LookupMulti'" :key='idx'>
-                                    <MultiSelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></MultiSelectField>
+                                <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
+                                    <MultiSelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></MultiSelectField>
                                 </div>
-                                <div v-else-if="f.Type === 'MultiChoice'" :key='idx'>
-                                    <MultiChoiceField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></MultiChoiceField>
+                                <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
+                                    <MultiChoiceField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :options='f.options' @change='v => change(r, idx, v)'></CustomSelectField>
+                                    <CustomSelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
                                 </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
@@ -95,6 +95,16 @@ export default {
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows },
         value() { return this.field.MasterLookupName },
+        showingFields(){
+            return this.showFields === undefined ?
+                R.values(this.fields)
+                : getSortedList(this.showFields, this.fields)
+        },
+        showingRows(){
+            return this.showFields === undefined ?
+                this.rows
+                : R.map(getSortedList(this.showFields), this.rows)
+        },
         computedValues() {},
         computedQueries() {
             let computedRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')))(this.rows)
@@ -180,3 +190,6 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
     query,
     R.keys(fields)
 )
+// we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
+const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
+
