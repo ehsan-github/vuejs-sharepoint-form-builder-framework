@@ -93,7 +93,7 @@ export default {
             masterFields(state) { return state.fields }
         }),
         fields() { return this.field.fields || {} },
-        rows() { return this.field.rows },
+        rows() { return this.field.rows || [] },
         value() { return this.field.MasterLookupName },
         listOfShowFields(){ return this.showFields ? this.showFields.split(',') : [] },
         showingFields(){
