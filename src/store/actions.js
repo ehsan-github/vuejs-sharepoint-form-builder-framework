@@ -29,15 +29,23 @@ const setContractValue = (value, items) => {
 }
 
 export function loadFields ({ commit, state }) {
-    return getFieldsList(state.listId)
-        .map(R.map(assignValue))
-        .map(transformFieldsList)
-        .map(R.reject(R.propEq('Type', 'Counter')))
-        .map(items => setContractValue(Number(state.contractId), items))
-        .fork(
-            err => commit('addError', err),
-            res => commit('loadFields', res)
-        )
+    return new Promise((resolve, reject) => {
+        getFieldsList(state.listId)
+            .map(R.map(assignValue))
+            .map(transformFieldsList)
+            .map(R.reject(R.propEq ('Type', 'Counter')))
+            .map(items => setContractValue(state.contractId, items))
+            .fork(
+                err => {
+                    commit('addError', err)
+                    reject(err)
+                },
+                res => {
+                    commit('loadFields', res)
+                    resolve(res)
+                }
+            )
+    })
 }
 
 export function loadOptions({ commit }, { id, listId }) {
