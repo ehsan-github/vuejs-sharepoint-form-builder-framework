@@ -75,6 +75,10 @@ const store = new Vuex.Store({
         },
         loadContractSpec (state, specs) {
             state.contractSpecs = specs
+        },
+        loadTemplateMetaData(state, { templateName, template }){
+            state.templateName = templateName
+            state.templateStr = template
         }
     },
     actions
