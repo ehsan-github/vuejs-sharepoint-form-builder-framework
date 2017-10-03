@@ -18,7 +18,9 @@ const store = new Vuex.Store({
         contractId: new URLSearchParams(location.search).get('Cid'),
         contractSpecs: {},
         fields: {},
-        errors: []
+        errors: [],
+        templateName: 'TwoColumn',
+        templateStr: ''
     }: StoreType),
     getters: {
         isError: s => s.errors.length > 0,
