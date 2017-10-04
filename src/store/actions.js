@@ -244,7 +244,7 @@ const transformFields= R.pipe(
 
 const replaceTemplateStr = (str, fields) => R.reduce(
     (q, field) => R.replace(
-        '{{'+field+'}}',
+        new RegExp('{{'+field+'}}', 'g'),
         `<div :class="{require: ${fields[field].isRequire}}"><span class="${fields[field].intName}">${fields[field].title}</span><Field fieldId="${fields[field].id}" class="${field}" ></Field></div>`,
         q),
     str,
