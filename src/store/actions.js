@@ -218,7 +218,7 @@ export function loadTemplateMetaData({ commit, state }) {
                 let fields = transformFields(state.fields)
                 let firstTemplate = replaceTemplateStr(succ.tamplate, fields)
                 let secondTemplate = firstTemplate.replace(
-                        /{{(\w+)(:[^}]+)?}}/,
+                    new RegExp(/{{(\w+)(:[^}]+)?}}/, 'g'),
                     (s, fname, fields) => {
                         return `<Field fieldId='{{${fname}}}' class="${fname}" showFields="${fields.substr(1).split(',')}" ></Field>`
                     }
