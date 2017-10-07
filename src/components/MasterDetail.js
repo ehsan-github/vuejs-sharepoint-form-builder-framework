@@ -14,7 +14,11 @@ import CustomSelectField from '../widgets/CustomSelect'
 
 export default {
     name: 'MasterDetail',
-    components: { TextField, NoteField, SelectField, NumberField, DateTimeField, ChoiceField, BooleanField, MultiSelectField, MultiChoiceField, CustomSelectField },
+    components: {
+        TextField, NoteField, SelectField, NumberField, DateTimeField,
+        ChoiceField, BooleanField, MultiSelectField, MultiChoiceField,
+        CustomSelectField
+    },
     props:  ['fieldId', 'showFields'],
     data () {
         return {
@@ -26,14 +30,16 @@ export default {
             <thead>
                 <tr>
                     <th class="button"></th>
+                    <th>ردیف</th>
                     <th class='is-leaf' v-for='f in showingFields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for='(row, r) in showingRows'>
+                <tr v-for='(row, r, idx) in showingRows'>
                     <td>
                         <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
+                    <td>{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='f.Guid'>
