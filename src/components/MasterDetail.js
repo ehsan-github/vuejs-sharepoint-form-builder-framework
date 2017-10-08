@@ -30,7 +30,7 @@ export default {
             <thead>
                 <tr>
                     <th class="button"></th>
-                    <th>ردیف</th>
+                    <th class="radif">ردیف</th>
                     <th class='is-leaf' v-for='f in showingFields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@ export default {
                     <td>
                         <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
-                    <td>{{idx + 1}}</td>
+                    <td class="radif">{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='f.Guid'>
