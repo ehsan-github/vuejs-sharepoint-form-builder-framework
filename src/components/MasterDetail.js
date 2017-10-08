@@ -115,16 +115,61 @@ export default {
         computedValues() {},
         computedQueries() {
             let computedRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')))(this.rows)
-            return Object.keys(computedRows).map(rowId => {
-                return R.map(({ Query }) => {
+            return R.mapObjIndexed((value, rowId) => {
+                return R.mapObjIndexed(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
                     let requiredValues = transformFieldsList(this.rows[rowId])
                     let query = replaceQueryFields(Query, requiredValues)
-                    return query
-                }, computedRows[rowId])
-            })
+                    return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
+                }, value)
+            }, computedRows)
         },
-        customSelectQueries() {},
+        customSelectQueries() {
+            let customLookupRows = R.map(R.filter(R.propEq('Type', 'RelatedCustomLookupQuery')))(this.rows)
+            let requiredMasterValues = transformFieldsList(this.masterFields)
+            return R.mapObjIndexed((value, rowId) => {
+                return R.mapObjIndexed(({ Guid, LookupList, Query }) => {
+                    let requiredValues = transformFieldsList(this.rows[rowId])
+                    let query0 = replaceQueryFields(Query, requiredValues)
+                    let query = replaceQueryMasterFields(query0, requiredMasterValues)
+                    return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query }
+                }, value)
+            }, customLookupRows)
+        },
         customSelectOptions() { /* */ },
+    },
+    watch: {
+        computedQueries:{
+            handler: function (newValue, oldValue) {
+                if (!R.equals(newValue, oldValue)){
+                    R.mapObjIndexed((val, key) => {
+                        if (!R.equals(oldValue[key], val)){
+                            R.mapObjIndexed(obj => {
+                                if(obj['query'].indexOf('null') === -1){
+                                    this.MDLoadFilteredOptions(obj)
+                                }
+                            }, val)
+                        }
+                    }, newValue)
+                }
+            },
+            deep: true
+        },
+        customSelectQueries:{
+            handler: function (newValue, oldValue) {
+                if (!R.equals(newValue, oldValue)){
+                    R.mapObjIndexed((val, key) => {
+                        if (!R.equals(oldValue[key], val)){
+                            R.mapObjIndexed(obj => {
+                                if(obj['query'].indexOf('null') === -1){
+                                    this.MDLoadFilteredOptions(obj)
+                                }
+                            }, val)
+                        }
+                    }, newValue)
+                }
+            },
+            deep: true
+        }
     },
     methods: {
         ...mapActions([
@@ -139,41 +184,19 @@ export default {
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
-            this.updateComputed(rowId)
-            this.updateCustomLookup(rowId)
             this.$emit('input', value)
             this.$emit('change', value)
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
-        updateComputed (rowId) {
-            let computedRow = R.filter(R.propEq('Type', 'CustomComputedField'))(this.rows[rowId])
-            R.map(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
-                let requiredValues = transformFieldsList(this.rows[rowId])
-                let query = replaceQueryFields(Query, requiredValues)
-                query.indexOf('null') === -1
-                    ? this.MDLoadComputed ({ id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction })
-                : null
-            }, computedRow)
-        },
-        updateCustomLookup (rowId) {
-            let customLookupRow = R.filter(R.propEq('Type', 'RelatedCustomLookupQuery'))(this.rows[rowId])
-            let requiredValues = transformFieldsList(this.rows[rowId])
-            let requiredMasterValues = transformFieldsList(this.masterFields)
-
-            R.map(({ Guid, LookupList, Query }) => {
-                let query0 = replaceQueryFields(Query, requiredValues)
-                let query = replaceQueryMasterFields(query0, requiredMasterValues)
-                query.indexOf('null') === -1
-                    ? this.MDLoadFilteredOptions({ id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query })
-                : null
-            }, customLookupRow)
-        }
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
+    },
+    updated(){
+        // console.log()
     }
 }
 
@@ -196,4 +219,3 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
 )
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
 const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
-
