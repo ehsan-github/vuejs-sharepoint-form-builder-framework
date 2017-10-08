@@ -31,7 +31,7 @@ export default {
                 <tr>
                     <th class="button"></th>
                     <th class="radif">ردیف</th>
-                    <th class='is-leaf' v-for='f in showingFields' :key='f.Guid' :class="f.Type">{{f.Title}}</th>
+                    <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
                 </tr>
             </thead>
             <tbody>
