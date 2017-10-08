@@ -1,4 +1,5 @@
 // @flow
+import R from 'ramda'
 
 export default {
     template: `
@@ -15,6 +16,16 @@ export default {
     data () {
         return {
             model: null
+        }
+    },
+    watch: {
+        options: {
+            handler: function (newValue, oldValue){
+                if (!R.equals(newValue, oldValue)){
+                    this.model = null
+                }
+            },
+            deep: true
         }
     },
     methods: {
