@@ -105,7 +105,7 @@ export default {
         showingFields(){
             return this.listOfShowFields.length ===  0 ?
                 R.values(this.fields)
-                : getSortedList(this.listOfShowFields, this.fields)
+                : R.equals(this.fields, {}) ? {} : getSortedList(this.listOfShowFields, this.fields)
         },
         showingRows(){
             return this.listOfShowFields.length === 0 ?

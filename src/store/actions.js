@@ -34,7 +34,7 @@ export function loadFields ({ commit, state }) {
             .map(R.map(assignValue))
             .map(transformFieldsList)
             .map(R.reject(R.propEq ('Type', 'Counter')))
-            .map(items => setContractValue(state.contractId, items))
+            .map(items => setContractValue(Number(state.contractId), items))
             .fork(
                 err => {
                     commit('addError', err)
@@ -193,6 +193,7 @@ const transFormForSave = R.pipe(
 
 export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
+    // console.log(JSON.stringify(data))
     return new Promise((resolve, reject) => {
         saveFieldItems(state.listId, data)
             .fork(
