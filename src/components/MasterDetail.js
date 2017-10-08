@@ -160,9 +160,7 @@ export default {
                     R.mapObjIndexed((val, key) => {
                         if (!R.equals(oldValue[key], val)){
                             R.mapObjIndexed(obj => {
-                                if(obj['query'].indexOf('null') === -1){
-                                    this.MDLoadFilteredOptions(obj)
-                                }
+                                this.MDLoadFilteredOptions(obj)
                             }, val)
                         }
                     }, newValue)

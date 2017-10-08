@@ -119,11 +119,13 @@ export function MDLoadAllRowOptions ({ commit, state }, { masterId, rowId } ) {
 }
 
 export function MDLoadFilteredOptions ({ commit }, { id, masterId, rowId, listId, query }) {
-    return getFilteredItems(listId, query)
-        .fork(
+    return query.indexOf('null') === -1
+        ? getFilteredItems(listId, query)
+        .fork (
             err     => commit('addError', err),
             options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
+    : commit('MDLoadOptions', { id, masterId, rowId, options: null })
 }
 
 export function MDAddRow ({ commit, state }, { id }) {
