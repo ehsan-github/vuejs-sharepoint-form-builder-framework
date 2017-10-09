@@ -22,11 +22,11 @@ const getFieldId = (InternalName, fields) => R.pipe( //find the key of first ite
     R.head
 )(fields)
 
-const setContractValue = (value, items) => {
+const setContractValue = R.curry((value, items) => {
     let id = getFieldId('Contract', items)
     let newItems = R.assocPath([id, 'value'], value, items)
     return newItems
-}
+})
 
 export function loadFields ({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ export function loadFields ({ commit, state }) {
             .map(R.map(assignValue))
             .map(transformFieldsList)
             .map(R.reject(R.propEq ('Type', 'Counter')))
-            .map(items => setContractValue(Number(state.contractId), items))
+            .map(setContractValue(Number(state.contractId)))
             .fork(
                 err => {
                     commit('addError', err)
