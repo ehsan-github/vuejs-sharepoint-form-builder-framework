@@ -77,14 +77,11 @@ export function changeField({ commit }, payload) {
     commit('changeField', payload)
 }
 
-const filterList = R.curry((relatedFields, f) => relatedFields.includes(f.InternalName))
-
-export function MDLoadFields ({ commit }, { id, relatedFields, listId } ) {
+export function MDLoadFields ({ commit }, { id, listId } ) {
     return new Promise((resolve, reject) => {
         getFieldsList(listId)
             .map(R.map(assignValue))
             .map(transformFieldsList)
-            .map(R.filter(filterList(relatedFields)))
             .fork(
                 err => {
                     commit('addError', err);

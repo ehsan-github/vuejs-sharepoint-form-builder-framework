@@ -104,12 +104,15 @@ export default {
         listOfShowFields() { return this.showFields ? this.showFields.split(',') : [] },
         showingFields() {
             return this.listOfShowFields.length ===  0 ?
-                R.values(this.fields)
+                getFilteredView(this.field.RelatedFields || [], R.values(this.fields))
                 : R.equals(this.fields, {}) ? {} : getSortedList(this.listOfShowFields, this.fields)
         },
         showingRows() {
             return this.listOfShowFields.length === 0 ?
-                R.map(R.values, this.rows)
+                R.pipe(
+                    R.map(R.values),
+                    R.map(getFilteredView(this.field.RelatedFields || []))
+                )(this.rows)
                 : R.map(getSortedList(this.listOfShowFields), this.rows)
         },
         computedQueries() {
@@ -187,7 +190,7 @@ export default {
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
     },
     async mounted () {
-        await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
+        await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
     }
@@ -212,3 +215,5 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
 )
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
 const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
+
+const getFilteredView = R.curry((filterList, fields) => R.filter(field => filterList.includes(field.InternalName), fields))
