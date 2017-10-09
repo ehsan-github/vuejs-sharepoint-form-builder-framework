@@ -7,6 +7,7 @@ import VeeValidate from 'vee-validate'
 
 import './assets/global.css'
 import 'element-ui/lib/theme-default/index.css'
+import locale from 'element-ui/lib/locale/lang/fa'
 
 import App from './components/App'
 import store from './store'
@@ -50,7 +51,7 @@ const veeValidateConfig = {
 
 Vue.use(VeeValidate, veeValidateConfig)
 
-Vue.use(ElementUI)
+Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
