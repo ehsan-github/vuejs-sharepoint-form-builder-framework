@@ -74,7 +74,7 @@ export default {
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
+                                    <CustomSelectField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
                                 </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}

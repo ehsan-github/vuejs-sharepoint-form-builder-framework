@@ -2,8 +2,10 @@
 import R from 'ramda'
 
 export default {
+    inject: ['$validator'],
     template: `
-        <el-select filterable v-model="model" placeholder="انتخاب" @change="change">
+    <el-tooltip :disabled="!$validator.errors.has(name)" class="item" effect="dark" :content="$validator.errors.first(name)" placement="top-start">
+        <el-select v-validate.initial="rules" :class="{'error-box': $validator.errors.has(name)}" :name='name'filterable v-model="model" placeholder="انتخاب" @change="change">
             <el-option
                 v-for="item in options"
                 :key="item.Id"
@@ -11,8 +13,9 @@ export default {
                 :value="item.Id">
             </el-option>
         </el-select>
+    </el-tooltip>
     `,
-    props: ['options', 'value'],
+    props: ['options', 'value', 'name', 'rules'],
     data () {
         return {
             model: null
