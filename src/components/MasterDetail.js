@@ -101,18 +101,17 @@ export default {
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows || [] },
         value() { return this.field.MasterLookupName },
-        listOfShowFields(){ return this.showFields ? this.showFields.split(',') : [] },
-        showingFields(){
+        listOfShowFields() { return this.showFields ? this.showFields.split(',') : [] },
+        showingFields() {
             return this.listOfShowFields.length ===  0 ?
                 R.values(this.fields)
                 : R.equals(this.fields, {}) ? {} : getSortedList(this.listOfShowFields, this.fields)
         },
-        showingRows(){
+        showingRows() {
             return this.listOfShowFields.length === 0 ?
                 R.map(R.values, this.rows)
                 : R.map(getSortedList(this.listOfShowFields), this.rows)
         },
-        computedValues() {},
         computedQueries() {
             let computedRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')))(this.rows)
             return R.mapObjIndexed((value, rowId) => {
@@ -135,10 +134,9 @@ export default {
                 }, value)
             }, customLookupRows)
         },
-        customSelectOptions() { /* */ },
     },
     watch: {
-        computedQueries:{
+        computedQueries: {
             handler: function (newValue, oldValue) {
                 if (!R.equals(newValue, oldValue)){
                     R.mapObjIndexed((val, key) => {
@@ -154,7 +152,7 @@ export default {
             },
             deep: true
         },
-        customSelectQueries:{
+        customSelectQueries: {
             handler: function (newValue, oldValue) {
                 if (!R.equals(newValue, oldValue)){
                     R.mapObjIndexed((val, key) => {
@@ -192,9 +190,6 @@ export default {
         await this.MDLoadFields({ id: this.fieldId, relatedFields: this.field.RelatedFields, listId: this.field.LookupList })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
-    },
-    updated(){
-        // console.log()
     }
 }
 
