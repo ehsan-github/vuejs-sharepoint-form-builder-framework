@@ -111,11 +111,14 @@ export function MDLoadOptions ({ commit }, { id, masterId, rowId, listId }) {
 }
 
 export function MDLoadAllRowOptions ({ commit, state }, { masterId, rowId } ) {
-    R.pipe (R.filter(R.propEq('Type', 'Lookup')), R.mapObjIndexed(
-        (v, k) =>
-            MDLoadOptions({ commit },
-                          { id: k, masterId, rowId, listId: v.LookupList })
-    ))(state.fields[masterId].fields)
+    R.pipe (
+        R.filter(R.propEq('Type', 'Lookup')),
+        R.mapObjIndexed(
+            (v, k) =>
+                MDLoadOptions({ commit },
+                              { id: k, masterId, rowId, listId: v.LookupList })
+        )
+    )(state.fields[masterId].fields)
 }
 
 export function MDLoadFilteredOptions ({ commit }, { id, masterId, rowId, listId, query }) {
