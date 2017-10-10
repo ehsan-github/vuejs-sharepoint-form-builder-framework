@@ -19,7 +19,7 @@ require('fetch-ie8')
 const dictionary = {
     fa: {
         messages:{
-            required: () => 'اين فيلد الزامى می‌باشد.'
+            required: () => 'اين فيلد الزامى می‌باشد'
         },
         attributes:{
             emial: 'email address'
