@@ -9,7 +9,7 @@ export default {
     components: { PageContent, PageHeader, PageFooter },
     render () {
         return (
-            <div id='app' dir='rtl'>
+            <div id='app' dir='rtl' class="new-form">
                 <PageHeader/>
                 <PageContent loading={this.loading}/>
                 <PageFooter/>
