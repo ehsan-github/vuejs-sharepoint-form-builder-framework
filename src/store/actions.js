@@ -99,10 +99,13 @@ export function MDChangeFieldRow ({ commit }, payload) {
     commit('MDChangeFieldRow', payload)
 }
 
-export function MDLoadOptions ({ commit }, { id, masterId, rowId, listId }) {
+export function MDLoadOptions ({ state, commit }, { id, masterId, rowId, listId }) {
     return getItems(listId)
         .fork(
-            err     => commit('addError', err),
+            err     => {
+                err ? commit('addError', err+' ***there is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+                    : commit('addError','There is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+            },
             options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
 }
@@ -118,11 +121,14 @@ export function MDLoadAllRowOptions ({ commit, state }, { masterId, rowId } ) {
     )(state.fields[masterId].fields)
 }
 
-export function MDLoadFilteredOptions ({ commit }, { id, masterId, rowId, listId, query }) {
+export function MDLoadFilteredOptions ({ state, commit }, { id, masterId, rowId, listId, query }) {
     return query.indexOf('null') === -1
         ? getFilteredItems(listId, query)
         .fork (
-            err     => commit('addError', err),
+            err     => {
+                err ? commit('addError', err+' ***there is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+                    : commit('addError','There is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+            },
             options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
     : commit('MDLoadOptions', { id, masterId, rowId, options: null })
