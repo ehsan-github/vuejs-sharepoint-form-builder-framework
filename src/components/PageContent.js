@@ -28,6 +28,7 @@ export default {
             if (this.errorExists) {
                 this.$message.error({
                     title: 'خطا',
+                    showClose: true,
                     message: 'در اطلاعات وارد شده خطا وجود دارد'
                 })
             }
@@ -37,11 +38,13 @@ export default {
                         if (succ == 'ok') {
                             this.$message.success({
                                 title: 'موفقیت ',
+                                showClose: true,
                                 message: 'داده ها با موفقیت زخیره شد'
                             })
                         }
                         else{
                             this.$message.error({
+                                showClose: true,
                                 title: 'خطا',
                                 message : succ
                             })
