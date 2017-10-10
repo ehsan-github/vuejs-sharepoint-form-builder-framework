@@ -18,27 +18,36 @@ export default {
     props: {
         loading: Boolean
     },
+    computed: {
+        errorExists () { return this.$validator.errors.any() }
+    },
     components: { PageTemplate },
     methods: {
         ...mapActions(['saveData']),
         click () {
-            this.$validator.errors.any()
-                ? this.$message.error({
+            if (this.errorExists) {
+                this.$message.error({
                     title: 'خطا',
                     message: 'در اطلاعات وارد شده خطا وجود دارد'
                 })
-            : this.saveData()
-                .then(succ => {
-                    succ == 'ok'
-                        ? this.$message.success({
-                            title: 'موفقیت ',
-                            message: 'داده ها با موفقیت زخیره شد'
-                        })
-                    : this.$message.error({
-                        title: 'خطا',
-                        message : succ
+            }
+            else {
+                this.saveData()
+                    .then(succ => {
+                        if (succ == 'ok') {
+                            this.$message.success({
+                                title: 'موفقیت ',
+                                message: 'داده ها با موفقیت زخیره شد'
+                            })
+                        }
+                        else{
+                            this.$message.error({
+                                title: 'خطا',
+                                message : succ
+                            })
+                        }
                     })
-                })
+            }
         },
         cancel () {
             alert('Canceled')
