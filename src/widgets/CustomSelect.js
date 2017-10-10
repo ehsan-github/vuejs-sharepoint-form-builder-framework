@@ -4,8 +4,15 @@ import R from 'ramda'
 export default {
     inject: ['$validator'],
     template: `
-    <el-tooltip :disabled="!$validator.errors.has(name)" class="item" effect="dark" :content="$validator.errors.first(name)" placement="top-start">
-        <el-select v-validate.initial="rules" :class="{'error-box': $validator.errors.has(name)}" :name='name'filterable v-model="model" placeholder="انتخاب" @change="change">
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
+        <el-select
+            v-validate.initial="rules"
+            :class="{'error-box': hasError}"
+            :name='name'filterable
+            v-model="model"
+            placeholder="انتخاب"
+            @change="change"
+        >
             <el-option
                 v-for="item in options"
                 :key="item.Id"
@@ -20,6 +27,10 @@ export default {
         return {
             model: null
         }
+    },
+    computed: {
+        hasError() { return this.$validator.errors.has(this.name) },
+        firstError() { return this.$validator.errors.first(this.name) }
     },
     watch: {
         options: {
