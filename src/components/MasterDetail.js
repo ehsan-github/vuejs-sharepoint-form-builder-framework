@@ -116,14 +116,14 @@ export default {
                 : R.map(getSortedList(this.listOfShowFields), this.rows)
         },
         computedQueries() {
-            let computedRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')))(this.rows)
-            return R.mapObjIndexed((value, rowId) => {
+            let computedColumnsRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')), this.rows)
+            return R.mapObjIndexed((obj, rowId) => {
                 return R.mapObjIndexed(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
                     let requiredValues = transformFieldsList(this.rows[rowId])
                     let query = replaceQueryFields(Query, requiredValues)
                     return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
-                }, value)
-            }, computedRows)
+                }, obj)
+            }, computedColumnsRows)
         },
         customSelectQueries() {
             let customLookupRows = R.map(R.filter(R.propEq('Type', 'RelatedCustomLookupQuery')))(this.rows)
@@ -140,17 +140,17 @@ export default {
     },
     watch: {
         computedQueries: {
-            handler: function (newValue, oldValue) {
-                if (!R.equals(newValue, oldValue)){
+            handler: function (computedQueries, old) {
+                if (!R.equals(computedQueries, old)){
                     R.mapObjIndexed((val, key) => {
-                        if (!R.equals(oldValue[key], val)){
+                        if (!R.equals(old[key], val)){
                             R.mapObjIndexed(obj => {
                                 if(obj['query'].indexOf('null') === -1){
                                     this.MDLoadComputed(obj)
                                 }
                             }, val)
                         }
-                    }, newValue)
+                    }, computedQueries)
                 }
             },
             deep: true
