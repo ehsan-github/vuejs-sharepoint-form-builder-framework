@@ -64,6 +64,7 @@ const store = new Vuex.Store({
             if (R.prop(rowId, state.fields[masterId].rows)) {
                 let rows = state.fields[masterId].rows
                 rows[rowId] = R.assocPath([id, 'options'], options, rows[rowId])
+                rows[rowId] = R.assocPath([id, 'values'], null, rows[rowId])
                 state.fields = R.assocPath([masterId, 'rows'], rows, state.fields)
             }
         },
