@@ -8,7 +8,8 @@ export default {
         <el-select
             v-validate.initial="rules"
             :class="{'error-box': hasError}"
-            :name='name'filterable
+            :name='name'
+            filterable
             v-model="model"
             placeholder="انتخاب"
             @change="change"
