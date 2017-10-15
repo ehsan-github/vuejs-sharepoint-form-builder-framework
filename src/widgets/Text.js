@@ -4,7 +4,14 @@ export default {
     inject: ['$validator'],
     template: `
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
-            <el-input v-validate.initial="rules" :class="{'error-box': hasError}" :name='name' v-model="model" @change="change"></el-input>
+            <el-input
+                v-validate.initial="rules"
+                :class="{'error-box': hasError}"
+                :name='name'
+                v-model="model"
+                @change="change"
+            >
+            </el-input>
     </el-tooltip>
     `,
     props: ['value', 'rules', 'name'],
