@@ -6,7 +6,7 @@ export default {
     template: `
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
         <el-select
-            v-validate.initial="rules"
+            v-validate="rules"
             :class="{'error-box': hasError}"
             :name='name'
             filterable
