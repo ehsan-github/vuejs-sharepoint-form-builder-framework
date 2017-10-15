@@ -222,7 +222,7 @@ export function loadTemplateMetaData({ commit, state }) {
     return getTemplate('EB9C37D1-FC44-458E-BADF-AB61DCCC004A', state.listId)
         .map(R.head)
         .fork(
-            err  => commit('addError', err),
+            err  => commit('loadTemplateMetaData', { templateName: 'TwoColumn', template: '' + err }),
             succ => {
                 let fields = transformFields(state.fields)
                 let firstTemplate = replaceTemplateStr(succ.tamplate || '', fields)
