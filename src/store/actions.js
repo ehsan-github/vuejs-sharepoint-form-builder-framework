@@ -225,7 +225,7 @@ export function loadTemplateMetaData({ commit, state }) {
             err  => commit('addError', err),
             succ => {
                 let fields = transformFields(state.fields)
-                let firstTemplate = replaceTemplateStr(succ.tamplate, fields)
+                let firstTemplate = replaceTemplateStr(succ.tamplate || '', fields)
                 let secondTemplate = firstTemplate.replace(
                     new RegExp(/{{(\w+)(:[^}]+)?}}/, 'g'),
                     (s, fname, fields) => {
@@ -233,7 +233,7 @@ export function loadTemplateMetaData({ commit, state }) {
                     }
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
-                commit('loadTemplateMetaData', { templateName: succ.tamplateName, template })
+                commit('loadTemplateMetaData', { templateName: succ.tamplateName || 'TwoColumn', template })
             }
         )
 }
