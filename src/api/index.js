@@ -37,5 +37,5 @@ export const getContractSpec = cid => getApiF(
     .chain(path(r => r.results))
 
 export const getTemplate = (listId, title) => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?$filter=Title eq '${title}'`
+    `/_api/web/lists(guid'${listId}')/items?$filter=Title eq '${title}' and formType eq 'New'`
 ).chain(path(r => r.results))
