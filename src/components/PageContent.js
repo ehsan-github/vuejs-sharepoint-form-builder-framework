@@ -25,32 +25,33 @@ export default {
     methods: {
         ...mapActions(['saveData']),
         click () {
-            if (this.errorExists) {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    return this.saveData()
+                        .then(succ => {
+                            if (succ == 'ok') {
+                                this.$message.success({
+                                    title: 'موفقیت ',
+                                    showClose: true,
+                                    message: 'داده ها با موفقیت زخیره شد'
+                                })
+                            }
+                            else{
+                                this.$message.error({
+                                    showClose: true,
+                                    title: 'خطا',
+                                    message : succ
+                                })
+                            }
+                        })
+                }
+
                 this.$message.error({
                     title: 'خطا',
                     showClose: true,
                     message: 'در اطلاعات وارد شده خطا وجود دارد'
                 })
-            }
-            else {
-                this.saveData()
-                    .then(succ => {
-                        if (succ == 'ok') {
-                            this.$message.success({
-                                title: 'موفقیت ',
-                                showClose: true,
-                                message: 'داده ها با موفقیت زخیره شد'
-                            })
-                        }
-                        else{
-                            this.$message.error({
-                                showClose: true,
-                                title: 'خطا',
-                                message : succ
-                            })
-                        }
-                    })
-            }
+            });
         },
         cancel () {
             alert('Canceled')
