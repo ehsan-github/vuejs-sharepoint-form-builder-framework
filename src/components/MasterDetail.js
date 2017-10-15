@@ -44,7 +44,7 @@ export default {
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='f.Guid'>
                                 <div v-if="f.Type === 'Text'">
-                                    <TextField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></TextField>
+                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'">
                                     <NoteField :value='f.value' @change='v => change(r, f.Guid, v)'></NoteField>
@@ -59,7 +59,7 @@ export default {
                                     <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'">
-                                    <NumberField :value='f.value' :name="f.Title" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, f.Guid, v)'></NumberField>
+                                    <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {between: [f.MinValue, f.MaxValue]}}" @change='v => change(r, f.Guid, v)'></NumberField>
                                 </div>
                                 <div v-else-if="f.Type === 'DateTime'">
                                     <DateTimeField :value='f.value' @change='v => change(r, f.Guid, v)'></DateTimeField>
@@ -74,7 +74,7 @@ export default {
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :name="f.Title" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
+                                    <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
                                 </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
