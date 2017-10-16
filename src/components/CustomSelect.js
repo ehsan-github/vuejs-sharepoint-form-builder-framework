@@ -5,7 +5,7 @@ import CustomSelect from '../widgets/CustomSelect'
 export default {
     components: { CustomSelect },
     template: `
-        <CustomSelect :value='value' :options='options' @change='change' />
+        <CustomSelect :value='value' :options='options' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId'],
     computed: {
@@ -14,6 +14,14 @@ export default {
         }),
         value() { return this.field.value },
         options() { return this.field.options },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        },
         related () {
             const relatedFields = this.field.RelatedFields
             let relatedData = {}
