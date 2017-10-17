@@ -7,16 +7,17 @@ export default {
     props: ['value'],
     data () {
         return {
-            model: null
+            model: 0
         }
     },
     methods: {
-        change(value) {
+        change(event) {
+            let value = event.target.checked
             this.$emit('input', value)
             this.$emit('change', value)
         }
     },
     mounted() {
-        this.model = this.value
+        this.model = this.value == 1 ? true : false
     }
 }
