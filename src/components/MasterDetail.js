@@ -53,7 +53,7 @@ export default {
                                     <BooleanField :value='f.value' @change='v => change(r, f.Guid, v)'></BooleanField>
                                 </div>
                                 <div v-else-if="f.Type === 'Lookup'">
-                                    <SelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></SelectField>
+                                    <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
                                     <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
