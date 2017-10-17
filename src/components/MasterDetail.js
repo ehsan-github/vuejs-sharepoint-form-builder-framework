@@ -56,7 +56,7 @@ export default {
                                     <SelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
-                                    <ChoiceField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
+                                    <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'">
                                     <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(r, f.Guid, v)'></NumberField>

@@ -1,8 +1,17 @@
 // @flow
 
 export default {
+    inject: ['$validator'],
     template: `
-        <el-select v-model="model" placeholder="انتخاب" @change="change">
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
+        <el-select
+            v-validate="rules"
+            :class="{'error-box': hasError}"
+            :name='name'
+            v-model="model"
+            placeholder="انتخاب"
+            @change="change"
+        >
             <el-option
                 v-for="item in options"
                 :key="item"
@@ -10,12 +19,17 @@ export default {
                 :value="item">
             </el-option>
         </el-select>
+    </el-tooltip>
     `,
-    props: ['options', 'value'],
+    props: ['options', 'value', 'name', 'rules'],
     data () {
         return {
             model: null
         }
+    },
+    computed: {
+        hasError() { return this.$validator.errors.has(this.name) },
+        firstError() { return this.$validator.errors.first(this.name) }
     },
     methods: {
         change(value) {
