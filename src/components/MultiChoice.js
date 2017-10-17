@@ -5,16 +5,23 @@ import MultiChoiceField from '../widgets/MultiChoice'
 export default {
     components: { MultiChoiceField },
     template: `
-        <MultiChoiceField :value='value' :options='options' @change='change' />
+        <MultiChoiceField :value='value' :options='options' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId'],
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
         }),
-        // value() { return this.field.value},
         value() { return [] },
         options() { return this.field.options },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        }
     },
     methods: {
         ...mapActions(['changeField']),

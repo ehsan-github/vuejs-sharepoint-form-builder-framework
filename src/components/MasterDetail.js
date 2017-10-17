@@ -68,7 +68,7 @@ export default {
                                     <MultiSelectField :value='[]' :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
-                                    <MultiChoiceField :value='[]' :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiChoiceField>
+                                    <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
