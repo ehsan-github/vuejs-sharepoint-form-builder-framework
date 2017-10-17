@@ -44,7 +44,7 @@ export default {
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
                             <el-form-item class='table-form' :prop='f.Guid'>
                                 <div v-if="f.Type === 'Text'">
-                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></TextField>
+                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(r, f.Guid, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'">
                                     <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></NoteField>

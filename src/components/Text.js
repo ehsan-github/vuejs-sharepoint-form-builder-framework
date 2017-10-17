@@ -17,7 +17,8 @@ export default {
         rules () {
             return {
                 rules: {
-                    required: this.field.IsRequire
+                    required: this.field.IsRequire,
+                    max: this.field.MaxLength
                 }
             }
         }
