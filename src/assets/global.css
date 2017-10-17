@@ -81,6 +81,11 @@ html, body {
     border-width: medium;
 }
 
+.error-box textarea.el-textarea__inner {
+    border-color: #ff4949 !important;
+    border-width: medium;
+}
+
 input.el-input__inner{
     text-align: center;
 }
