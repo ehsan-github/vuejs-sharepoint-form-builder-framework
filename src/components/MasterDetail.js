@@ -35,7 +35,7 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for='(row, r, idx) in showingRows'>
+                <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1}">
                     <td>
                         <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
                     </td>
