@@ -78,6 +78,7 @@ html, body {
 
 .error-box input.el-input__inner{
     border-color: #ff4949 !important;
+    border-width: medium;
 }
 
 input.el-input__inner{
