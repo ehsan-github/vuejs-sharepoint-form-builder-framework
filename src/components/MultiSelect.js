@@ -5,7 +5,7 @@ import MultiSelectField from '../widgets/MultiSelect'
 export default {
     components: { MultiSelectField },
     template: `
-        <MultiSelectField :value='value' :options='options' @change='change' />
+        <MultiSelectField :value='value' :options='options' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId' ],
     computed: {
@@ -15,6 +15,14 @@ export default {
         // value() { return this.field.value},
         value() { return []},
         options() { return this.field.options },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        }
     },
     methods: {
         ...mapActions(['changeField', 'loadOptions']),

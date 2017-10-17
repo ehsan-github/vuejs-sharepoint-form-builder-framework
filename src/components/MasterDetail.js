@@ -65,7 +65,7 @@ export default {
                                     <DateTimeField :value='f.value' @change='v => change(r, f.Guid, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                    <MultiSelectField :value='[]' :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>
+                                    <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
                                     <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiChoiceField>
