@@ -47,7 +47,7 @@ export default {
                                     <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'">
-                                    <NoteField :value='f.value' @change='v => change(r, f.Guid, v)'></NoteField>
+                                    <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></NoteField>
                                 </div>
                                 <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
                                     <BooleanField :value='f.value' @change='v => change(r, f.Guid, v)'></BooleanField>

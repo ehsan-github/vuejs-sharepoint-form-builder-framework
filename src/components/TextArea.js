@@ -5,7 +5,7 @@ import TextAreaField from '../widgets/TextArea'
 export default {
     components: { TextAreaField },
     template: `
-        <TextAreaField :value='value' @change='change' />
+        <TextAreaField :value='value' :name="name" :rules="rules" @change='change' />
     `,
     props: ['fieldId'],
     computed: {
@@ -13,6 +13,14 @@ export default {
             field(state) { return state.fields[this.fieldId] }
         }),
         value () { return this.field.value },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        }
     },
     methods: {
         ...mapActions(['changeField']),
