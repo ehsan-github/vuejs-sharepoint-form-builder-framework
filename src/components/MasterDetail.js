@@ -65,10 +65,10 @@ export default {
                                     <DateTimeField :value='f.value' @change='v => change(r, f.Guid, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                    <MultiSelectField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></MultiSelectField>
+                                    <MultiSelectField :value='[]' :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
-                                    <MultiChoiceField :value='f.value' :options='f.options' @change='v => change(r, f.Guid, v)'></MultiChoiceField>
+                                    <MultiChoiceField :value='[]' :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
@@ -183,6 +183,12 @@ export default {
         change (rowId, fieldId, value) {
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
+            this.$emit('input', value)
+            this.$emit('change', value)
+        },
+        changeMulti (rowId, fieldId, value) {
+            this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
+            this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value: value.toString() })
             this.$emit('input', value)
             this.$emit('change', value)
         },
