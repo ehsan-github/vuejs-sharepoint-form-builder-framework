@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         change(event) {
-            let value = event.target.checked
+            let value = event.target.checked ? '1' : '0'
             this.$emit('input', value)
             this.$emit('change', value)
         }
