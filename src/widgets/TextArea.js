@@ -33,7 +33,6 @@ export default {
         }
     },
     mounted() {
-        console.log('rules', this.rules)
         this.model = this.value
     }
 }
