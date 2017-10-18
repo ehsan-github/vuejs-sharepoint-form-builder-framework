@@ -86,6 +86,11 @@ html, body {
     border-width: medium;
 }
 
+.error-box div input{
+    border-color: #ff4949 !important;
+    border-width: medium !important;
+}
+
 input.el-input__inner{
     text-align: center;
 }

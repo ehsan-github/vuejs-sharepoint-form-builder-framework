@@ -62,7 +62,7 @@ export default {
                                     <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(r, f.Guid, v)'></NumberField>
                                 </div>
                                 <div v-else-if="f.Type === 'DateTime'">
-                                    <DateTimeField :value='f.value' @change='v => change(r, f.Guid, v)'></DateTimeField>
+                                    <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
                                     <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>

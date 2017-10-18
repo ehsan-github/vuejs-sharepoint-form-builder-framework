@@ -5,14 +5,22 @@ import DateTimeField from '../widgets/DateTime'
 export default {
     components: { DateTimeField },
     template: `
-        <DateTimeField value="value" @change="change" />
+        <DateTimeField value="value" :name="name" :rules="rules" @change="change" />
     `,
     props: ['fieldId'],
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
         }),
-        value() { return this.field.value }
+        value() { return this.field.value },
+        name (){ return this.field.Title },
+        rules () {
+            return {
+                rules: {
+                    required: this.field.IsRequire
+                }
+            }
+        }
     },
     methods: {
         ...mapActions(['changeField']),

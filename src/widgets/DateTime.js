@@ -3,17 +3,23 @@ import Datepicker from 'vue-jalaali-datepicker/vue-jalaali-datepicker-es6'
 import moment from 'moment-jalaali'
 
 export default {
+    inject: ['$validator'],
     components: { Datepicker },
     template: `
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
         <Datepicker
+            v-validate="rules"
+            :class="{'error-box': hasError}"
+            :data-vv-name='name'
             v-model="model"
             :date="startTime"
             :option="option"
             :limit="limit"
             @change="change">
         </Datepicker>
+    </el-tooltip>
     `,
-    props: ['value'],
+    props: ['value', 'name', 'rules'],
     data () {
         return {
             model: new Date(),
@@ -58,6 +64,10 @@ export default {
                 available: [1, 2, 3, 4, 5]
             }],
         }
+    },
+    computed: {
+        hasError() { return this.$validator.errors.has(this.name) },
+        firstError() { return this.$validator.errors.first(this.name) }
     },
     methods: {
         change(newValue) {
