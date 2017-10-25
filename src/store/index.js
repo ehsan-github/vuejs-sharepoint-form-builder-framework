@@ -19,6 +19,18 @@ const store = new Vuex.Store({
         contractSpecs: {},
         fields: {},
         errors: [],
+        serverErrors: [
+            {
+                row: -1,
+                internalName: 'Period',
+                message: 'some message'
+            },
+            {
+                row: 0,
+                internalName: 'Block',
+                message: 'this block have errors'
+            }
+        ],
         templateName: 'Loading',
         templateStr: ''
     }: StoreType),
@@ -80,6 +92,13 @@ const store = new Vuex.Store({
         loadTemplateMetaData(state, { templateName, template }){
             state.templateName = templateName
             state.templateStr = template
+        },
+        removeServerError(state, { row, internalName }){
+            state.serverErrors = R.reject(
+                R.where({
+                    row: R.equals(row),
+                    internalName: R.equals(internalName)
+                }), state.serverErrors)
         }
     },
     actions
