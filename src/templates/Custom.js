@@ -1,5 +1,5 @@
 import store from '../store'
-import Field from '../components/Field'
+import Field from '../components/FieldWrapper'
 
 
 const tstr = new Promise(resolve => {

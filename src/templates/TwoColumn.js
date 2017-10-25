@@ -1,5 +1,5 @@
 // @flow
-import Field from '../components/Field'
+import Field from '../components/FieldWrapper'
 import ContractSpecForm from '../components/ContractSpec'
 import { mapState, mapGetters } from 'vuex'
 import R from 'ramda'
