@@ -42,43 +42,45 @@ export default {
                     <td class="radif">{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
                         <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
-                            <el-form-item class='table-form' :prop='f.Guid'>
+                            <el-form-item :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
+                                <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
                                 <div v-if="f.Type === 'Text'">
-                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(r, f.Guid, v)'></TextField>
+                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
                                 </div>
                                 <div v-else-if="f.Type === 'Note'">
-                                    <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></NoteField>
+                                    <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></NoteField>
                                 </div>
                                 <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
-                                    <BooleanField :value='f.value' @change='v => change(r, f.Guid, v)'></BooleanField>
+                                    <BooleanField :value='f.value' @change='v => change(idx, r, f.Guid, v)'></BooleanField>
                                 </div>
                                 <div v-else-if="f.Type === 'Lookup'">
-                                    <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></SelectField>
+                                    <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
-                                    <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></ChoiceField>
+                                    <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></ChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'Number'">
-                                    <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(r, f.Guid, v)'></NumberField>
+                                    <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(idx, r, f.Guid, v)'></NumberField>
                                 </div>
                                 <div v-else-if="f.Type === 'DateTime'">
-                                    <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(r, f.Guid, v)'></DateTimeField>
+                                    <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></DateTimeField>
                                 </div>
                                 <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                    <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiSelectField>
+                                    <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
                                 </div>
                                 <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
-                                    <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(r, f.Guid, v)'></MultiChoiceField>
+                                    <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
                                     <el-input :disabled="true" :value="f.value"></el-input>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(r, f.Guid, v)'></CustomSelectField>
+                                    <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></CustomSelectField>
                                 </div>
                                 <div v-else>
                                     Not Supported Type: {{f.Type}}
                                 </div>
+                            </el-tooltip>
                             </el-form-item>
                         </el-form>
                     </td>
@@ -96,8 +98,10 @@ export default {
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] },
-            masterFields(state) { return state.fields }
+            masterFields(state) { return state.fields },
+            serverErrors (state) { return state.serverErrors }
         }),
+        transformedServerErrors(){ return transformErrors(this.serverErrors) },
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows || [] },
         value() { return this.field.MasterLookupName },
@@ -178,15 +182,18 @@ export default {
             'MDDelRow',
             'changeField',
             'MDLoadFilteredOptions',
-            'MDLoadComputed'
+            'MDLoadComputed',
+            'removeServerError'
         ]),
-        change (rowId, fieldId, value) {
+        change (idx, rowId, fieldId, value) {
+            this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
             this.$emit('input', value)
             this.$emit('change', value)
         },
-        changeMulti (rowId, fieldId, value) {
+        changeMulti (idx, rowId, fieldId, value) {
+            this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
             this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value: value.toString() })
             this.$emit('input', value)
@@ -194,6 +201,7 @@ export default {
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
+        RamdaPath(arr, obj) { return R.path(arr, obj)}
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
@@ -223,3 +231,11 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
 const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
 
 const getFilteredView = R.curry((filterList, fields) => R.filter(field => filterList.includes(field.InternalName), fields))
+
+// [{row: x, internalName: y, message: z}] => {'x': {'y': 'z'}}
+const transformErrors = errors => R.pipe(
+    R.map(R.groupBy(R.prop('internalName'))),
+    R.map(R.pipe(
+        R.map(R.head),
+        R.map(R.prop('message'))))
+)(R.groupBy(R.prop('row'), errors))
