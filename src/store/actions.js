@@ -268,3 +268,7 @@ const replaceNameWithId = (str, fields) => R.reduce(
     str,
     R.keys(fields)
 )
+
+export function removeServerError({ commit }, { row, internalName }){
+    commit('removeServerError', { row, internalName })
+}
