@@ -19,7 +19,7 @@ export default {
         }),
         error() { return getError(this.fieldInternalName, this.serverErrors) },
         hasError() { return this.error !== undefined },
-        errorMessage() { return this.hasError ? this.error.message : '' }
+        errorMessage() { return this.hasError ? this.error.Message : '' }
     },
     methods: {
         ...mapActions(['removeServerError']),
@@ -32,7 +32,7 @@ export default {
 }
 
 const getError = (internalName, errors) => R.pipe(
-    R.filter(R.propEq('row', -1)),
-    R.filter(R.propEq('internalName', internalName)),
+    R.filter(R.propEq('RowNumber', -1)),
+    R.filter(R.propEq('InternalName', internalName)),
     R.head
 )(errors)
