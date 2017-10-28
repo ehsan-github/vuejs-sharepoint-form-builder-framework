@@ -37,7 +37,7 @@ export default {
             <tbody>
                 <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1}">
                     <td>
-                        <el-button class="red button" v-if="r != 0" @click='() => delRow(r)'>حذف ردیف</el-button>
+                        <el-button class="red button" v-if="r != 0" @click='() => delRow(r, idx)'>حذف ردیف</el-button>
                     </td>
                     <td class="radif">{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
@@ -200,7 +200,7 @@ export default {
             this.$emit('change', value)
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
-        delRow (idx) { this.MDDelRow({ id: this.fieldId, idx }) },
+        delRow (rowId, idx) { this.MDDelRow({ id: this.fieldId, rowId, idx }) },
         RamdaPath(arr, obj) { return R.path(arr, obj)}
     },
     async mounted () {

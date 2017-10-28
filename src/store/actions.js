@@ -145,8 +145,8 @@ export function MDAddRow ({ commit, state }, { id }) {
         })
 }
 
-export function MDDelRow ({ commit }, { id, idx }) {
-    commit('MDDelRow', { id, idx })
+export function MDDelRow ({ commit }, rowProps) {
+    commit('MDDelRow', rowProps)
 }
 
 const computeFunction = func => {

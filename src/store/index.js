@@ -26,9 +26,14 @@ const store = new Vuex.Store({
                 message: 'some message'
             },
             {
-                row: 0,
+                row: 1,
                 internalName: 'Block',
-                message: 'this block have errors'
+                message: 'this block in has errors'
+            },
+            {
+                row: 3,
+                internalName: 'Block',
+                message: 'this block has errors'
             }
         ],
         templateName: 'Loading',
@@ -68,9 +73,16 @@ const store = new Vuex.Store({
             rows[rowId] = fields
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
         },
-        MDDelRow (state, { id, idx }) {
-            let rows = R.dissoc(idx, state.fields[id].rows)
+        MDDelRow (state, { id, rowId, idx }) {
+            let rows = R.dissoc(rowId, state.fields[id].rows)
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
+            state.serverErrors = R.pipe(       // fixing serverErrors state on row deletion
+                R.reject(R.propEq('row', idx)),
+                R.map(R.ifElse(
+                    R.propSatisfies(R.lt(idx), 'row'),
+                    R.over(R.lensProp('row'), R.dec),
+                    R.identity))
+            )(state.serverErrors)
         },
         MDLoadOptions (state, { id, masterId, rowId, options }) {
             if (R.prop(rowId, state.fields[masterId].rows)) {
