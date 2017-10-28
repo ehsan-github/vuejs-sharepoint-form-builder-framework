@@ -1,6 +1,6 @@
 // @flow
 import PageTemplate from '../templates'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     inject: ['$validator'],
@@ -19,14 +19,14 @@ export default {
         loading: Boolean
     },
     computed: {
-        errorExists () { return this.$validator.errors.any() }
+        ...mapGetters(['serverHasNotError'])
     },
     components: { PageTemplate },
     methods: {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {
             this.$validator.validateAll().then((result) => {
-                if (result) {
+                if (result && this.serverHasNotError) {
                     return this.saveData()
                         .then(succ => {
                             if (succ == 'ok') {
@@ -40,7 +40,7 @@ export default {
                                 this.$message.error({
                                     showClose: true,
                                     title: 'خطا',
-                                    message : succ
+                                    message : 'در اطلاعات وارد شده خطا وجود دارد لطفا خطاها را رفع کرده مجددا ذخیره نمایید.'
                                 })
                                 this.loadServerErrors(JSON.parse(succ))
                             }

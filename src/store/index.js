@@ -26,6 +26,7 @@ const store = new Vuex.Store({
     getters: {
         isError: s => s.errors.length > 0,
         firstError: s => s.errors[0],
+        serverHasNotError: s => s.serverErrors.length == 0,
         filteredFields: s => R.pipe(
             R.reject(R.propEq('InternalName', 'Contract')),
             R.reject(R.propEq('InternalName', 'Title'))
