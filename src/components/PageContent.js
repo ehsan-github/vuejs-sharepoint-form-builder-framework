@@ -23,7 +23,7 @@ export default {
     },
     components: { PageTemplate },
     methods: {
-        ...mapActions(['saveData']),
+        ...mapActions(['saveData', 'loadServerErrors']),
         click () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
@@ -42,6 +42,7 @@ export default {
                                     title: 'خطا',
                                     message : succ
                                 })
+                                this.loadServerErrors(JSON.parse(succ))
                             }
                         })
                 }
