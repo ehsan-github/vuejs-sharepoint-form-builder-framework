@@ -234,8 +234,8 @@ const getFilteredView = R.curry((filterList, fields) => R.filter(field => filter
 
 // [{row: x, internalName: y, message: z}] => {'x': {'y': 'z'}}
 const transformErrors = errors => R.pipe(
-    R.map(R.groupBy(R.prop('internalName'))),
+    R.map(R.groupBy(R.prop('InternalName'))),
     R.map(R.pipe(
         R.map(R.head),
-        R.map(R.prop('message'))))
-)(R.groupBy(R.prop('row'), errors))
+        R.map(R.prop('Message'))))
+)(R.groupBy(R.prop('RowNumber'), errors))
