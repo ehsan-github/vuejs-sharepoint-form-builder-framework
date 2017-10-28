@@ -19,23 +19,7 @@ const store = new Vuex.Store({
         contractSpecs: {},
         fields: {},
         errors: [],
-        serverErrors: [
-            {
-                row: -1,
-                internalName: 'Period',
-                message: 'some message'
-            },
-            {
-                row: 1,
-                internalName: 'Block',
-                message: 'this block in has errors'
-            },
-            {
-                row: 3,
-                internalName: 'Block',
-                message: 'this block has errors'
-            }
-        ],
+        serverErrors: [],
         templateName: 'Loading',
         templateStr: ''
     }: StoreType),
@@ -108,9 +92,12 @@ const store = new Vuex.Store({
         removeServerError(state, { row, internalName }){
             state.serverErrors = R.reject(
                 R.where({
-                    row: R.equals(row),
-                    internalName: R.equals(internalName)
+                    RowNumber: R.equals(row),
+                    InternalName: R.equals(internalName)
                 }), state.serverErrors)
+        },
+        loadServerErrors(state, errors){
+            state.serverErrors = errors
         }
     },
     actions
