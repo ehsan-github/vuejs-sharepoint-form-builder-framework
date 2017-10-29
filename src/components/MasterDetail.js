@@ -41,8 +41,8 @@ export default {
                     </td>
                     <td class="radif">{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
-                        <El-form @submit.prevent ref='form[r]' :model='form[r]' label-position="top">
-                            <el-form-item :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
+                        <div label-position="top">
+                            <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
                                 <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
                                 <div v-if="f.Type === 'Text'">
                                     <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
@@ -81,8 +81,8 @@ export default {
                                     Not Supported Type: {{f.Type}}
                                 </div>
                             </el-tooltip>
-                            </el-form-item>
-                        </el-form>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
