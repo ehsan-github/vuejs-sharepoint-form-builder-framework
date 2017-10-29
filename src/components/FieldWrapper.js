@@ -8,7 +8,7 @@ export default {
     components: { Field },
     template: `
         <el-tooltip :disabled="fieldType == 'MasterDetail' || !hasError" class="item" effect="dark" :content="errorMessage" placement="bottom">
-            <Field :fieldId="fieldId" @change="change" :class="{'error-box': hasError}"></Field>
+            <Field :fieldId="fieldId" @change="change" :class="{'error-box': hasError, master: true}"></Field>
         </el-tooltip>
     `,
     computed: {
