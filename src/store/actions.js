@@ -33,7 +33,6 @@ export function loadFields ({ commit, state }) {
         getFieldsList(state.listId)
             .map(R.map(assignValue))
             .map(transformFieldsList)
-            .map(R.reject(R.propEq ('Type', 'Counter')))
             .map(setContractValue(Number(state.contractId)))
             .fork(
                 err => {
