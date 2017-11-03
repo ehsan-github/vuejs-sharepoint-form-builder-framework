@@ -9,7 +9,7 @@ export default {
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
         <Datepicker
             v-validate="rules"
-            :class="{'error-box': hasError}"
+            :class="{'error-box': hasError, 'el-input__inner': true}"
             :data-vv-name='name'
             v-model="model"
             :date="startTime"

@@ -94,3 +94,11 @@ html, body {
 input.el-input__inner{
     text-align: center;
 }
+
+.datepickbox input {
+    padding: 4px !important;
+    font-size: 13px !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: black !important;
+}
