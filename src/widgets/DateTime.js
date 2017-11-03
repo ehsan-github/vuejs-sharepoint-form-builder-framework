@@ -7,6 +7,7 @@ export default {
     components: { Datepicker },
     template: `
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
+<div><i class="el-icon-date" style="display: inline-block;position: absolute;margin: 11px 100px;color: darkgray;"></i>
         <Datepicker
             v-validate="rules"
             :class="{'error-box': hasError, 'el-input__inner': true}"
@@ -17,6 +18,7 @@ export default {
             :limit="limit"
             @change="change">
         </Datepicker>
+</div>
     </el-tooltip>
     `,
     props: ['value', 'name', 'rules'],
@@ -34,13 +36,8 @@ export default {
                 placeholder: 'انتخاب کنید',
                 inputStyle: {
                     'display': 'inline-block',
-                    'padding': '6px',
+                    'padding': '4px',
                     'line-height': '22px',
-                    'font-size': '16px',
-                    'border': '2px solid #fff',
-                    'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-                    'border-radius': '2px',
-                    'color': '#5F5F5F'
                 },
                 color: {
                     header: '#ccc',
