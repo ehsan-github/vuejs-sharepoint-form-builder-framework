@@ -11,13 +11,14 @@ import BooleanField from '../widgets/Boolean'
 import MultiSelectField from '../widgets/MultiSelect'
 import MultiChoiceField from '../widgets/MultiChoice'
 import CustomSelectField from '../widgets/CustomSelect'
+import CustomComputedField from '../widgets/CustomComputed'
 
 export default {
     name: 'MasterDetail',
     components: {
         TextField, NoteField, SelectField, NumberField, DateTimeField,
         ChoiceField, BooleanField, MultiSelectField, MultiChoiceField,
-        CustomSelectField
+        CustomSelectField, CustomComputedField
     },
     props:  ['fieldId', 'showFields'],
     data () {
@@ -72,7 +73,7 @@ export default {
                                     <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
                                 </div>
                                 <div v-else-if="f.Type === 'CustomComputedField'">
-                                    <el-input :disabled="true" :value="f.value"></el-input>
+<CustomComputedField :value="f.value"></CustomComputedField>
                                 </div>
                                 <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
                                     <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></CustomSelectField>
