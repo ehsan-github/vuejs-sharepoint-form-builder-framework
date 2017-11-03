@@ -2,6 +2,14 @@ html, body {
   padding: 0;
   margin: 0;
   height: 100%;
+  font-family: yekanRegular;
+}
+
+@font-face {
+    font-family: 'yekanRegular';
+    src: 	url('fonts/Yekan.eot?#') format('eot'),
+		url('fonts/Yekan.woff') format('woff'),
+		url('fonts/Yekan.ttf') format('truetype');
 }
 
 .site-footer {
