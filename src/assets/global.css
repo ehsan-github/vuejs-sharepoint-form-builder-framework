@@ -106,3 +106,33 @@ input.el-input__inner{
 .datepickbox input {
     border: none !important;
 }
+
+.el-message-box {
+    text-align: right !important;
+}
+
+.el-message-box__headerbtn {
+    left: 20px;
+}
+
+.el-message-box__status {
+    right: 15px;
+}
+
+.el-message-box__message {
+    margin-right: 50px !important;
+}
+
+.el-message__img {
+    left: initial !important;
+    right: 0 !important;
+}
+
+.el-message__group p {
+    margin: 0 34px !important;
+}
+
+.el-message__closeBtn {
+    margin: 0px -35px;
+    left: 0;
+}
