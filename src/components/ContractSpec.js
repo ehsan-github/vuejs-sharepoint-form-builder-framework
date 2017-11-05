@@ -6,6 +6,7 @@ export default {
     <div>
         <h3>مشخصات پیمان</h3>
         <el-form ref='form' label-position="top" class="contractForm">
+        <el-row justify="center" :gutter="24">
             <el-col :span="12">
                 <el-form-item class="contractSpecs" label="پیمان">{{Title}}</el-form-item>
             </el-col>
@@ -18,6 +19,7 @@ export default {
             <el-col :span="12">
                 <el-form-item class="contractSpecs" label="مشاور">{{Consultant}}</el-form-item>
             </el-col>
+        </el-row>
         </el-form>
     </div>
     `,
