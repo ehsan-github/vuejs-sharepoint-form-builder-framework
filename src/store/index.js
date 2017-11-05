@@ -30,6 +30,15 @@ const store = new Vuex.Store({
         filteredFields: s => R.pipe(
             R.reject(R.propEq('InternalName', 'ID')),
             R.reject(R.propEq('InternalName', 'Title'))
+        )(s.fields),
+        detailsHasAtLeastOneRow: s => R.pipe(
+            R.values,
+            R.filter(R.propEq('Type', 'MasterDetail')),
+            R.head,
+            R.prop('rows'),
+            R.values,
+            R.isEmpty,
+            R.not
         )(s.fields)
     },
     mutations: {

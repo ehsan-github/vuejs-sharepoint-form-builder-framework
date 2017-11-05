@@ -23,14 +23,14 @@ export default {
         loading: Boolean
     },
     computed: {
-        ...mapGetters(['serverHasNotError'])
+        ...mapGetters(['serverHasNotError', 'detailsHasAtLeastOneRow']),
     },
     components: { PageTemplate },
     methods: {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {
             this.$validator.validateAll().then((result) => {
-                if (result && this.serverHasNotError) {
+                if (result && this.serverHasNotError && this.detailsHasAtLeastOneRow) {
                     return this.saveData()
                         .then(succ => {
                             if (succ == 'ok') {
@@ -49,6 +49,14 @@ export default {
                                 this.loadServerErrors(JSON.parse(succ))
                             }
                         })
+                }
+
+                if (!this.detailsHasAtLeastOneRow){
+                    return this.$message.error({
+                        showClose : true,
+                        title: 'خطا ',
+                        message : 'فرم حاوی اطلاعات نمی‌باشد'
+                    })
                 }
 
                 this.$message.error({
