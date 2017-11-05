@@ -49,7 +49,13 @@ html, body {
 
 .table-form {
     width: 125px;
+    height: 35px;
 }
+
+.el-textarea__inner {
+    max-height: 36px;
+}
+
 .el-input {
     max-width: 120px;
 }
@@ -101,6 +107,7 @@ html, body {
 
 input.el-input__inner{
     text-align: center;
+    padding: 3px 3px 0px 0px !important;
 }
 
 .datepickbox input {
@@ -135,4 +142,113 @@ input.el-input__inner{
 .el-message__closeBtn {
     margin: 0px -35px;
     left: 0;
+}
+
+.el-table {
+    display: inline-block !important;
+    width: inherit !important;
+}
+
+.el-table td, .el-table th.is-leaf {
+    text-align: center;
+}
+
+.el-table td>div {
+    text-align: -webkit-center;
+}
+
+
+.el-table tr:hover td {
+    background-color: #f8f9fb !important;
+}
+
+.el-table tr:hover td .el-input__inner {
+    background-color: #f8f9fb !important;
+}
+
+.el-table tr:hover td input{
+    background-color: #f8f9fb !important;
+}
+
+td input{
+    font-size: 11px !important;
+}
+
+.table-form el-input__inner{
+    height: 30px !important;
+}
+
+.Number .table-form {
+    width: 72px;
+}
+
+.Text .table-form {
+    width: 90px;
+}
+
+.Choice .table-form {
+    width: 90px;
+}
+
+.Choice .table-form input{
+    padding-left: 18px !important;
+}
+
+.RelatedCustomLookupQuery .table-form {
+    width: 90px;
+}
+
+.RelatedCustomLookupQuery .table-form input {
+    padding-left: 18px !important;
+}
+
+.Lookup .table-form {
+    width: 90px;
+}
+.Lookup .table-form input {
+    padding-left: 18px !important;
+}
+
+.DateTime .table-form {
+    width: 100px;
+}
+
+.DateTime .table-form input{
+    width: 80px !important;
+    padding: 4px 0px !important;
+    line-height: 17px !important;
+}
+
+.CustomComputedField .table-form {
+    width: 70px;
+}
+
+.el-table th {
+    white-space: pre-line !important;
+    font-size: 12px;
+}
+
+.el-table .el-form-item__content {
+    text-align: -webkit-center;
+}
+
+.el-input__icon {
+    width: 19px !important;
+    right: inherit !important;
+    left: 0;
+}
+
+.el-input--small .el-input__inner {
+}
+
+.el-table__header-wrapper {
+    text-align: -webkit-center;
+}
+
+.el-input__inner {
+    height: 30px !important;
+}
+
+.el-form-item__content {
+    line-height: 18px !important;
 }
