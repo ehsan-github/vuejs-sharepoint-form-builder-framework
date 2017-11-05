@@ -178,38 +178,38 @@ td input{
     height: 30px !important;
 }
 
-.Number .table-form {
+.Number .table-form, th.is-leaf.Number {
     width: 72px;
 }
 
-.Text .table-form {
+.Text .table-form, th.is-leaf.Text {
     width: 90px;
 }
 
-.Choice .table-form {
-    width: 90px;
+.Choice .table-form, th.is-leaf.Choice {
+    width: 105px;
 }
 
 .Choice .table-form input{
     padding-left: 18px !important;
 }
 
-.RelatedCustomLookupQuery .table-form {
-    width: 90px;
+.RelatedCustomLookupQuery .table-form,th.is-leaf.RelatedCustomLookupQuery {
+    width: 105px;
 }
 
 .RelatedCustomLookupQuery .table-form input {
     padding-left: 18px !important;
 }
 
-.Lookup .table-form {
-    width: 90px;
+.Lookup .table-form, th.is-leaf.Lookup {
+    width: 105px;
 }
 .Lookup .table-form input {
     padding-left: 18px !important;
 }
 
-.DateTime .table-form {
+.DateTime .table-form, th.is-leaf.DateTime {
     width: 100px;
 }
 
@@ -219,7 +219,7 @@ td input{
     line-height: 17px !important;
 }
 
-.CustomComputedField .table-form {
+.CustomComputedField .table-form, th.is-leaf.DateTime {
     width: 70px;
 }
 
@@ -251,4 +251,13 @@ td input{
 
 .el-form-item__content {
     line-height: 18px !important;
+    text-align: center;
+}
+
+.el-row {
+    margin: 0 !important;
+}
+
+.el-button {
+    border-radius: 10px;
 }
