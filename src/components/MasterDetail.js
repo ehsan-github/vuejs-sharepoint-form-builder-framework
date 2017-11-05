@@ -205,7 +205,24 @@ export default {
             this.$emit('change', value)
         },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
-        delRow (rowId, idx) { this.MDDelRow({ id: this.fieldId, rowId, idx }) },
+        delRow (rowId, idx) {
+            this.$confirm('ردیف '+(idx+1)+'  حذف خواهد شد. می‌خواهید ادامه دهید؟', 'اخطار', {
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: 'ردیف '+(idx+1)+' با موفقیت حذف گردید'
+                })
+                this.MDDelRow({ id: this.fieldId, rowId, idx })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'حذف لغو گردید',
+                })
+            })
+        },
         RamdaPath(arr, obj) { return R.path(arr, obj)}
     },
     async mounted () {
