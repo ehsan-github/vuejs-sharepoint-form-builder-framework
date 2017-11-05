@@ -40,7 +40,7 @@ export default {
                     <tbody>
                         <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}">
                             <td>
-                                <el-button type="danger" plain v-if="idx != 0" @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
+                                <el-button type="danger" plain @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
                             </td>
                             <td class="radif">{{idx + 1}}</td>
                             <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
