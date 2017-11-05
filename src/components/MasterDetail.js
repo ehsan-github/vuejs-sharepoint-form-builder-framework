@@ -27,6 +27,8 @@ export default {
         }
     },
     template: `
+<div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
+    <div class="el-table__header-wrapper">
         <table class="el-table__header">
             <thead>
                 <tr>
@@ -36,7 +38,7 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1}">
+                <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}">
                     <td>
                         <el-button type="danger" plain v-if="idx != 0" @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
                     </td>
@@ -95,6 +97,8 @@ export default {
                 </tr>
             </tfoot>
         </table>
+    </div>
+</div>
     `,
     computed: {
         ...mapState({
