@@ -27,78 +27,78 @@ export default {
         }
     },
     template: `
-<div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
-    <div class="el-table__header-wrapper">
-        <table class="el-table__header">
-            <thead>
-                <tr>
-                    <th class="button"></th>
-                    <th class="radif">ردیف</th>
-                    <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}">
-                    <td>
-                        <el-button type="danger" plain v-if="idx != 0" @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
-                    </td>
-                    <td class="radif">{{idx + 1}}</td>
-                    <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
-                        <div label-position="top">
-                            <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
-                                <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
-                                <div v-if="f.Type === 'Text'">
-                                    <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
+        <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
+            <div class="el-table__header-wrapper">
+                <table class="el-table__header">
+                    <thead>
+                        <tr>
+                            <th class="button"></th>
+                            <th class="radif">ردیف</th>
+                            <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}">
+                            <td>
+                                <el-button type="danger" plain v-if="idx != 0" @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
+                            </td>
+                            <td class="radif">{{idx + 1}}</td>
+                            <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
+                                <div label-position="top">
+                                    <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
+                                        <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
+                                            <div v-if="f.Type === 'Text'">
+                                                <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'Note'">
+                                                <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></NoteField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
+                                                <BooleanField :value='f.value' @change='v => change(idx, r, f.Guid, v)'></BooleanField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'Lookup'">
+                                                <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
+                                                <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></ChoiceField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'Number'">
+                                                <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(idx, r, f.Guid, v)'></NumberField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'DateTime'">
+                                                <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></DateTimeField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
+                                                <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
+                                                <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'CustomComputedField'">
+            <CustomComputedField :value="f.value"></CustomComputedField>
+                                            </div>
+                                            <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
+                                                <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></CustomSelectField>
+                                            </div>
+                                            <div v-else>
+                                                Not Supported Type: {{f.Type}}
+                                            </div>
+                                        </el-tooltip>
+                                    </div>
                                 </div>
-                                <div v-else-if="f.Type === 'Note'">
-                                    <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></NoteField>
-                                </div>
-                                <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
-                                    <BooleanField :value='f.value' @change='v => change(idx, r, f.Guid, v)'></BooleanField>
-                                </div>
-                                <div v-else-if="f.Type === 'Lookup'">
-                                    <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
-                                </div>
-                                <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
-                                    <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></ChoiceField>
-                                </div>
-                                <div v-else-if="f.Type === 'Number'">
-                                    <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(idx, r, f.Guid, v)'></NumberField>
-                                </div>
-                                <div v-else-if="f.Type === 'DateTime'">
-                                    <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></DateTimeField>
-                                </div>
-                                <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                    <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
-                                </div>
-                                <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
-                                    <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
-                                </div>
-                                <div v-else-if="f.Type === 'CustomComputedField'">
-<CustomComputedField :value="f.value"></CustomComputedField>
-                                </div>
-                                <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                    <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></CustomSelectField>
-                                </div>
-                                <div v-else>
-                                    Not Supported Type: {{f.Type}}
-                                </div>
-                            </el-tooltip>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <el-button plain type="primary" @click='addRow'><i class="el-icon-plus"></i></el-button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <el-button plain type="primary" @click='addRow'><i class="el-icon-plus"></i></el-button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     `,
     computed: {
         ...mapState({
