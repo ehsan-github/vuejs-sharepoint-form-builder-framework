@@ -38,7 +38,7 @@ export default {
             <tbody>
                 <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1}">
                     <td>
-                        <el-button class="red button" v-if="r != 0" @click='() => delRow(r, idx)'>حذف ردیف</el-button>
+                        <el-button type="danger" plain v-if="idx != 0" @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
                     </td>
                     <td class="radif">{{idx + 1}}</td>
                     <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
@@ -90,7 +90,7 @@ export default {
             <tfoot>
                 <tr>
                     <td>
-                        <el-button class="green button" @click='addRow'>ردیف جدید</el-button>
+                        <el-button plain type="primary" @click='addRow'><i class="el-icon-plus"></i></el-button>
                     </td>
                 </tr>
             </tfoot>
