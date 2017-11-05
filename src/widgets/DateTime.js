@@ -7,7 +7,7 @@ export default {
     components: { Datepicker },
     template: `
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
-<div><i class="el-icon-date" style="display: inline-block;position: absolute;margin: 11px 100px;color: darkgray;"></i>
+<div><i class="el-icon-date" style="display: inline-block;position: absolute;margin: 11px 80px;color: darkgray;"></i>
         <Datepicker
             v-validate="rules"
             :class="{'error-box': hasError, 'el-input__inner': true}"
