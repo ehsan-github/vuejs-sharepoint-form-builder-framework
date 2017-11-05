@@ -8,9 +8,13 @@ export default {
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='24'>
                 <PageTemplate/>
-                <el-row type='flex' justify='right'>
-                    <el-button class="save" type='success' @click='click'>ذخیره</el-button>
-                    <el-button class="cancel" type='danger' @click='cancel'>انصراف</el-button>
+                <el-row type='flex' justify="center">
+                    <el-col :span='2'>
+                        <el-button class="save" type='success' @click='click'>ذخیره</el-button>
+                    </el-col>
+                    <el-col :span='2'>
+                        <el-button class="cancel" type='danger' @click='cancel'>انصراف</el-button>
+                    </el-col>
                 </el-row>
             </el-col>
         </el-row>
