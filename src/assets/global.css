@@ -143,6 +143,13 @@ input.el-input__inner{
     left: 0;
 }
 
+.el-message-box__btns {
+    text-align: center !important;
+}
+.el-message-box__btns button.el-button {
+    margin: 0px 11px;
+}
+
 .el-table {
     display: inline-block !important;
     width: inherit !important;
