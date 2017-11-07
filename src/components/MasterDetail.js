@@ -31,14 +31,20 @@ export default {
             <div class="el-table__header-wrapper">
                 <table class="el-table__header">
                     <thead>
-                        <tr>
+                        <transition-group>
+                        <tr :key="1">
                             <th class="button"></th>
                             <th class="radif">ردیف</th>
                             <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
                         </tr>
+                        </transition-group>
                     </thead>
                     <tbody>
-                        <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}">
+                        <transition-group
+                            enter-active-class="animated bounceInUp"
+                            leave-active-class="animated lightSpeedOut"
+                        >
+                        <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}" :key="r">
                             <td>
                                 <el-button type="danger" plain @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
                             </td>
@@ -47,6 +53,7 @@ export default {
                                 <div label-position="top">
                                     <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
                                         <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
+                                        <transition enter-active-class="animated tada">
                                             <div v-if="f.Type === 'Text'">
                                                 <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
                                             </div>
@@ -83,11 +90,13 @@ export default {
                                             <div v-else>
                                                 Not Supported Type: {{f.Type}}
                                             </div>
+                                        </transition>
                                         </el-tooltip>
                                     </div>
                                 </div>
                             </td>
                         </tr>
+                        </transition-group>
                     </tbody>
                     <tfoot>
                         <tr>
