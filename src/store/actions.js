@@ -182,7 +182,8 @@ const transFormFields= R.pipe(
     R.values,
     R.project(['InternalName', 'Type', 'value', 'rows', 'LookupList']),
     R.map(R.map(f => f == null ? '' : f)), // remove null values
-    R.map(f => f.rows == '' ? R.assoc('rows', [], f) : f) // replace rows null value with empty array
+    R.map(f => f.rows == '' ? R.assoc('rows', [], f) : f), // replace rows null value with empty array
+    R.reject(R.propEq('value', ''))
 )
 
 const transFormRows = R.map(
