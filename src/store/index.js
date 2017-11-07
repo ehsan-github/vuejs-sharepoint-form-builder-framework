@@ -36,7 +36,7 @@ const store = new Vuex.Store({
                 R.values,
                 R.filter(R.propEq('Type', 'MasterDetail')),
                 R.head,
-                R.ifElse(R.prop('rows'), R.identity, R.assocPath(['rows', 'value', 'fakeVal'], 0)),           // If we don't show MasterDetail field we generate fake value for rows
+                R.ifElse(R.both(R.prop('rows'), R.prop('IsRequire')), R.identity, R.assocPath(['rows', 'value', 'fakeVal'], 0)),           // If we don't show MasterDetail field or it is not required we generate fake value for rows
                 R.prop('rows'),
                 R.values,
                 R.isEmpty,
