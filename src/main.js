@@ -15,6 +15,7 @@ import store from './store'
 window.__disableNativeFetch = true
 /* eslint-disable no-undef */
 require('fetch-ie8')
+require('animate.css')
 
 const messages = {
     after: (field, [target]) => `باید بعد از تاریخ ${target} باشد.`,
