@@ -31,14 +31,23 @@ const store = new Vuex.Store({
             R.reject(R.propEq('InternalName', 'ID')),
             R.reject(R.propEq('InternalName', 'Title'))
         )(s.fields),
-        detailsHasAtLeastOneRow: s => R.pipe(
-            R.values,
-            R.filter(R.propEq('Type', 'MasterDetail')),
-            R.head,
-            R.prop('rows'),
-            R.values,
-            R.isEmpty,
-            R.not
+        detailsHasAtLeastOneRow: s => R.either(
+            R.pipe(
+                R.values,
+                R.filter(R.propEq('Type', 'MasterDetail')),
+                R.head,
+                R.ifElse(R.prop('rows'), R.identity, R.assocPath(['rows', 'value', 'fakeVal'], 0)),           // If we don't show MasterDetail field we generate fake value for rows
+                R.prop('rows'),
+                R.values,
+                R.isEmpty,
+                R.not
+            ),
+            R.pipe(            // If our form has not any MasterDetail field
+                R.values,
+                R.filter(R.propEq('Type', 'MasterDetail')),
+                R.head,
+                R.isEmpty,
+            )
         )(s.fields)
     },
     mutations: {
