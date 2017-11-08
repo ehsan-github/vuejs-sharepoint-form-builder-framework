@@ -1,4 +1,5 @@
 import { getApiF, postApiF, path } from './utils'
+import { CONTRACTS_LIST_ID } from '../constants'
 
 export const getEntityTypeName = listId => getApiF(
     `/_api/lists(guid'${listId}')/listItemEntityTypeFullName`
@@ -32,7 +33,7 @@ export const getItemById = (listId, itemId) => getApiF(
 ).chain(path(r => r.results))
 
 export const getContractSpec = cid => getApiF(
-    `/_api/web/lists(guid'548C9C76-AAC3-404D-A24A-20BCD884A31B')/items?$filter=Id eq ${cid}&$select=Title,Area/Title,Contractor/Title,Consultant/Title&$expand=Area,Contractor,Consultant`
+    `/_api/web/lists(guid'${CONTRACTS_LIST_ID}')/items?$filter=Id eq ${cid}&$select=Title,Area/Title,Contractor/Title,Consultant/Title&$expand=Area,Contractor,Consultant`
 )
     .chain(path(r => r.results))
 
