@@ -278,3 +278,15 @@ input.el-input__inner{
 .radif {
     width: 23px;
 }
+
+.el-form-item:hover {
+    background: rgba(245, 245, 220, 0.43);
+    transition: all 0.44s cubic-bezier(1, 0.53, 0, 0.68);
+}
+
+.el-form-item:hover .master .el-input__inner{
+    transition: all 0.64s cubic-bezier(1, 0.53, 0, 0.68);
+    -webkit-box-shadow: 0px 0px 49px 0px rgba(204,204,204,0.36);
+    -moz-box-shadow: 0px 0px 49px 0px rgba(204,204,204,0.36);
+    box-shadow: 0px 0px 49px 0px rgba(212, 212, 212, 0.36);
+}
