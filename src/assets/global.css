@@ -225,8 +225,12 @@ input.el-input__inner{
     line-height: 17px;
 }
 
-.CustomComputedField .table-form, th.is-leaf.DateTime {
+.CustomComputedField .table-form, th.is-leaf.CustomComputedField {
     width: 70px;
+}
+
+.Note .table-form, th.is-leaf.Note {
+    width: 105px;
 }
 
 .el-table th {
@@ -265,4 +269,12 @@ input.el-input__inner{
 
 .el-button {
     border-radius: 10px;
+}
+
+.button {
+    width: 45px;
+}
+
+.radif {
+    width: 23px;
 }
