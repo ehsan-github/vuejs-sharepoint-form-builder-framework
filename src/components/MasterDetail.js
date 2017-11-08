@@ -41,7 +41,7 @@ export default {
                     </thead>
                     <tbody>
                         <transition-group
-                            enter-active-class="animated bounceInUp"
+                            enter-active-class="animated fadeIn"
                             leave-active-class="animated lightSpeedOut"
                         >
                         <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}" :key="r">
@@ -53,7 +53,6 @@ export default {
                                 <div label-position="top">
                                     <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
                                         <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
-                                        <transition enter-active-class="animated tada">
                                             <div v-if="f.Type === 'Text'">
                                                 <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
                                             </div>
@@ -90,7 +89,6 @@ export default {
                                             <div v-else>
                                                 Not Supported Type: {{f.Type}}
                                             </div>
-                                        </transition>
                                         </el-tooltip>
                                     </div>
                                 </div>
