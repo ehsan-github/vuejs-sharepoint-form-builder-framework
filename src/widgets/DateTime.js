@@ -33,7 +33,7 @@ export default {
                 week: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
                 month: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
                 format: 'jYYYY-jMM-jDD',
-                placeholder: 'انتخاب کنید',
+                placeholder: '',
                 inputStyle: {
                     'display': 'inline-block',
                     'padding': '4px',
@@ -58,7 +58,7 @@ export default {
             },
             limit: [{
                 type: 'weekday',
-                available: [1, 2, 3, 4, 5]
+                available: [1, 2, 3, 4, 5, 6]
             }],
         }
     },
