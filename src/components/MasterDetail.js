@@ -218,11 +218,11 @@ export default {
                 cancelButtonText: 'خیر',
                 type: 'warning'
             }).then(() => {
+                this.MDDelRow({ id: this.fieldId, rowId, idx })
                 this.$message({
                     type: 'success',
                     message: 'ردیف '+(idx+1)+' با موفقیت حذف گردید'
                 })
-                this.MDDelRow({ id: this.fieldId, rowId, idx })
             }).catch(() => {
                 this.$message({
                     type: 'info',
