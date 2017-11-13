@@ -72,9 +72,7 @@ const store = new Vuex.Store({
         },
         MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
-            let rows = state.fields[id].rows
-            rows[rowId] = fields
-            state.fields = R.assocPath([id, 'rows'], rows, state.fields)
+            state.fields = R.assocPath([id, 'rows', rowId], fields, state.fields)
         },
         MDDelRow (state, { id, rowId, idx }) {
             let rows = R.dissoc(rowId, state.fields[id].rows)
