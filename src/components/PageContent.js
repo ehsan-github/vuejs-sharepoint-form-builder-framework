@@ -31,23 +31,37 @@ export default {
         click () {
             this.$validator.validateAll().then((result) => {
                 if (result && this.serverHasNotError && this.detailsHasAtLeastOneRow) {
-                    return this.saveData()
-                        .then(succ => {
-                            if (succ == 'ok') {
-                                this.$message.success({
-                                    title: 'موفقیت ',
-                                    showClose: true,
-                                    message: 'داده ها با موفقیت زخیره شد'
+
+                    return this.$confirm('اطلاعات فرم ذخیره شود؟', '', {
+                        confirmButtonText: 'بله',
+                        cancelButtonText: 'خیر',
+                        type: 'info'
+                    })
+                        .then(() => {
+                            this.saveData()
+                                .then(succ => {
+                                    if (succ == 'ok') {
+                                        this.$message.success({
+                                            title: 'موفقیت ',
+                                            showClose: true,
+                                            message: 'داده ها با موفقیت زخیره شد'
+                                        })
+                                    }
+                                    else{
+                                        this.$message.error({
+                                            showClose: true,
+                                            title: 'خطا',
+                                            message : 'در اطلاعات وارد شده خطا وجود دارد لطفا خطاها را رفع کرده مجددا ذخیره نمایید.'
+                                        })
+                                        this.loadServerErrors(JSON.parse(succ))
+                                    }
                                 })
-                            }
-                            else{
-                                this.$message.error({
-                                    showClose: true,
-                                    title: 'خطا',
-                                    message : 'در اطلاعات وارد شده خطا وجود دارد لطفا خطاها را رفع کرده مجددا ذخیره نمایید.'
-                                })
-                                this.loadServerErrors(JSON.parse(succ))
-                            }
+                        })
+                        .catch(() => {
+                            this.$message({
+                                type : 'info',
+                                message : 'عملیات ذخیره لغو شد',
+                            })
                         })
                 }
 
