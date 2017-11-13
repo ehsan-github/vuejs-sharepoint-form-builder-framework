@@ -199,16 +199,12 @@ const transFormForSave = R.pipe(
         transFormRows
 )
 
-export function saveData ({ commit, state }) {
+export function saveData ({ state }) {
     let data = transFormForSave(state.fields)
-    // console.log(JSON.stringify(data))
     return new Promise((resolve, reject) => {
         saveFieldItems(state.listId, data)
             .fork(
-                err  => {
-                    commit('addError', err)
-                    reject(err)
-                },
+                err  => reject(err),
                 succ => resolve(succ)
             )
     })
