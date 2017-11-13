@@ -290,3 +290,7 @@ input.el-input__inner{
     -moz-box-shadow: 0px 0px 49px 0px rgba(204,204,204,0.36);
     box-shadow: 0px 0px 49px 0px rgba(212, 212, 212, 0.36);
 }
+
+.el-message__group p {
+    direction: rtl;
+}

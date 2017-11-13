@@ -37,7 +37,7 @@ export default {
         isError: function (isError) {
             if (isError) {
                 this.$message.error({
-                    message: `An error occured: ${this.error}`,
+                    message: `خطا : ${this.error}`,
                     duration: 5000,
                     showClose: true,
                     onClose: () => this.removeError(this.error)
