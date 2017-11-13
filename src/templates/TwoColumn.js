@@ -12,7 +12,7 @@ export default {
                 <el-col v-for='(f, id) in fields' :key='id' :span="f.Type == 'MasterDetail' ? 24 : 12">
             <el-form ref='form' :model='form' label-position="top">
                     <el-form-item :key='id' :class="{require: f.IsRequire}" :label='f.Type == "MasterDetail" ? null : f.Title' :prop='id'>
-                        <Field :fieldId='id' ref='fields' :class="{master: f.Type == 'MasterDetail' ? false : true}" @change='v => change(id, v)' />
+                        <Field :fieldId='id' ref='fields' @change='v => change(id, v)' />
                     </el-form-item>
             </el-form>
                 </el-col'>
