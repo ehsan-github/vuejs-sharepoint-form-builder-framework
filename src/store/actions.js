@@ -199,12 +199,15 @@ const transFormForSave = R.pipe(
         transFormRows
 )
 
-export function saveData ({ state }) {
+export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
     return new Promise((resolve, reject) => {
         saveFieldItems(state.listId, data)
             .fork(
-                err  => reject(err),
+                err  => {
+                    commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید'),
+                    reject(err)
+                },
                 succ => resolve(succ)
             )
     })
