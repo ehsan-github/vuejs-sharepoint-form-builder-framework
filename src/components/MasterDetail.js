@@ -31,13 +31,13 @@ export default {
             <div class="el-table__header-wrapper">
                 <table class="el-table__header">
                     <thead>
-                        <transition-group>
+                        <span>
                         <tr :key="1">
                             <th class="button"></th>
                             <th class="radif">ردیف</th>
                             <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
                         </tr>
-                        </transition-group>
+                        </span>
                     </thead>
                     <tbody>
                         <transition-group
@@ -97,11 +97,13 @@ export default {
                         </transition-group>
                     </tbody>
                     <tfoot>
+                        <span>
                         <tr>
                             <td>
                                 <el-button plain type="primary" @click='addRow'><i class="el-icon-plus"></i></el-button>
                             </td>
                         </tr>
+                        </span>
                     </tfoot>
                 </table>
             </div>
