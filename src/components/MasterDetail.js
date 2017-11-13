@@ -21,11 +21,6 @@ export default {
         CustomSelectField, CustomComputedField
     },
     props:  ['fieldId', 'showFields'],
-    data () {
-        return {
-            form: {}
-        }
-    },
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
@@ -201,14 +196,12 @@ export default {
         ]),
         change (idx, rowId, fieldId, value) {
             this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
-            this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
             this.$emit('input', value)
             this.$emit('change', value)
         },
         changeMulti (idx, rowId, fieldId, value) {
             this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
-            this.form[rowId] = R.assoc(this.fieldId, value, this.form[rowId])
             this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value: value.toString() })
             this.$emit('input', value)
             this.$emit('change', value)
