@@ -215,7 +215,7 @@ export function removeError ({ commit }, error) {
 }
 
 export function loadTemplateMetaData({ commit, state }) {
-    return getTemplate('EB9C37D1-FC44-458E-BADF-AB61DCCC004A', state.listId)
+    return getTemplate(state.listId)
         .map(R.head)
         .fork(
             err  => commit('loadTemplateMetaData', { templateName: 'TwoColumn', template: '' + err }),

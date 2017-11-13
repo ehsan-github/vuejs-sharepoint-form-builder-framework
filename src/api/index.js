@@ -1,5 +1,5 @@
 import { getApiF, postApiF, path } from './utils'
-import { CONTRACTS_LIST_ID } from '../constants'
+import { CONTRACTS_LIST_ID, TEMPLATE_LIST_ID } from '../constants'
 
 export const getEntityTypeName = listId => getApiF(
     `/_api/lists(guid'${listId}')/listItemEntityTypeFullName`
@@ -37,6 +37,6 @@ export const getContractSpec = cid => getApiF(
 )
     .chain(path(r => r.results))
 
-export const getTemplate = (listId, title) => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?$filter=Title eq '${title}' and formType eq 'New'`
+export const getTemplate = title => getApiF(
+    `/_api/web/lists(guid'${TEMPLATE_LIST_ID}')/items?$filter=Title eq '${title}' and formType eq 'New'`
 ).chain(path(r => r.results))
