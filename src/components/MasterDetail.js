@@ -119,7 +119,7 @@ export default {
         showingFields() {
             return this.listOfShowFields.length ===  0 ?
                 getFilteredView(this.field.RelatedFields || [], R.values(this.fields))
-                : R.equals(this.fields, {}) ? {} : getSortedList(this.listOfShowFields, this.fields)
+                : R.equals(this.fields, {}) ? {} : getSortedList(this.listOfShowFields)(this.fields)
         },
         showingRows() {
             return this.listOfShowFields.length === 0 ?
@@ -246,7 +246,7 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
     R.values(fields)
 )
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
-const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
+const getSortedList = list => fields => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list)
 
 const getFilteredView = R.curry((filterList, fields) => R.filter(field => filterList.includes(field.InternalName), fields))
 
