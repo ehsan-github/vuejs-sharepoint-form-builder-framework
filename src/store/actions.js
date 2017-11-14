@@ -102,20 +102,28 @@ export function MDLoadOptions ({ state, commit }, { id, masterId, rowId, listId 
     return getItems(listId)
         .fork(
             err     => {
-                err ? commit('addError', err+' ***there is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
-                    : commit('addError','There is an error in <'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+                err ? commit('addError', err+'<'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
+                    : commit('addError','<'+state.fields[masterId]['rows'][rowId][id]['InternalName']+'> field')
             },
             options => commit('MDLoadOptions', { id, masterId, rowId, options })
         )
 }
 
-export function MDLoadAllRowOptions ({ commit, state }, { masterId, rowId } ) {
+function MDLoadLookupOptions ({ commit }, { masterId, id, listId }) {
+    return getItems(listId)
+        .fork(
+            err     => commit('addError', err),
+            options => commit('MDLoadLookupOptions', { id, masterId, options })
+        )
+}
+
+export function MDLoadAllLookupOptions ({ commit, state }, { masterId } ) {
     R.pipe (
-        R.filter(R.propEq('Type', 'Lookup')),
+        R.filter(R.propSatisfies(R.either(R.equals('Lookup'), R.equals('LookupMulti')), 'Type')),
         R.mapObjIndexed(
-            (v, k) =>
-                MDLoadOptions({ commit },
-                              { id: k, masterId, rowId, listId: v.LookupList })
+            (v, id) =>
+                MDLoadLookupOptions({ commit },
+                                    { id, masterId, listId: v.LookupList })
         )
     )(state.fields[masterId].fields)
 }
@@ -134,14 +142,8 @@ export function MDLoadFilteredOptions ({ state, commit }, { id, masterId, rowId,
 }
 
 export function MDAddRow ({ commit, state }, { id }) {
-    return new Promise(resolve => {
-        let rowId = uuidv1()
-        commit('MDAddRow', { id, rowId })
-        resolve(rowId)
-    })
-        .then(rowId => {
-            MDLoadAllRowOptions({ commit, state },{ masterId: id, rowId })
-        })
+    let rowId = uuidv1()
+    commit('MDAddRow', { id, rowId })
 }
 
 export function MDDelRow ({ commit }, rowProps) {

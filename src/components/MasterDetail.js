@@ -58,7 +58,7 @@ export default {
                                                 <BooleanField :value='f.value' @change='v => change(idx, r, f.Guid, v)'></BooleanField>
                                             </div>
                                             <div v-else-if="f.Type === 'Lookup'">
-                                                <SelectField :value='f.value' :options='f.options' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
+                                                <SelectField :value='f.value' :options='options[f.Guid]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
                                             </div>
                                             <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
                                                 <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></ChoiceField>
@@ -70,7 +70,7 @@ export default {
                                                 <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></DateTimeField>
                                             </div>
                                             <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                                <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
+                                                <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='options[f.Guid]' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
                                             </div>
                                             <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
                                                 <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
@@ -113,6 +113,7 @@ export default {
         transformedServerErrors(){ return transformErrors(this.serverErrors) },
         fields() { return this.field.fields || {} },
         rows() { return this.field.rows || [] },
+        options(){ return this.field.options },
         value() { return this.field.MasterLookupName },
         listOfShowFields() { return this.showFields ? this.showFields.split(',') : [] },
         showingFields() {
@@ -190,6 +191,7 @@ export default {
             'MDAddRow',
             'MDDelRow',
             'changeField',
+            'MDLoadAllLookupOptions',
             'MDLoadFilteredOptions',
             'MDLoadComputed',
             'removeServerError'
@@ -229,6 +231,7 @@ export default {
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
+        this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
     }

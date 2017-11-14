@@ -63,12 +63,10 @@ const store = new Vuex.Store({
         },
         MDLoadFields (state, { id, fields }) {
             state.fields[id] = { ...state.fields[id], fields }
-            state.fields[id] = { ...state.fields[id], rows: {} }
+            state.fields[id] = { ...state.fields[id], rows: {}, options: {} }
         },
         MDChangeFieldRow (state, { masterId, rowId, fieldId, value }) {
-            let rows = state.fields[masterId].rows
-            rows[rowId] = R.assocPath([fieldId, 'value'], value, rows[rowId])
-            state.fields = R.assocPath([masterId, 'rows'], rows, state.fields)
+            state.fields = R.assocPath([masterId, 'rows', rowId, fieldId, 'value'], value, state.fields)
         },
         MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
@@ -87,11 +85,11 @@ const store = new Vuex.Store({
         },
         MDLoadOptions (state, { id, masterId, rowId, options }) {
             if (R.prop(rowId, state.fields[masterId].rows)) {
-                let rows = state.fields[masterId].rows
-                rows[rowId] = R.assocPath([id, 'options'], options, rows[rowId])
-                rows[rowId] = R.assocPath([id, 'values'], null, rows[rowId])
-                state.fields = R.assocPath([masterId, 'rows'], rows, state.fields)
+                state.fields = R.assocPath([masterId, 'rows', rowId, id, 'options'], options, state.fields)
             }
+        },
+        MDLoadLookupOptions (state, { id, masterId, options }) {
+            state.fields = R.assocPath([masterId, 'options', id], options, state.fields)
         },
         addError (state, error) {
             state.errors.push(error)
