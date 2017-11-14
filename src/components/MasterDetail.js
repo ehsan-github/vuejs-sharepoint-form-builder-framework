@@ -133,20 +133,17 @@ export default {
             let computedColumnsRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')), this.rows)
             return R.mapObjIndexed((obj, rowId) => {
                 return R.mapObjIndexed(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
-                    let requiredValues = transformFieldsList(this.rows[rowId])
-                    let query = replaceQueryFields(Query, requiredValues)
+                    let query = replaceQueryFields(Query, this.rows[rowId])
                     return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
                 }, obj)
             }, computedColumnsRows)
         },
         customSelectQueries() {
             let customLookupRows = R.map(R.filter(R.propEq('Type', 'RelatedCustomLookupQuery')))(this.rows)
-            let requiredMasterValues = transformFieldsList(this.masterFields)
             return R.mapObjIndexed((value, rowId) => {
                 return R.mapObjIndexed(({ Guid, LookupList, Query }) => {
-                    let requiredValues = transformFieldsList(this.rows[rowId])
-                    let query0 = replaceQueryFields(Query, requiredValues)
-                    let query = replaceQueryMasterFields(query0, requiredMasterValues)
+                    let query0 = replaceQueryFields(Query, this.rows[rowId])
+                    let query = replaceQueryMasterFields(query0, this.masterFields)
                     return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query }
                 }, value)
             }, customLookupRows)
@@ -237,22 +234,16 @@ export default {
     }
 }
 
-// {1: {InternalName: x, value: y}, ...} => {[x]: y, ...}
-const transformFieldsList = R.pipe(
-    R.values,
-    R.reduce((acc, curr) => ({ ...acc, [curr.InternalName]: curr.value }), {})
-)
-
 const replaceQueryFields = (query, fields) => R.reduce(
-    (q, field) => R.replace('{{'+field+'}}', fields[field], q),
+    (q, field) => R.replace('{{'+field.InternalName+'}}', field.value, q),
     query,
-    R.keys(fields)
+    R.values(fields)
 )
 
 const replaceQueryMasterFields = (query, fields) => R.reduce(
-    (q, field) => R.replace('{{m.'+field+'}}', fields[field], q),
+    (q, field) => R.replace('{{m.'+field.InternalName+'}}', field.value, q),
     query,
-    R.keys(fields)
+    R.values(fields)
 )
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
 const getSortedList = R.curry((list, fields) => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list))
