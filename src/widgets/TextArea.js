@@ -10,18 +10,13 @@ export default {
             :name='name'
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
-            v-model="model"
+            :value="value"
             @change="change"
         >
         </el-input>
     </el-tooltip>
     `,
     props: ['value', 'rules', 'name'],
-    data() {
-        return {
-            model: null
-        }
-    },
     computed: {
         hasError() { return this.$validator.errors.has(this.name) },
         firstError() { return this.$validator.errors.first(this.name) }
@@ -31,8 +26,5 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         }
-    },
-    mounted() {
-        this.model = this.value
     }
 }
