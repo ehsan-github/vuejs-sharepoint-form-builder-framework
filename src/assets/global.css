@@ -295,6 +295,13 @@ input.el-input__inner{
     direction: rtl;
 }
 
+.fixes-position {
+    position: fixed;
+    background: white;
+    top: 0;
+    z-index: 10;
+}
+
 .el-table th.is-leaf {
     padding: 0px;
 }

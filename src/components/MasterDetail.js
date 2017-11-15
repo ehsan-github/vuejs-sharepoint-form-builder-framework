@@ -24,13 +24,22 @@ export default {
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
-                <table class="el-table__header">
-                    <thead>
+                <table ref="table" class="el-table__header">
+                    <thead v-show="headIsOnTop" ref="header" @scroll="handleScroll" :class="['fixes-position']">
                         <span>
                         <tr :key="1">
                             <th class="button"></th>
                             <th class="radif">ردیف</th>
-                            <th class='is-leaf' v-for='f in showingFields' :key='"head"+f.Guid' :class="f.Type">{{f.Title}}</th>
+                            <th class='is-leaf' v-for='f in showingFields' :key='"head-fixed"+f.Guid' :class="f.Type">{{f.Title}}</th>
+                        </tr>
+                        </span>
+                    </thead>
+                    <thead>
+                        <span>
+                        <tr :key="2">
+                            <th class="button"></th>
+                            <th class="radif">ردیف</th>
+                            <th class='is-leaf' v-for='f in showingFields' :key='"head-main"+f.Guid' :class="f.Type">{{f.Title}}</th>
                         </tr>
                         </span>
                     </thead>
@@ -104,6 +113,11 @@ export default {
             </div>
         </div>
     `,
+    data (){
+        return {
+            headIsOnTop: false
+        }
+    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] },
@@ -224,13 +238,23 @@ export default {
                 })
             })
         },
-        RamdaPath(arr, obj) { return R.path(arr, obj)}
+        RamdaPath(arr, obj) { return R.path(arr, obj)},
+        handleScroll() {
+            this.headIsOnTop != this.$refs.table.getBoundingClientRect().top <= 0 ? this.headIsOnTop = !this.headIsOnTop : null
+        }
+
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
+    },
+    created() {
+        window.addEventListener('scroll', this.handleScroll)
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll)
     }
 }
 
@@ -245,6 +269,7 @@ const replaceQueryMasterFields = (query, fields) => R.reduce(
     query,
     R.values(fields)
 )
+
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
 const getSortedList = list => fields => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list)
 
