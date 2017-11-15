@@ -294,3 +294,7 @@ input.el-input__inner{
 .el-message__group p {
     direction: rtl;
 }
+
+.el-table th.is-leaf {
+    padding: 0px;
+}
