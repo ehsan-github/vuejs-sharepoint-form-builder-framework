@@ -302,6 +302,6 @@ input.el-input__inner{
     z-index: 10;
 }
 
-.el-table th.is-leaf {
+.el-table td, .el-table th.is-leaf {
     padding: 0px;
 }
