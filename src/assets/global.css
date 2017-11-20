@@ -305,3 +305,11 @@ input.el-input__inner{
 .el-table td, .el-table th.is-leaf {
     padding: 0px;
 }
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}

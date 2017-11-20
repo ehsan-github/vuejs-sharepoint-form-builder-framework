@@ -1,31 +1,17 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
 import R from 'ramda'
-import TextField from '../widgets/Text'
-import NoteField from '../widgets/TextArea'
-import SelectField from '../widgets/Select'
-import NumberField from '../widgets/Number'
-import DateTimeField from '../widgets/DateTime'
-import ChoiceField from '../widgets/Choice'
-import BooleanField from '../widgets/Boolean'
-import MultiSelectField from '../widgets/MultiSelect'
-import MultiChoiceField from '../widgets/MultiChoice'
-import CustomSelectField from '../widgets/CustomSelect'
-import CustomComputedField from '../widgets/CustomComputed'
+import Row from './Row'
 
 export default {
     name: 'MasterDetail',
-    components: {
-        TextField, NoteField, SelectField, NumberField, DateTimeField,
-        ChoiceField, BooleanField, MultiSelectField, MultiChoiceField,
-        CustomSelectField, CustomComputedField
-    },
+    components: { Row },
     props:  ['fieldId', 'showFields'],
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
                 <table ref="table" class="el-table__header">
-                    <thead v-show="headIsOnTop" ref="header" @scroll="handleScroll" :class="['fixes-position']">
+                    <thead ref="header" @scroll="handleScroll" class="fixes-position hidden" :class="{visible: headIsOnTop}">
                         <span>
                         <tr :key="1">
                             <th class="button"></th>
@@ -48,56 +34,7 @@ export default {
                             enter-active-class="animated fadeIn"
                             leave-active-class="animated lightSpeedOut"
                         >
-                        <tr v-for='(row, r, idx) in showingRows' :class="{'even-row': idx%2==0, 'odd-row': idx%2==1, 'el-table__row': true}" :key="r">
-                            <td>
-                                <el-button type="danger" plain @click='() => delRow(r, idx)'><i class="el-icon-delete"></i></el-button>
-                            </td>
-                            <td class="radif">{{idx + 1}}</td>
-                            <td v-for='f in row' :key='r+f.Guid' :class="f.Type">
-                                <div label-position="top">
-                                    <div :class="{'table-form': true, 'error-box': RamdaPath([idx, f.InternalName],transformedServerErrors) != undefined}" :prop='f.Guid'>
-                                        <el-tooltip class="item" :disabled="RamdaPath([idx, f.InternalName], transformedServerErrors) == undefined" :content="RamdaPath([idx, f.InternalName], transformedServerErrors)" placement="bottom">
-                                            <div v-if="f.Type === 'Text'">
-                                                <TextField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, max: f.MaxLength}}" @change='v => change(idx, r, f.Guid, v)'></TextField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'Note'">
-                                                <NoteField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></NoteField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'Boolean'" :key='f.Guid'>
-                                                <BooleanField :value='f.value' @change='v => change(idx, r, f.Guid, v)'></BooleanField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'Lookup'">
-                                                <SelectField :value='f.value' :options='options[f.Guid]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></SelectField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'Choice'" :key='f.Guid'>
-                                                <ChoiceField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></ChoiceField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'Number'">
-                                                <NumberField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire, min_value: f.MinValue, max_value: f.MaxValue}}" @change='v => change(idx, r, f.Guid, v)'></NumberField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'DateTime'">
-                                                <DateTimeField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" @change='v => change(idx, r, f.Guid, v)'></DateTimeField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'LookupMulti'" :key='f.Guid'>
-                                                <MultiSelectField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='options[f.Guid]' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiSelectField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'MultiChoice'" :key='f.Guid'>
-                                                <MultiChoiceField :value='[]' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => changeMulti(idx, r, f.Guid, v)'></MultiChoiceField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'CustomComputedField'">
-            <CustomComputedField :value="f.value"></CustomComputedField>
-                                            </div>
-                                            <div v-else-if="f.Type === 'RelatedCustomLookupQuery'">
-                                                <CustomSelectField :value='f.value' :name="f.Title+r" :rules="{rules: {required: f.IsRequire}}" :options='f.options' @change='v => change(idx, r, f.Guid, v)'></CustomSelectField>
-                                            </div>
-                                            <div v-else>
-                                                Not Supported Type: {{f.Type}}
-                                            </div>
-                                        </el-tooltip>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                            <Row v-for='(row, id, idx) in showingRows' :options="options" :serverErrors="transformedServerErrors[idx]" :key="id" :masterId="fieldId" :row="row" :id="id" :idx="idx" @delRow="delRow"/>
                         </transition-group>
                     </tbody>
                     <tfoot>
@@ -115,7 +52,7 @@ export default {
     `,
     data (){
         return {
-            headIsOnTop: false
+            headIsOnTop: false,
         }
     },
     computed: {
@@ -143,82 +80,15 @@ export default {
                 )(this.rows)
                 : R.map(getSortedList(this.listOfShowFields), this.rows)
         },
-        computedQueries() {
-            let computedColumnsRows = R.map(R.filter(R.propEq('Type', 'CustomComputedField')), this.rows)
-            return R.mapObjIndexed((obj, rowId) => {
-                return R.mapObjIndexed(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
-                    let query = replaceQueryFields(Query, this.rows[rowId])
-                    return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
-                }, obj)
-            }, computedColumnsRows)
-        },
-        customSelectQueries() {
-            let customLookupRows = R.map(R.filter(R.propEq('Type', 'RelatedCustomLookupQuery')))(this.rows)
-            return R.mapObjIndexed((value, rowId) => {
-                return R.mapObjIndexed(({ Guid, LookupList, Query }) => {
-                    let query0 = replaceQueryFields(Query, this.rows[rowId])
-                    let query = replaceQueryMasterFields(query0, this.masterFields)
-                    return { id: Guid, masterId: this.fieldId, rowId, listId: LookupList, query }
-                }, value)
-            }, customLookupRows)
-        },
-    },
-    watch: {
-        computedQueries: {
-            handler: function (computedQueries, old) {
-                if (!R.equals(computedQueries, old)){
-                    R.mapObjIndexed((val, key) => {
-                        if (!R.equals(old[key], val)){
-                            R.mapObjIndexed(obj => {
-                                if(obj['query'].indexOf('null') === -1){
-                                    this.MDLoadComputed(obj)
-                                }
-                            }, val)
-                        }
-                    }, computedQueries)
-                }
-            },
-            deep: true
-        },
-        customSelectQueries: {
-            handler: function (newValue, oldValue) {
-                if (!R.equals(newValue, oldValue)){
-                    R.mapObjIndexed((val, key) => {
-                        if (!R.equals(oldValue[key], val)){
-                            R.mapObjIndexed(obj => {
-                                this.MDLoadFilteredOptions(obj)
-                            }, val)
-                        }
-                    }, newValue)
-                }
-            },
-            deep: true
-        }
     },
     methods: {
         ...mapActions([
             'MDLoadFields',
-            'MDChangeFieldRow',
             'MDAddRow',
             'MDDelRow',
             'changeField',
             'MDLoadAllLookupOptions',
-            'MDLoadFilteredOptions',
-            'MDLoadComputed',
-            'removeServerError'
         ]),
-        change (idx, rowId, fieldId, value) {
-            this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
-            this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value })
-            this.$emit('input', value)
-            this.$emit('change', value)
-        },
-        changeMulti (idx, rowId, fieldId, value) {
-            this.removeServerError({ row: idx, internalName: this.rows[rowId][fieldId]['InternalName'] })
-            this.MDChangeFieldRow ({ masterId: this.fieldId, rowId , fieldId, value: value.toString() })
-            this.$emit('input', value)
-            this.$emit('change', value)
-        },
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (rowId, idx) {
             this.$confirm('ردیف '+(idx+1)+'  حذف خواهد شد. می‌خواهید ادامه دهید؟', 'اخطار', {
@@ -238,17 +108,22 @@ export default {
                 })
             })
         },
-        RamdaPath(arr, obj) { return R.path(arr, obj)},
         handleScroll() {
-            this.headIsOnTop != this.$refs.table.getBoundingClientRect().top <= 0 ? this.headIsOnTop = !this.headIsOnTop : null
+            if (this.$refs.table.getBoundingClientRect().top <= 0) {
+                this.headIsOnTop = true
+            } else {
+                this.headIsOnTop = false
+            }
         }
-
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
+    },
+    updated(){
+        console.log(this.showingRows)
     },
     created() {
         window.addEventListener('scroll', this.handleScroll)
@@ -257,18 +132,6 @@ export default {
         window.removeEventListener('scroll', this.handleScroll)
     }
 }
-
-const replaceQueryFields = (query, fields) => R.reduce(
-    (q, field) => R.replace('{{'+field.InternalName+'}}', field.value, q),
-    query,
-    R.values(fields)
-)
-
-const replaceQueryMasterFields = (query, fields) => R.reduce(
-    (q, field) => R.replace('{{m.'+field.InternalName+'}}', field.value, q),
-    query,
-    R.values(fields)
-)
 
 // we get [x, y, ...] & { id: {"InternalName": y}, ...} => [{"InternalName": x}, {"InternalName": y}]
 const getSortedList = list => fields => R.map(x => R.find(R.propEq('InternalName', x), R.values(fields)), list)
