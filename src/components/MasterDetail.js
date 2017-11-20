@@ -34,7 +34,16 @@ export default {
                             enter-active-class="animated fadeIn"
                             leave-active-class="animated lightSpeedOut"
                         >
-                            <Row v-for='(row, id, idx) in showingRows' :options="options" :serverErrors="transformedServerErrors[idx]" :key="id" :masterId="fieldId" :row="row" :id="id" :idx="idx" @delRow="delRow"/>
+                            <Row v-for='(row, id, idx) in showingRows'
+                                :options="options"
+                                :serverErrors="transformedServerErrors[idx]"
+                                :key="id"
+                                :masterId="fieldId"
+                                :row="row"
+                                :id="id"
+                                :idx="idx"
+                                @delRow="delRow"
+                            />
                         </transition-group>
                     </tbody>
                     <tfoot>
