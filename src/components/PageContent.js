@@ -1,12 +1,18 @@
 // @flow
 import PageTemplate from '../templates'
-import { mapActions, mapGetters } from 'vuex'
+import ContractSpecForm from '../components/ContractSpec'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
     inject: ['$validator'],
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
-            <el-col :span='24'>
+            <el-col span='24'>
+                <el-row>
+                    <el-col>
+                        <ContractSpecForm />
+                    </el-col>
+                </el-row>
                 <PageTemplate/>
                 <el-row type='flex' justify="center">
                     <el-col :span='2'>
@@ -24,8 +30,11 @@ export default {
     },
     computed: {
         ...mapGetters(['serverHasNotError', 'detailsHasAtLeastOneRow']),
+        ...mapState({
+            specs: s => s.contractSpecs,
+        }),
     },
-    components: { PageTemplate },
+    components: { PageTemplate, ContractSpecForm },
     methods: {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {
