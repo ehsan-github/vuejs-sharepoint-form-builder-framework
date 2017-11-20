@@ -131,9 +131,6 @@ export default {
         this.changeField({ id: this.fieldId, value: this.value })
         this.addRow()
     },
-    updated(){
-        console.log(this.showingRows)
-    },
     created() {
         window.addEventListener('scroll', this.handleScroll)
     },
