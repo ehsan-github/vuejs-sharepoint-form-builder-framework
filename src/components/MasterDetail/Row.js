@@ -2,6 +2,7 @@
     import { mapActions, mapState } from 'vuex'
     import R from 'ramda'
     import DetailField from './DetailField'
+    import { replaceQueryFields, replaceQueryMasterFields } from './functions'
 
     export default {
         components: { DetailField },
@@ -105,15 +106,3 @@
             this.loadComputeds()
         }
     }
-
-    const replaceQueryFields = (query, fields) => R.reduce(
-        (q, field) => R.replace('{{'+field.InternalName+'}}', field.value, q),
-        query,
-        R.values(fields)
-    )
-
-    const replaceQueryMasterFields = (query, fields) => R.reduce(
-        (q, field) => R.replace('{{m.'+field.InternalName+'}}', field.value, q),
-        query,
-        R.values(fields)
-    )
