@@ -69,11 +69,9 @@ export default {
     },
     methods: {
         change (value) {
-            this.$emit('input', value)
             this.$emit('change', value)
         },
         changeMulti (value) {
-            this.$emit('input', value)
             this.$emit('changeMulti', value)
         }
     }

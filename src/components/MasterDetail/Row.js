@@ -48,11 +48,7 @@
             computedQueries: {
                 handler: function (computedQueries, old) {
                     if (!R.equals(computedQueries, old)){
-                        R.map(obj => {
-                            if(obj['query'].indexOf('null') === -1){
-                                this.MDLoadComputed(obj)
-                            }
-                        }, computedQueries)
+                        R.map(obj => { if(obj['query'].indexOf('null') === -1){ this.MDLoadComputed(obj) } }, computedQueries)
                     }
                 },
                 deep: true
@@ -60,32 +56,22 @@
             customSelectQueries: {
                 handler: function (customSelectQueries, oldValue) {
                     if (!R.equals(customSelectQueries, oldValue)){
-                        R.map((obj, id) => {
-                            if (!R.equals(obj, oldValue[id]))
-                                this.MDLoadFilteredOptions(obj)
-                        }, customSelectQueries)
+                        R.map((obj, id) => { if (!R.equals(obj, oldValue[id])) this.MDLoadFilteredOptions(obj) }, customSelectQueries)
                     }
                 },
                 deep: true
             }
         },
         methods: {
-            ...mapActions([
-                'MDChangeFieldRow',
-                'MDLoadFilteredOptions',
-                'MDLoadComputed',
-                'removeServerError'
-            ]),
+            ...mapActions(['MDChangeFieldRow', 'MDLoadFilteredOptions', 'MDLoadComputed', 'removeServerError']),
             change (idx, rowId, fieldId, value) {
                 this.removeServerError({ row: idx, internalName: this.row[idx]['InternalName'] })
                 this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value })
-                this.$emit('input', value)
                 this.$emit('change', value)
             },
             changeMulti (idx, rowId, fieldId, value) {
                 this.removeServerError({ row: idx, internalName: this.row[idx]['InternalName'] })
                 this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value: value.toString() })
-                this.$emit('input', value)
                 this.$emit('change', value)
             },
             delRow (rowId, idx) {
