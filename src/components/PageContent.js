@@ -7,7 +7,7 @@ export default {
     inject: ['$validator'],
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
-            <el-col span='24'>
+            <el-col :span='24'>
                 <el-row>
                     <el-col>
                         <ContractSpecForm />
