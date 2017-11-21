@@ -1,16 +1,16 @@
 // @flow
 import R from 'ramda'
-import TextField from '../widgets/Text'
-import NoteField from '../widgets/TextArea'
-import SelectField from '../widgets/Select'
-import NumberField from '../widgets/Number'
-import DateTimeField from '../widgets/DateTime'
-import ChoiceField from '../widgets/Choice'
-import BooleanField from '../widgets/Boolean'
-import MultiSelectField from '../widgets/MultiSelect'
-import MultiChoiceField from '../widgets/MultiChoice'
-import CustomSelectField from '../widgets/CustomSelect'
-import CustomComputedField from '../widgets/CustomComputed'
+import TextField from '../../widgets/Text'
+import NoteField from '../../widgets/TextArea'
+import SelectField from '../../widgets/Select'
+import NumberField from '../../widgets/Number'
+import DateTimeField from '../../widgets/DateTime'
+import ChoiceField from '../../widgets/Choice'
+import BooleanField from '../../widgets/Boolean'
+import MultiSelectField from '../../widgets/MultiSelect'
+import MultiChoiceField from '../../widgets/MultiChoice'
+import CustomSelectField from '../../widgets/CustomSelect'
+import CustomComputedField from '../../widgets/CustomComputed'
 
 export default {
     components: {
