@@ -48,7 +48,7 @@
             computedQueries: {
                 handler: function (computedQueries, old) {
                     if (!R.equals(computedQueries, old)){
-                        R.map(obj => { if(obj['query'].indexOf('null') === -1){ this.MDLoadComputed(obj) } }, computedQueries)
+                        R.map((obj, id) => { if(!R.equals(obj, old[id])){ this.MDLoadComputed(obj) } }, computedQueries)
                     }
                 },
                 deep: true
@@ -67,12 +67,10 @@
             change (idx, rowId, fieldId, value) {
                 this.removeServerError({ row: idx, internalName: this.row[idx]['InternalName'] })
                 this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value })
-                this.$emit('change', value)
             },
             changeMulti (idx, rowId, fieldId, value) {
                 this.removeServerError({ row: idx, internalName: this.row[idx]['InternalName'] })
                 this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value: value.toString() })
-                this.$emit('change', value)
             },
             delRow (rowId, idx) {
                 this.$emit('delRow', rowId, idx)

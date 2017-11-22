@@ -169,15 +169,18 @@ const computeFunction = func => {
 
 export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query , select , func }) {
     let realFunc = computeFunction(func)
-    return getFilteredItems(listId, query)
-        .map(R.map(R.prop(select)))
-        .fork(
-            err      => commit('addError', err),
-            computed => {
-                let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
-                commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value })
-            }
-        )
+    if (query.indexOf('null') === -1) {
+        return getFilteredItems(listId, query)
+            .map(R.map(R.prop(select)))
+            .fork(
+                err      => commit('addError', err),
+                computed => {
+                    let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
+                    commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value })
+                }
+            )
+    }
+    commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value: '' })
 }
 
 const transFormFields= R.pipe(
