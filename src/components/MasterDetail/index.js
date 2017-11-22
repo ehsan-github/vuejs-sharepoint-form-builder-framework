@@ -12,7 +12,7 @@ export default {
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
                 <table ref="table" class="el-table__header">
-                  <Header :fields="showingFields" :key="1" @scroll="handleScroll" class="fixes-position hidden" :class="{visible: headIsOnTop}" />
+                    <Header :fields="showingFields" :key="1" @scroll="handleScroll" class="fixes-position hidden" :class="{visible: headIsOnTop}" />
                     <Header :fields="showingFields" :key="2" />
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
@@ -74,11 +74,6 @@ export default {
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.field.MasterLookupName })
         this.addRow()
-    },
-    created() {
         window.addEventListener('scroll', this.handleScroll)
-    },
-    destroyed() {
-        window.removeEventListener('scroll', this.handleScroll)
     }
 }
