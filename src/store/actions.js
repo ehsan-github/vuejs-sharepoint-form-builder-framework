@@ -76,6 +76,22 @@ export function changeField({ commit }, payload) {
     commit('changeField', payload)
 }
 
+export function loadComputed ({ commit }, { id, listId, query , select , func }) {
+    let realFunc = computeFunction(func)
+    if (query.indexOf('null') === -1) {
+        return getFilteredItems(listId, query)
+            .map(R.map(R.prop(select)))
+            .fork(
+                err      => commit('addError', err),
+                computed => {
+                    let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
+                    commit('changeField', { id, value })
+                }
+            )
+    }
+    commit('changeField', { id, value: '' })
+}
+
 export function MDLoadFields ({ commit }, { id, listId } ) {
     return new Promise((resolve, reject) => {
         getFieldsList(listId)

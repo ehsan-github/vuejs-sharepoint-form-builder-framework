@@ -12,6 +12,7 @@ import MasterDetail from './MasterDetail'
 import MultiSelectField from './MultiSelect'
 import ChoiceField from './Choice'
 import MultiChoiceField from './MultiChoice'
+import CustomComputedField from './CustomComputed'
 
 export default {
     components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField },
@@ -40,6 +41,8 @@ export default {
             return <MultiChoiceField fieldId={this.fieldId} onChange={this.change}></MultiChoiceField>
         case 'Note':
             return <TextAreaField fieldId={this.fieldId} onChange={this.change}></TextAreaField>
+        case 'CustomComputedField':
+            return <CustomComputedField fieldId={this.fieldId} />
         default:
             return <div>Unexpected Type: {this.fieldType}</div>
         }
