@@ -37,7 +37,8 @@ export default {
         options: {
             handler: function (newValue, oldValue){
                 if (!R.equals(newValue, oldValue)){
-                    this.model = null
+                    this.model = ''
+                    this.$emit('change', 'null')
                 }
             },
             deep: true
