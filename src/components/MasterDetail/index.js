@@ -2,28 +2,34 @@
 import { mapActions, mapState } from 'vuex'
 import R from 'ramda'
 import Row from './Row'
-import Header from './DetailHead'
-import { getSortedList, getFilteredView,transformErrors } from './functions'
+import Header from './Header'
+import Footer from './Footer'
+import { getSortedList, getFilteredView, transformErrors } from './functions'
 
 export default {
-    components: { Row, Header },
+    components: { Row, Header, Footer },
     props:  ['fieldId', 'showFields'],
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
                 <table ref="table" class="el-table__header">
-                    <Header :fields="showingFields" :key="1" @scroll="handleScroll" class="fixes-position hidden" :class="{visible: headIsOnTop}" />
-                    <Header :fields="showingFields" :key="2" />
+                    <Header
+                        :fields="showingFields"
+                        @scroll="handleScroll"
+                        class="fixes-position hidden"
+                        :class="{visible: headIsOnTop}" />
+                    <Header :fields="showingFields" />
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
-                            <Row v-for='(row, id, idx) in showingRows' :options="field.options" :serverErrors="transformedServerErrors[idx]" :key="id" :masterId="fieldId" :row="row" :id="id" :idx="idx" @delRow="delRow" />
+                            <Row v-for='(row, id, idx) in showingRows'
+                                :options="field.options"
+                                :serverErrors="transformedServerErrors[idx]"
+                                :key="id" :masterId="fieldId"
+                                :row="row" :id="id" :idx="idx"
+                                @delRow="delRow" />
                         </transition-group>
                     </tbody>
-                    <tfoot>
-                      <span><tr><td>
-                        <el-button plain type="primary" @click='addRow'><i class="el-icon-plus"></i></el-button>
-                      </td></tr></span>
-                    </tfoot>
+                    <Footer @addRow="addRow"/>
                 </table>
             </div>
         </div>
@@ -38,28 +44,52 @@ export default {
         transformedServerErrors(){ return transformErrors(this.serverErrors) },
         listOfShowFields() { return this.showFields ? this.showFields.split(',') : [] },
         showingFields() {
-            return this.listOfShowFields.length ===  0 ?
-                getFilteredView(this.field.RelatedFields || [], R.values(this.field.fields || {}))
-                : R.equals(this.field.fields || {}, {}) ? {} : getSortedList(this.listOfShowFields)(this.field.fields || {})
+            if (this.listOfShowFields.length ===  0) {
+                return getFilteredView(
+                    this.field.RelatedFields || [],
+                    R.values(this.field.fields || {}))
+            } else if (R.equals(this.field.fields || {}, {})) {
+                return {}
+            } else {
+                return getSortedList(this.listOfShowFields)(this.field.fields) }
         },
         showingRows() {
-            return this.listOfShowFields.length === 0 ?
-                R.pipe(
+            if (this.listOfShowFields.length === 0) {
+                return R.pipe(
                     R.map(R.values),
                     R.map(getFilteredView(this.field.RelatedFields || []))
                 )(this.field.rows || [])
-                : R.map(getSortedList(this.listOfShowFields), this.field.rows || [])
+            } else {
+                R.map(
+                    getSortedList(this.listOfShowFields),
+                    this.field.rows || [])
+            }
         },
     },
     methods: {
-        ...mapActions(['MDLoadFields', 'MDAddRow', 'MDDelRow', 'changeField', 'MDLoadAllLookupOptions']),
+        ...mapActions([
+            'MDLoadFields',
+            'MDAddRow',
+            'MDDelRow',
+            'changeField',
+            'MDLoadAllLookupOptions'
+        ]),
         addRow () { this.MDAddRow({ id: this.fieldId }) },
         delRow (rowId, idx) {
-            this.$confirm('ردیف '+(idx+1)+'  حذف خواهد شد. می‌خواهید ادامه دهید؟', 'اخطار', { confirmButtonText: 'بله', cancelButtonText: 'خیر', type: 'warning' })
-                .then(() => {
-                    this.MDDelRow({ id: this.fieldId, rowId, idx })
-                    this.$message({ type: 'success', message: 'ردیف '+(idx+1)+' با موفقیت حذف گردید' }) })
-                    .catch(() => { this.$message({ type: 'info', message: 'حذف لغو گردید' }) })
+            this.$confirm(
+                'ردیف ' + (idx + 1) + '  حذف خواهد شد. می‌خواهید ادامه دهید؟',
+                'اخطار',
+                { confirmButtonText: 'بله', cancelButtonText: 'خیر', type: 'warning' }
+            )
+            .then(() => {
+                this.MDDelRow({ id: this.fieldId, rowId, idx })
+                this.$message({
+                    type: 'success',
+                    message: 'ردیف ' + (idx + 1) + ' با موفقیت حذف گردید' })
+            })
+            .catch(() => {
+                this.$message({ type: 'info', message: 'حذف لغو گردید' })
+            })
         },
         handleScroll() {
             if (this.$refs.table.getBoundingClientRect().top <= 0) {
