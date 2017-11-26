@@ -1,18 +1,14 @@
 // @flow
 import PageContent from './PageContent'
-import PageHeader from './PageHeader'
-import PageFooter from './PageFooter'
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
     name: 'app',
-    components: { PageContent, PageHeader, PageFooter },
+    components: { PageContent },
     render () {
         return (
             <div id='app' dir='rtl' class="new-form">
-                <PageHeader/>
                 <PageContent loading={this.loading}/>
-                <PageFooter/>
             </div>
         )
     },

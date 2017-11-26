@@ -12,41 +12,6 @@ html, body {
 		url('fonts/Yekan.ttf') format('truetype');
 }
 
-.site-footer {
-  background-color: #324057;
-  height: 120px;
-  margin-top: 30px;
-  color: #ccc;
-}
-
-.site-header {
-  background-color: #20A0FF;
-  height: 80px;
-  margin-bottom: 15px;
-}
-
-.site-header .banner {
-  font-size: 48px;
-  display: flex;
-  align-items: center;
-}
-
-.site-header .menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.site-header .menu:hover {
-  cursor: pointer;
-  color: #666;
-}
-
-.site-header .menu-active {
-  font-weight: bold;
-  border-bottom: 3px solid #ccc;
-}
-
 .table-form {
     width: 125px;
 }
@@ -77,7 +42,7 @@ html, body {
     width: 100px;
 }
 
-.require:before {
+.require.field-title:before {
     content: "*" !important;
     color: #ff4949;
     margin-right: 4px;
@@ -327,4 +292,48 @@ input.el-input__inner{
     padding-left: 21px;
     border-radius: 4px;
     margin-right: 164px;
+}
+.contractForm h3 {
+    width: 96%;
+    background: #fff1f1;
+    padding: 31px;
+    margin-bottom: 17px;
+    -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2), 0 0 200px rgba(221, 80, 80, 0.8);
+    box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1);
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.el-form-item__label {
+    float: right !important;
+    padding: 11px;
+    text-align: center;
+}
+
+.field-title {
+    box-sizing: border-box;
+    text-align: right;
+    padding-right: 15%;
+    display: inline-block;
+    width: 50%;
+    float: right;
+}
+
+.master {
+}
+
+.master-item input.el-input__inner {
+}
+
+.master-item .el-input__icon {
+}
+
+.master-item {
+}
+.el-select-dropdown{
+}
+
+.el-select-dropdown__list {
+    direction: rtl;
 }

@@ -3,9 +3,9 @@ import { mapState } from 'vuex'
 
 export default {
     template: `
-    <div>
+    <div class="contractForm">
         <h3>مشخصات پیمان</h3>
-        <el-form ref='form' label-position="top" class="contractForm">
+        <el-form ref='form' label-position="top">
         <el-row justify="center" :gutter="24">
             <el-col :span="12">
                 <el-form-item class="contractSpecs" label="پیمان">{{Title}}</el-form-item>
