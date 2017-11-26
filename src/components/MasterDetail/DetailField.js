@@ -35,7 +35,7 @@ export default {
         case 'DateTime':
             return <DateTimeField value={this.value} name={this.name} rules={this.rules} onChange={this.change} />
         case 'RelatedCustomLookupQuery':
-            return <CustomSelectField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.changeMulti} />
+            return <CustomSelectField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.change} />
         case 'Choice':
             return <ChoiceField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.change} />
         case 'MultiChoice':
@@ -69,10 +69,10 @@ export default {
     },
     methods: {
         change (value) {
-            this.$emit('change', value)
+            this.$emit('change', { value, multi: false })
         },
         changeMulti (value) {
-            this.$emit('changeMulti', value)
+            this.$emit('change', { value, multi: true })
         }
     }
 }

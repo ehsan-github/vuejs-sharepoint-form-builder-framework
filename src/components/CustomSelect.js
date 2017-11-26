@@ -1,7 +1,7 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
-import R from 'ramda'
 import CustomSelect from '../widgets/CustomSelect'
+import { replaceQueryFields } from './MasterDetail/functions'
 
 export default {
     components: { CustomSelect },
@@ -25,9 +25,7 @@ export default {
             }
         },
         query() {
-            const requiredValues = transformFieldsList(this.masterFields)
-            const query = replaceQueryFields(this.field.Query, requiredValues)
-            return query
+            return replaceQueryFields(this.masterFields)(this.field.Query)
         }
     },
     watch: {
@@ -47,15 +45,3 @@ export default {
         this.loadFilteredOptions({ id: this.fieldId, listId: this.field.LookupList, query: this.query })
     }
 }
-
-// {1: {InternalName: x, value: y}, ...} => {[x]: y, ...}
-const transformFieldsList = R.pipe(
-    R.values,
-    R.reduce((acc, curr) => ({ ...acc, [curr.InternalName]: curr.value }), {})
-)
-
-const replaceQueryFields = (query, fields) => R.reduce(
-    (q, field) => R.replace('{{'+field+'}}', fields[field], q),
-    query,
-    R.keys(fields)
-)
