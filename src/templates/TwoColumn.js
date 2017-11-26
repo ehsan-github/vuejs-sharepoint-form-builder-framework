@@ -9,7 +9,7 @@ export default {
                 <el-col v-for='(f, id) in fields' :key='id' :span="f.Type == 'MasterDetail' ? 24 : 12">
             <el-form ref='form' label-position="top">
                     <el-form-item :key='id' :class="{require: f.IsRequire}" :label='f.Type == "MasterDetail" ? null : f.Title' :prop='id'>
-                        <Field :fieldId='id' ref='fields' @change='v => change(id, v)' />
+                        <Field :fieldId='id' ref='fields'/>
                     </el-form-item>
             </el-form>
                 </el-col'>
