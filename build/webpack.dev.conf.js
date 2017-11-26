@@ -34,6 +34,7 @@ module.exports = merge(baseWebpackConfig, {
         new FriendlyErrorsPlugin(),
         new BundleAnalyzerPlugin({
             analyzerPort: 8888,
+            openAnalyzer: false,
         })
     ]
 })
