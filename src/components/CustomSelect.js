@@ -37,7 +37,6 @@ export default {
         ...mapActions(['changeField', 'loadFilteredOptions']),
         change(value) {
             this.changeField({ id: this.fieldId, value })
-            this.$emit('input', value)
             this.$emit('change', value)
         }
     },
