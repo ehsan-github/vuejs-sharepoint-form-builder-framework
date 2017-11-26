@@ -80,7 +80,7 @@ export default {
         },
         loadComputeds(){
             R.map(
-                obj => { this.MDLoadFilteredOptions(obj) }, this.computedQueries)
+                obj => { this.MDLoadComputed(obj) }, this.computedQueries)
         },
     },
     mounted(){

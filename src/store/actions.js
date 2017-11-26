@@ -196,7 +196,7 @@ export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query
                 }
             )
     }
-    commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value: '' })
+    commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value: null })
 }
 
 const transFormFields= R.pipe(
