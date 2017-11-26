@@ -1,7 +1,7 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
 import CustomComputedField from '../widgets/CustomComputed'
-import { replaceQueryFields } from './MasterDetail/functions'
+import { replaceQueryFields } from '../functions'
 
 export default {
     components: { CustomComputedField },

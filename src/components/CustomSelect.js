@@ -1,7 +1,7 @@
 // @flow
 import { mapActions, mapState } from 'vuex'
 import CustomSelect from '../widgets/CustomSelect'
-import { replaceQueryFields } from './MasterDetail/functions'
+import { replaceQueryFields } from '../functions'
 
 export default {
     components: { CustomSelect },

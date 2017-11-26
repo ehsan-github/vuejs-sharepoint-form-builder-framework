@@ -4,7 +4,7 @@ import R from 'ramda'
 import Row from './Row'
 import TableHeader from './Header'
 import TableFooter from './Footer'
-import { getSortedList, getFilteredView, transformErrors } from './functions'
+import { getSortedList, getFilteredView, transformErrors } from '../../functions'
 
 export default {
     components: { Row, TableHeader, TableFooter },
