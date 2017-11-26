@@ -2,23 +2,23 @@
 import { mapActions, mapState } from 'vuex'
 import R from 'ramda'
 import Row from './Row'
-import Header from './Header'
-import Footer from './Footer'
+import TableHeader from './Header'
+import TableFooter from './Footer'
 import { getSortedList, getFilteredView, transformErrors } from './functions'
 
 export default {
-    components: { Row, Header, Footer },
+    components: { Row, TableHeader, TableFooter },
     props:  ['fieldId', 'showFields'],
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
                 <table ref="table" class="el-table__header">
-                    <Header
+                    <TableHeader
                         :fields="showingFields"
                         @scroll="handleScroll"
                         class="fixes-position hidden"
                         :class="{visible: headIsOnTop}" />
-                    <Header :fields="showingFields" />
+                    <TableHeader :fields="showingFields" />
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
                             <Row v-for='(row, id, idx) in showingRows'
@@ -29,7 +29,7 @@ export default {
                                 @delRow="delRow" />
                         </transition-group>
                     </tbody>
-                    <Footer @addRow="addRow"/>
+                    <TableFooter @addRow="addRow"/>
                 </table>
             </div>
         </div>
