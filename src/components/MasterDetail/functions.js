@@ -13,13 +13,13 @@ export const transformErrors = errors => R.pipe(
         R.map(R.prop('Message'))))
 )(R.groupBy(R.prop('RowNumber'), errors))
 
-export const replaceQueryFields = (query, fields) => R.reduce(
+export const replaceQueryFields = fields => query => R.reduce(
     (q, field) => R.replace('{{'+field.InternalName+'}}', field.value, q),
     query,
     R.values(fields)
 )
 
-export const replaceQueryMasterFields = (query, fields) => R.reduce(
+export const replaceQueryMasterFields = fields => query => R.reduce(
     (q, field) => R.replace('{{m.'+field.InternalName+'}}', field.value, q),
     query,
     R.values(fields)

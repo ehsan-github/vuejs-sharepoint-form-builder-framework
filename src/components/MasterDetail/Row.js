@@ -31,15 +31,17 @@
             computedQueries() {
                 let computedColumns = R.filter(R.propEq('Type', 'CustomComputedField'), this.row)
                 return R.map(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
-                    let query = replaceQueryFields(Query, this.row)
+                    let query = replaceQueryFields(this.row)(Query)
                     return { id: Guid, masterId: this.masterId, rowId: this.id, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
                 }, computedColumns)
             },
             customSelectQueries() {
                 let customLookup= R.filter(R.propEq('Type', 'RelatedCustomLookupQuery'), this.row)
                 return R.map(({ Guid, LookupList, Query }) => {
-                    let query0 = replaceQueryFields(Query, this.row)
-                    let query = replaceQueryMasterFields(query0, this.masterFields)
+                    let query = R.pipe(
+                        replaceQueryFields(this.row),
+                        replaceQueryMasterFields(this.masterFields)
+                    )(Query)
                     return { id: Guid, masterId: this.masterId, rowId: this.id, listId: LookupList, query }
                 }, customLookup )
             },
