@@ -161,6 +161,7 @@ input.el-input__inner{
 
 .el-table td>div {
     text-align: -webkit-center;
+    padding-bottom: 2px;
 }
 
 
@@ -249,6 +250,7 @@ input.el-input__inner{
 }
 
 .el-input--small .el-input__inner {
+    height: 36px !important;
 }
 
 .el-table__header-wrapper {
@@ -312,4 +314,17 @@ input.el-input__inner{
 
 .visible {
     visibility: visible;
+}
+
+.contractSpecs .el-form-item__content {
+    width: 34.8%;
+    line-height: 36px;
+    border: 1px solid #d8dce5;
+    float: left;
+    margin-left: 11px;
+    background: #ffffff;
+    padding-right: 16px;
+    padding-left: 21px;
+    border-radius: 4px;
+    margin-right: 164px;
 }
