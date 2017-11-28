@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     state: ({
         loading: true,
         listId: new URLSearchParams(location.search).get('List'),
+        itemId: new URLSearchParams(location.search).get('Item'),
         contractId: new URLSearchParams(location.search).get('Cid'),
         contractSpecs: {},
         fields: {},

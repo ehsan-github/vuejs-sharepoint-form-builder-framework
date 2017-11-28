@@ -40,3 +40,13 @@ export const getContractSpec = cid => getApiF(
 export const getTemplate = title => getApiF(
     `/_api/web/lists(guid'${TEMPLATE_LIST_ID}')/items?$filter=Title eq '${title}' and formType eq 'New'`
 ).chain(path(r => r.results))
+
+export const getItemMaster = (listId, itemNumber, select) => postApiF(
+    '/_Layouts/15/BaseSolution/Services.aspx/GetData',
+    { listId, fieldName: 'ID', value: Number(itemNumber), select }
+)
+
+export const getItemDetail = (listId, fieldName, itemNumber, select) => postApiF(
+    '/_Layouts/15/BaseSolution/Services.aspx/GetData',
+    { listId, fieldName, value: Number(itemNumber), select }
+)
