@@ -54,7 +54,6 @@ const store = new Vuex.Store({
     mutations: {
         loadFields (state, fields) {
             state.fields = fields
-            state.loading = false
         },
         loadOptions (state, { id, options }) {
             state.fields[id] = { ...state.fields[id], options }
@@ -114,6 +113,9 @@ const store = new Vuex.Store({
         },
         loadServerErrors(state, errors){
             state.serverErrors = errors
+        },
+        setLoadingFalse(state){
+            state.loading = false
         }
     },
     actions

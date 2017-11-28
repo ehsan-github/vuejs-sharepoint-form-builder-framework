@@ -1,5 +1,6 @@
 // @flow
 import R from 'ramda'
+import { mapState } from 'vuex'
 
 export default {
     inject: ['$validator'],
@@ -30,13 +31,16 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            loadingFinished: state => !state.loading
+        }),
         hasError() { return this.$validator.errors.has(this.name) },
         firstError() { return this.$validator.errors.first(this.name) }
     },
     watch: {
         options: {
             handler: function (newValue, oldValue){
-                if (!R.equals(newValue, oldValue)){
+                if (!R.equals(newValue, oldValue) && this.loadingFinished){
                     this.model = ''
                     this.$emit('change', null)
                 }
