@@ -312,12 +312,14 @@ input.el-input__inner{
 }
 
 .field-title {
+    font-size: 13px;
     box-sizing: border-box;
     text-align: right;
     padding-right: 15%;
     display: inline-block;
     width: 50%;
     float: right;
+    color: #48576a;
 }
 
 .master {
@@ -330,6 +332,7 @@ input.el-input__inner{
 }
 
 .master-item {
+    font-size: 13px;
 }
 .el-select-dropdown{
 }
