@@ -15,9 +15,9 @@ export const addItem = (listId, item) => postApiF(
     item
 )
 
-export const saveFieldItems = (guid, fields) => postApiF(
+export const saveFieldItems = (guid, fields, deletedItems) => postApiF(
     '/_Layouts/15/BaseSolution/Services.aspx/SaveFieldItems',
-    { guid, fields }
+    { guid, fields, deletedItems }
 )
 
 export const getItems = listId => getApiF(

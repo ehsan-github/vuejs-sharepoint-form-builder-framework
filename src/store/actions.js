@@ -219,6 +219,7 @@ const transFormFields= R.pipe(
     R.project(['InternalName', 'Type', 'value', 'rows', 'LookupList']),
     R.map(R.map(f => f == null ? '' : f)), // remove null values
     R.map(f => f.rows == '' ? R.assoc('rows', [], f) : f), // replace rows null value with empty array
+    R.map(f => (f.InternalName == 'ID' && f.value == '') ? R.assoc('value', 0, f) : f), // replace ID of null with 0 value
     R.reject(R.propEq('value', ''))
 )
 
@@ -238,7 +239,7 @@ const transFormForSave = R.pipe(
 export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
     return new Promise((resolve, reject) => {
-        saveFieldItems(state.listId, data)
+        saveFieldItems(state.listId, data, state.deletedItems)
             .fork(
                 err  => {
                     commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید'),

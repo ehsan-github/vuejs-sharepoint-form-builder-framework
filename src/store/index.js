@@ -21,6 +21,7 @@ const store = new Vuex.Store({
         fields: {},
         errors: [],
         serverErrors: [],
+        deletedItems: [],
         templateName: 'Loading',
         templateStr: ''
     }: StoreType),
@@ -87,6 +88,15 @@ const store = new Vuex.Store({
             state.fields = R.assocPath([id, 'rows', rowId], fields, state.fields)
         },
         MDDelRow (state, { id, rowId, idx }) {
+            let ItemId = R.pipe(
+                R.values,
+                R.find(R.propEq('InternalName', 'ID')),
+                R.prop('value')
+            )(state.fields[id].rows[rowId])
+            if (!R.isNil(ItemId)) {
+                state.deletedItems = R.append({ ListId: state.fields[id].LookupList, ItemId }, state.deletedItems)
+            }
+
             let rows = R.dissoc(rowId, state.fields[id].rows)
             state.fields = R.assocPath([id, 'rows'], rows, state.fields)
             state.serverErrors = R.pipe(       // fixing serverErrors state on row deletion
