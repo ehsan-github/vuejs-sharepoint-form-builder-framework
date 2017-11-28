@@ -2,7 +2,7 @@
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
 
-import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate } from '../api'
+import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate, getItemMaster, getItemDetail } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -28,6 +28,17 @@ const setContractValue = R.curry((value, items) => {
     return newItems
 })
 
+const addToSelect = (res, { InternalName }) => {
+    return res + InternalName + ','
+}
+
+const constructSelect = R.pipe(
+    R.reject(R.propEq('Type', 'MasterDetail')),
+    R.values,
+    R.reduce(addToSelect, ''),
+    R.slice(0, -1) // Remove last comma :grin
+)
+
 export function loadFields ({ commit, state }) {
     return new Promise((resolve, reject) => {
         getFieldsList(state.listId)
@@ -41,6 +52,8 @@ export function loadFields ({ commit, state }) {
                 },
                 res => {
                     commit('loadFields', res)
+                    const select = constructSelect(res)
+                    showFieldsList({ commit, state }, { select })
                     resolve(res)
                 }
             )
@@ -92,7 +105,7 @@ export function loadComputed ({ commit }, { id, listId, query , select , func })
     commit('changeField', { id, value: '' })
 }
 
-export function MDLoadFields ({ commit }, { id, listId } ) {
+export function MDLoadFields ({ commit, state }, { id, listId, masterLookupName } ) {
     return new Promise((resolve, reject) => {
         getFieldsList(listId)
             .map(R.map(assignValue))
@@ -104,6 +117,8 @@ export function MDLoadFields ({ commit }, { id, listId } ) {
                 },
                 fields => {
                     commit('MDLoadFields', { id, fields })
+                    const select = constructSelect(fields)
+                    showDetailFieldsList({ commit, state }, { id, listId, select, masterLookupName })
                     resolve(fields)
                 }
             )
@@ -295,4 +310,48 @@ export function removeServerError({ commit }, { row, internalName }){
 
 export function loadServerErrors({ commit }, errors){
     commit('loadServerErrors', errors)
+}
+const shapeData = (value, InternalName) => { // key in the comming items is the InternalName of Field
+    return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
+}
+
+export function loadFieldsList({ commit }, { items }) {
+    let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
+    R.map(x => commit('setFieldValue', x), fieldValues)
+}
+
+export function showFieldsList ({ commit, state }, { select }) {
+    let { listId, itemId } = state
+    return getItemMaster(listId, itemId, select)
+        .map(x => JSON.parse(x))
+        .map(R.head)
+        .fork(
+            err     => commit('addError', err),
+            items   => {
+                loadFieldsList({ commit }, { items })
+            }
+        )
+}
+
+export function loadMasterFieldsList({ commit }, { items, id }) {
+    return new Promise(resolve => {
+        items.map((rowItems, k) => {
+            let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
+            R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
+            k == items.length - 1 ? setTimeout(() => resolve('done'), 3000) : null
+        }
+    )})
+}
+
+export function showDetailFieldsList ({ commit, state }, { id, listId, select, masterLookupName }) {
+    let { itemId } = state
+    return getItemDetail(listId, masterLookupName, itemId, select)
+        .map(x => JSON.parse(x))
+        .fork(
+            err     => commit('addError', err),
+            items   => {
+                items.map(() => MDAddRow({ commit, state }, { id }))
+                loadMasterFieldsList({ commit }, { items, id }).then(() => commit('setLoadingFalse'))
+            }
+        )
 }

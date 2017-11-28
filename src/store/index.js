@@ -62,12 +62,25 @@ const store = new Vuex.Store({
         changeField (state, { id, value }) {
             state.fields = R.assocPath([id, 'value'], value, state.fields)
         },
+        setFieldValue(state, { InternalName, value }) {
+            let id = getFieldId(InternalName, state.fields)
+            value = R.head(value.split(';#'))
+            value = isNaN(value) || value == '' ? value : Number(value)
+            id ? state.fields = R.assocPath([id, 'value'], value, state.fields) : null
+        },
         MDLoadFields (state, { id, fields }) {
             state.fields[id] = { ...state.fields[id], fields }
             state.fields[id] = { ...state.fields[id], rows: {}, options: {} }
         },
         MDChangeFieldRow (state, { masterId, rowId, fieldId, value }) {
             state.fields = R.assocPath([masterId, 'rows', rowId, fieldId, 'value'], value, state.fields)
+        },
+        MDSetFieldRow (state, { masterId, rowIndex, InternalName, value }) {
+            let fieldId = getFieldId(InternalName, state.fields[masterId].fields)
+            value = R.head(value.split(';#'))
+            value = isNaN(value) || value == '' ? value : Number(value)
+            let rowId = R.keys(state.fields[masterId].rows)[rowIndex]
+            fieldId && value ? state.fields[masterId].rows[rowId] = R.assocPath([fieldId, 'value'], value, state.fields[masterId].rows[rowId]) : null
         },
         MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
@@ -121,5 +134,11 @@ const store = new Vuex.Store({
     },
     actions
 })
+
+const getFieldId = (InternalName, fields) => R.pipe( //find the key of first item with this internalName
+    R.filter(R.propEq('InternalName', InternalName)),
+    R.keys,
+    R.head
+)(fields)
 
 export default store
