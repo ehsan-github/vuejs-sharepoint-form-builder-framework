@@ -34,24 +34,25 @@ const store = new Vuex.Store({
             R.reject(R.propEq('InternalName', 'Title')),
             R.reject(R.propEq('InternalName', 'Message'))
         )(s.fields),
-        detailsHasAtLeastOneRow: s => R.either(
-            R.pipe(
-                R.values,
-                R.filter(R.propEq('Type', 'MasterDetail')),
-                R.head,
-                R.ifElse(R.both(R.prop('rows'), R.prop('IsRequire')), R.identity, R.assocPath(['rows', 'value', 'fakeVal'], 0)),           // If we don't show MasterDetail field or it is not required we generate fake value for rows
-                R.prop('rows'),
-                R.values,
-                R.isEmpty,
-                R.not
-            ),
-            R.pipe(            // If our form has not any MasterDetail field
-                R.values,
-                R.filter(R.propEq('Type', 'MasterDetail')),
-                R.head,
-                R.isEmpty,
-            )
-        )(s.fields)
+        detailsHasAtLeastOneRow: s => {
+            if (R.pipe(R.values,
+                       R.filter(R.propEq('Type', 'MasterDetail')),
+                       R.head)(s.fields)) {
+                return R.pipe(
+                    R.values,
+                    R.filter(R.propEq('Type', 'MasterDetail')),
+                    R.head,
+                    x => { console.log(x); return x },
+                    R.ifElse(R.both(R.prop('rows'), R.prop('IsRequire')), R.identity, R.assocPath(['rows', 'value', 'fakeVal'], 0)),           // If we don't show MasterDetail field or it is not required we generate fake value for rows
+                    R.prop('rows'),
+                    R.values,
+                    R.isEmpty,
+                    R.not
+                )(s.fields)
+            } else {
+                return true
+            }
+        }
     },
     mutations: {
         loadFields (state, fields) {
