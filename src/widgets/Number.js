@@ -8,7 +8,7 @@ export default {
                 v-validate="rules"
                 :class="{'error-box': hasError}"
                 :name="name"
-                v-model="model"
+                :value="value"
                 :controls="false"
                 size="small"
                 @change="change"
@@ -17,25 +17,13 @@ export default {
     </el-tooltip>
     `,
     props: ['value', 'rules', 'name'],
-    data () {
-        return {
-            model: null
-        }
-    },
     computed: {
         hasError() { return this.$validator.errors.has(this.name) },
         firstError() { return this.$validator.errors.first(this.name) }
     },
     methods: {
         change (value) {
-            setTimeout(() => {
-                this.model = value | 0
-                this.$emit('input', value)
-                this.$emit('change', value)
-            }, 50)
+            this.$emit('change', value)
         }
-    },
-    mounted() {
-        this.model = this.value || 0
     }
 }
