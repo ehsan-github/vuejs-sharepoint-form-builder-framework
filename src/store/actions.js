@@ -24,8 +24,7 @@ const getFieldId = (InternalName, fields) => R.pipe( //find the key of first ite
 
 const setContractValue = R.curry((value, items) => {
     let id = getFieldId('Contract', items)
-    let newItems = R.assocPath([id, 'value'], value, items)
-    return newItems
+    return id ? R.assocPath([id, 'value'], value, items) : items
 })
 
 const addToSelect = (res, { InternalName }) => {
