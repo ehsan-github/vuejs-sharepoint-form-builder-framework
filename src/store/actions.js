@@ -316,9 +316,10 @@ const shapeData = (value, InternalName) => { // key in the comming items is the 
     return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
 }
 
-export function loadFieldsList({ commit }, { items }) {
+export function loadFieldsList({ commit, state }, { items }) {
     let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
     R.map(x => commit('setFieldValue', x), fieldValues)
+    if (!state.isThereDetails) { commit('setLoadingFalse') }
 }
 
 export function showFieldsList ({ commit, state }, { select }) {
@@ -329,7 +330,7 @@ export function showFieldsList ({ commit, state }, { select }) {
         .fork(
             err     => commit('addError', err),
             items   => {
-                loadFieldsList({ commit }, { items })
+                loadFieldsList({ commit, state }, { items })
             }
         )
 }
