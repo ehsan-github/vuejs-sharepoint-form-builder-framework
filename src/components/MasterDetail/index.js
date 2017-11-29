@@ -103,7 +103,6 @@ export default {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.field.MasterLookupName })
-        this.addRow()
         window.addEventListener('scroll', this.handleScroll)
     }
 }
