@@ -340,7 +340,9 @@ export function loadMasterFieldsList({ commit }, { items, id }) {
         items.map((rowItems, k) => {
             let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
             R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
-            k == items.length - 1 ? setTimeout(() => resolve('done'), 3000) : null
+            if (k == items.length - 1) {
+                setTimeout(() => resolve('done'), 3000)
+            }
         }
     )})
 }
