@@ -38,7 +38,7 @@ const constructSelect = R.pipe(
     R.slice(0, -1) // Remove last comma :grin
 )
 
-export function loadFields ({ commit, state }) {
+export function loadFields ({ commit, state, getters }) {
     return new Promise((resolve, reject) => {
         getFieldsList(state.listId)
             .map(R.map(assignValue))
@@ -52,7 +52,7 @@ export function loadFields ({ commit, state }) {
                 res => {
                     commit('loadFields', res)
                     const select = constructSelect(res)
-                    showFieldsList({ commit, state }, { select })
+                    showFieldsList({ commit, state, getters }, { select })
                     resolve(res)
                 }
             )
@@ -315,13 +315,13 @@ const shapeData = (value, InternalName) => { // key in the comming items is the 
     return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
 }
 
-export function loadFieldsList({ commit, state }, { items }) {
+export function loadFieldsList({ commit, state, getters }, { items }) {
     let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
     R.map(x => commit('setFieldValue', x), fieldValues)
-    if (!state.isThereDetails) { commit('setLoadingFalse') }
+    if (!getters.isThereDetails) { commit('setLoadingFalse') }
 }
 
-export function showFieldsList ({ commit, state }, { select }) {
+export function showFieldsList ({ commit, state, getters }, { select }) {
     let { listId, itemId } = state
     return getItemMaster(listId, itemId, select)
         .map(x => JSON.parse(x))
@@ -329,7 +329,7 @@ export function showFieldsList ({ commit, state }, { select }) {
         .fork(
             err     => commit('addError', err),
             items   => {
-                loadFieldsList({ commit, state }, { items })
+                loadFieldsList({ commit, state, getters }, { items })
             }
         )
 }
@@ -340,7 +340,7 @@ export function loadMasterFieldsList({ commit }, { items, id }) {
             let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
             R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
             if (k == items.length - 1) {
-                setTimeout(() => resolve('done'), 3000)
+                setTimeout(() => resolve('done'), 2000)
             }
         }
     )})
