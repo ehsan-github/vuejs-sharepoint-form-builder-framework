@@ -100,7 +100,7 @@ export default {
         }
     },
     async mounted () {
-        await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList })
+        await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList, masterLookupName: this.field.MasterLookupName })
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.field.MasterLookupName })
         window.addEventListener('scroll', this.handleScroll)
