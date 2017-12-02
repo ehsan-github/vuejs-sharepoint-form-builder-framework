@@ -13,11 +13,11 @@ export default {
                     <el-button type="danger" plain @click='() => delRow(id, idx)'><i class="el-icon-delete"></i></el-button>
                 </td>
                 <td class="radif">{{idx + 1}}</td>
-                <td v-for='f in row' :key='id+f.Guid' :class="f.Type">
+                <td v-for='(f, index) in row' :key='id+f.Guid' :class="f.Type">
                     <div label-position="top">
                         <div :class="['table-form', {'error-box': serverErrors ? serverErrors[f.InternalName] != undefined : false}]">
                             <el-tooltip class="item" :disabled="serverErrors?serverErrors[f.InternalName] == undefined : true" :content="serverErrors ? serverErrors[f.InternalName] : null" placement="bottom">
-                                <DetailField :field="f" :rowId="id" :onStoreOptions="options[f.Guid]" @change="({ value, multi }) => change(idx, id, f.Guid, value, multi)"/>
+                                <DetailField :field="f" :rowId="id" :onStoreOptions="options[f.Guid]" @change="({ value, multi }) => change(idx, id, index, f.Guid, value, multi)"/>
                             </el-tooltip>
                         </div>
                     </div>
@@ -66,9 +66,9 @@ export default {
     },
     methods: {
         ...mapActions(['MDChangeFieldRow', 'MDLoadFilteredOptions', 'MDLoadComputed', 'removeServerError']),
-        change (idx, rowId, fieldId, value, multi) {
+        change (idx, rowId, index, fieldId, value, multi) {
             if (multi) value = value.toString
-            this.removeServerError({ row: idx, internalName: this.row[idx]['InternalName'] })
+            this.removeServerError({ row: idx, internalName: this.row[index]['InternalName'] })
             this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value })
         },
         delRow (rowId, idx) {
