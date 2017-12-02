@@ -8,11 +8,6 @@ export default {
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='24'>
-                <el-row>
-                    <el-col>
-                        <ContractSpecForm />
-                    </el-col>
-                </el-row>
                 <PageTemplate/>
                 <el-row type='flex' justify="center">
                     <el-col :span='2'>
