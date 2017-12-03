@@ -2,7 +2,7 @@
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
 
-import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate, getItemMaster, getItemDetail } from '../api'
+import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -38,6 +38,14 @@ const constructSelect = R.pipe(
     R.slice(0, -1) // Remove last comma :grin
 )
 
+function setListData ({ commit, state }) {
+    return getListData(state.listId)
+        .fork(
+            err  => commit('addError', err),
+            listData => commit('setListData', listData)
+        )
+}
+
 export function loadFields ({ commit, state, getters }) {
     return new Promise((resolve, reject) => {
         getFieldsList(state.listId)
@@ -50,6 +58,7 @@ export function loadFields ({ commit, state, getters }) {
                     reject(err)
                 },
                 res => {
+                    setListData({ commit, state })
                     commit('loadFields', res)
                     const select = constructSelect(res)
                     showFieldsList({ commit, state, getters }, { select })

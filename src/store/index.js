@@ -17,6 +17,7 @@ const store = new Vuex.Store({
         listId: new URLSearchParams(location.search).get('List'),
         itemId: new URLSearchParams(location.search).get('Item'),
         contractId: new URLSearchParams(location.search).get('Cid'),
+        listData: {},
         contractSpecs: {},
         fields: {},
         errors: [],
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     mutations: {
         loadFields (state, fields) {
             state.fields = fields
+        },
+        setListData (state, listData){
+            state.listData = listData
         },
         loadOptions (state, { id, options }) {
             state.fields[id] = { ...state.fields[id], options }

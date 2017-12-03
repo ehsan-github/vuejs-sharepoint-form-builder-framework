@@ -10,7 +10,7 @@ export const getFieldsList = listId => postApiF(
     { listId }
 )
 
-export const getListTitle = listId => getApiF(
+export const getListData = listId => getApiF(
     `/_api/web/lists(guid'${listId}')`
 )
 

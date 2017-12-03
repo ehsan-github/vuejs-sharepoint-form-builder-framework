@@ -1,6 +1,8 @@
 // @flow
 import PageTemplate from '../templates'
 import ContractSpecForm from '../components/ContractSpec'
+import TitleHeader from '../widgets/TitleHeader'
+
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
@@ -8,6 +10,7 @@ export default {
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='24'>
+                <TitleHeader :title="listData.Title" />
                 <PageTemplate/>
                 <el-row type='flex' justify="center">
                     <el-col :span='2'>
@@ -27,9 +30,16 @@ export default {
         ...mapGetters(['serverHasNotError', 'detailsHasAtLeastOneRow']),
         ...mapState({
             specs: s => s.contractSpecs,
+            listData: s => s.listData,
         }),
+        listName(){
+            return this.listData.EntityTypeName.slice(0, -4)
+        },
+        redirectURL(){
+            return 'http://net-sp:90/Lists/' + this.listName + '/AllItems.aspx'
+        }
     },
-    components: { PageTemplate, ContractSpecForm },
+    components: { PageTemplate, ContractSpecForm, TitleHeader },
     methods: {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {
@@ -50,6 +60,9 @@ export default {
                                             showClose: true,
                                             message: 'داده ها با موفقیت زخیره شد'
                                         })
+                                        setTimeout(()=> {
+                                            location.href = this.redirectURL
+                                        }, 1000)
                                     }
                                     else{
                                         this.$message.error({
@@ -85,7 +98,9 @@ export default {
             });
         },
         cancel () {
-            alert('Canceled')
+            setTimeout(()=> {
+                location.href = this.redirectURL
+            }, 10)
         }
     }
 }
