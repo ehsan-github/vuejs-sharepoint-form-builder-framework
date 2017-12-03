@@ -69,6 +69,7 @@ const store = new Vuex.Store({
             let id = getFieldId(InternalName, state.fields)
             value = R.head(value.split(';#'))
             value = isNaN(value) || value == '' ? value : Number(value)
+            if (value == 'True') value = true
             id ? state.fields = R.assocPath([id, 'value'], value, state.fields) : null
         },
         MDLoadFields (state, { id, fields }) {
@@ -82,6 +83,7 @@ const store = new Vuex.Store({
             let fieldId = getFieldId(InternalName, state.fields[masterId].fields)
             value = R.head(value.split(';#'))
             value = isNaN(value) || value == '' ? value : Number(value)
+            if (value == 'True') value = true
             let rowId = R.keys(state.fields[masterId].rows)[rowIndex]
             fieldId && value ? state.fields[masterId].rows[rowId] = R.assocPath([fieldId, 'value'], value, state.fields[masterId].rows[rowId]) : null
         },
