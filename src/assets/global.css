@@ -24,7 +24,7 @@ html, body {
     max-width: 120px;
 }
 
-.el-col-12 {
+.el-col {
     float: right !important;
 }
 
@@ -70,6 +70,7 @@ html, body {
 }
 
 input.el-input__inner{
+    font-family: inherit;
     text-align: center;
     padding: 3px 3px 0px 0px !important;
 }
@@ -143,7 +144,7 @@ input.el-input__inner{
 }
 
 .el-table td input{
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .table-form el-input__inner{
@@ -187,7 +188,7 @@ input.el-input__inner{
 
 .DateTime .table-form input{
     width: 80px;
-    padding: 4px 0px;
+    padding: 4px 0px !important;
     line-height: 17px;
 }
 
@@ -197,6 +198,14 @@ input.el-input__inner{
 
 .Note .table-form, th.is-leaf.Note {
     width: 105px;
+}
+
+.Boolean .table-form, th.is-leaf.Boolean {
+    width: 50px;
+}
+
+.el-checkbox__input {
+    vertical-align: text-bottom !important;
 }
 
 .el-table th {
@@ -236,6 +245,11 @@ input.el-input__inner{
 
 .el-button {
     border-radius: 10px;
+    font-family: inherit;
+}
+
+.cancel, .save {
+    width: 94px;
 }
 
 .button {
@@ -312,17 +326,19 @@ input.el-input__inner{
 }
 
 .field-title {
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: 700;
     box-sizing: border-box;
     text-align: right;
     padding-right: 15%;
     display: inline-block;
-    width: 50%;
+    width: 30%;
     float: right;
     color: #48576a;
 }
 
 .master {
+    font-size: 16px;
 }
 
 .master-item input.el-input__inner {
@@ -332,11 +348,90 @@ input.el-input__inner{
 }
 
 .master-item {
-    font-size: 13px;
+    display: inline-block;
+    font-size: 14px;
+}
+.master-field .el-form-item__content {
+    text-align: right;
 }
 .el-select-dropdown{
 }
 
 .el-select-dropdown__list {
     direction: rtl;
+}
+
+h3.title {
+    width: 96%;
+    background: #f2f1ff;
+    padding: 31px;
+    margin-bottom: 17px;
+    -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2), 0 0 200px rgba(221, 80, 80, 0.8);
+    box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1);
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+/* datepicker css */
+
+.cov-date-monthly[data-v-99c23128] {
+    height: 71px;
+}
+.cov-date-monthly>div[data-v-99c23128]{ height: 71px;}
+.cov-date-caption[data-v-99c23128] {
+    padding: 0px 0 !important;
+}
+
+.week ul li[data-v-99c23128] {
+    font-weight: 200;
+    font-size: 12px;
+    font-variant: normal;
+}
+
+.datepicker-overlay{background: rgba(0, 0, 0, 0.13)!important;}
+.cov-date-body{    background-color: rgb(0, 0, 130)!important;}
+span[data-v-99c23128]{
+    color: white;
+}
+span[data-v-99c23128]{
+    font-size: 21px;
+    color: white;
+    position: absolute;
+    margin-top: -5px;
+    margin-right: -18px;
+}
+.week ul[data-v-99c23128] {
+    margin: 11px 0 2px;
+}
+
+.cov-date-caption span:nth-child(3){margin-top: 0px;margin-right: -31%;}
+.cov-date-caption span:nth-child(1){font-size: 31px;margin-right: 10%;margin-top: 17px;position: absolute;}
+
+.cov-date-previous, .cov-date-previous:hover{
+    background: url('./previous.png')no-repeat!important;
+       background-size: 24px 18px!important;
+       background-position-x: 22px!Important;
+       background-position-y: 28px!important;
+}
+
+.cov-date-next,.cov-date-next:hover {
+    background: url('./Navigate.png')no-repeat!important;
+    background-size: 24px 18px!important;
+    background-position-x: 22px!Important;
+    background-position-y: 28px!important;
+    }
+
+.cov-date-next[data-v-99c23128]:before, .cov-date-previous[data-v-99c23128]:before , .cov-date-next[data-v-99c23128]:after, .cov-date-previous[data-v-99c23128]:after  {
+    display:none;
+}
+.cov-datepicker {
+    border-radius: 4px!important;
+    border: 1px solid #d8dce5!important;
+    height: 21px;
+    width: 105px;
+    padding: 0!important;
+    text-align: center;
+    box-shadow: none!important;
+    margin-right: -14px;
 }
