@@ -36,7 +36,7 @@ export default {
             return this.listData.EntityTypeName.slice(0, -4)
         },
         redirectURL(){
-            return 'http://net-sp:90/Lists/' + this.listName + '/AllItems.aspx'
+            return '/Lists/' + this.listName + '/AllItems.aspx'
         }
     },
     components: { PageTemplate, ContractSpecForm, TitleHeader },
