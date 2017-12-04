@@ -29,13 +29,13 @@ export default {
     methods: {
         change (value) {
             setTimeout(() => {
-                this.model = value | 0
+                this.model = value
                 this.$emit('input', value)
                 this.$emit('change', value)
             }, 50)
         }
     },
     mounted() {
-        this.model = this.value || 0
+        this.model = this.value
     }
 }
