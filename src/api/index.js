@@ -5,9 +5,9 @@ export const getEntityTypeName = listId => getApiF(
     `/_api/lists(guid'${listId}')/listItemEntityTypeFullName`
 ).chain(path(r => r.ListItemEntityTypeFullName))
 
-export const getFieldsList = listId => postApiF(
+export const getFieldsList = (listId, itemId) => postApiF(
     '/_Layouts/15/BaseSolution/Services.aspx/GetFieldsList',
-    { listId }
+    { listId, itemId }
 )
 
 export const getListData = listId => getApiF(
