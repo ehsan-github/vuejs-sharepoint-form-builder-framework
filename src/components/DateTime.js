@@ -5,7 +5,7 @@ import DateTimeField from '../widgets/DateTime'
 export default {
     components: { DateTimeField },
     template: `
-        <DateTimeField value="value" :name="name" :rules="rules" @change="change" />
+        <DateTimeField :value="value" :name="name" :rules="rules" @change="change" />
     `,
     props: ['fieldId'],
     computed: {
