@@ -16,9 +16,7 @@ const store = new Vuex.Store({
         loading: true,
         listId: new URLSearchParams(location.search).get('List'),
         itemId: new URLSearchParams(location.search).get('Item'),
-        contractId: new URLSearchParams(location.search).get('Cid'),
         listData: {},
-        contractSpecs: {},
         fields: {},
         errors: [],
         serverErrors: [],
@@ -128,9 +126,6 @@ const store = new Vuex.Store({
         },
         removeError (state, error) {
             state.errors = R.reject(R.equals(error), state.errors)
-        },
-        loadContractSpec (state, specs) {
-            state.contractSpecs = specs
         },
         loadTemplateMetaData(state, { templateName, template }){
             state.templateName = templateName

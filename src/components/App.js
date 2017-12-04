@@ -25,7 +25,6 @@ export default {
         ...mapActions([
             'loadFields',
             'removeError',
-            'loadContractSpec',
             'loadTemplateMetaData'
         ])
     },
@@ -44,6 +43,5 @@ export default {
     async mounted () {
         await this.loadFields()
         await setTimeout(() => this.loadTemplateMetaData(), 500)
-        this.loadContractSpec()
     }
 }

@@ -2,7 +2,7 @@
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
 
-import { getFieldsList, getItems, getFilteredItems, getContractSpec, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData } from '../api'
+import { getFieldsList, getItems, getFilteredItems, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -15,17 +15,6 @@ const assignValue = R.pipe(
     R.juxt([f => f.DefaultValue, R.identity]),
     x => R.assoc('value', ...x)
 )
-
-const getFieldId = (InternalName, fields) => R.pipe( //find the key of first item with this internalName
-    R.filter(R.propEq('InternalName', InternalName)),
-    R.keys,
-    R.head
-)(fields)
-
-const setContractValue = R.curry((value, items) => {
-    let id = getFieldId('Contract', items)
-    return id ? R.assocPath([id, 'value'], value, items) : items
-})
 
 const addToSelect = (res, { InternalName }) => {
     return res + InternalName + ','
@@ -51,7 +40,6 @@ export function loadFields ({ commit, state, getters }) {
         getFieldsList(state.listId)
             .map(R.map(assignValue))
             .map(transformFieldsList)
-            .map(setContractValue(Number(state.contractId)))
             .fork(
                 err => {
                     commit('addError', err)
@@ -84,14 +72,14 @@ export function loadFilteredOptions({ commit }, { id, listId, query }) {
         )
 }
 
-export function loadContractSpec({ commit, state }){
-    return getContractSpec(state.contractId)
-        .map(R.head) //TODO: should change for deployment!
-        .fork(
-            err => commit('addError', err),
-            res => commit('loadContractSpec', res)
-        )
-}
+// export function loadContractSpec({ commit, state }){
+//     return getContractSpec(state.contractId)
+//         .map(R.head) //TODO: should change for deployment!
+//         .fork(
+//             err => commit('addError', err),
+//             res => commit('loadContractSpec', res)
+//         )
+// }
 
 export function changeField({ commit }, payload) {
     commit('changeField', payload)
