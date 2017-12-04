@@ -37,7 +37,8 @@ function setListData ({ commit, state }) {
 
 export function loadFields ({ commit, state, getters }) {
     return new Promise((resolve, reject) => {
-        getFieldsList(state.listId)
+        getFieldsList(state.listId, Number(state.itemId))
+            .map(R.prop('fields'))
             .map(R.map(assignValue))
             .map(transformFieldsList)
             .fork(
@@ -103,7 +104,7 @@ export function loadComputed ({ commit }, { id, listId, query , select , func })
 
 export function MDLoadFields ({ commit, state }, { id, listId, masterLookupName } ) {
     return new Promise((resolve, reject) => {
-        getFieldsList(listId)
+        getFieldsList(listId, '')
             .map(R.map(assignValue))
             .map(transformFieldsList)
             .fork(
