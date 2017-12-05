@@ -58,7 +58,7 @@ export default {
                                         this.$message.success({
                                             title: 'موفقیت ',
                                             showClose: true,
-                                            message: 'داده ها با موفقیت زخیره شد'
+                                            message: 'داده ها با موفقیت ذ‌خیره شد'
                                         })
                                         setTimeout(()=> {
                                             location.href = this.redirectURL
