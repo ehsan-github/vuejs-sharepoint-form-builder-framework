@@ -38,8 +38,5 @@ export default {
             this.$emit('input', value)
             this.$emit('change', value)
         }
-    },
-    mounted() {
-        this.model = this.value
     }
 }
