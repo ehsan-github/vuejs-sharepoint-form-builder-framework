@@ -21,7 +21,7 @@ html, body {
 }
 
 .el-input {
-    max-width: 120px;
+    /* max-width: 120px; */
 }
 
 .el-col {
@@ -117,12 +117,16 @@ input.el-input__inner{
 }
 
 .el-table {
+    border-radius: 4px;
     display: inline-block !important;
     width: inherit !important;
 }
 
 .el-table td, .el-table th.is-leaf {
     text-align: center;
+    word-wrap: break-word;
+    padding: 0px;
+    /* border-bottom: none !important; */
 }
 
 .el-table td>div {
@@ -132,15 +136,15 @@ input.el-input__inner{
 
 
 .el-table tr:hover td {
-    background-color: #f8f9fb !important;
+    background-color: #e3f3ff !important;
 }
 
 .el-table tr:hover td .el-input__inner {
-    background-color: #f8f9fb !important;
+    background-color: #e3f3ff !important;
 }
 
-.el-table tr:hover td input{
-    background-color: #f8f9fb !important;
+.el-table tr:hover td .datepickbox input{
+    background-color: #e3f3ff !important;
 }
 
 .el-table td input{
@@ -153,22 +157,35 @@ input.el-input__inner{
 
 .Number .table-form, th.is-leaf.Number {
     width: 72px;
+    max-width: 72px;
 }
 
 .Text .table-form, th.is-leaf.Text {
     width: 90px;
+    max-width: 90px;
 }
 
 .Choice .table-form, th.is-leaf.Choice {
     width: 105px;
+    max-width: 105px;
 }
 
 .Choice .table-form input{
     padding-left: 18px !important;
 }
 
+.MultiChoice .table-form, th.is-leaf.MultiChoice {
+    width: 105px;
+    max-width: 105px;
+}
+
+.MultiChoice .table-form input{
+    padding-left: 18px !important;
+}
+
 .RelatedCustomLookupQuery .table-form,th.is-leaf.RelatedCustomLookupQuery {
     width: 105px;
+    max-width: 105px;
 }
 
 .RelatedCustomLookupQuery .table-form input {
@@ -177,13 +194,23 @@ input.el-input__inner{
 
 .Lookup .table-form, th.is-leaf.Lookup {
     width: 105px;
+    max-width: 105px;
 }
 .Lookup .table-form input {
     padding-left: 18px !important;
 }
 
+.LookupMulti .table-form, th.is-leaf.LookupMulti {
+    width: 105px;
+    max-width: 105px;
+}
+.LookupMulti .table-form input {
+    padding-left: 18px !important;
+}
+
 .DateTime .table-form, th.is-leaf.DateTime {
     width: 100px;
+    max-width: 100px;
 }
 
 .DateTime .table-form input{
@@ -194,14 +221,17 @@ input.el-input__inner{
 
 .CustomComputedField .table-form, th.is-leaf.CustomComputedField {
     width: 70px;
+    max-width: 70px;
 }
 
 .Note .table-form, th.is-leaf.Note {
     width: 105px;
+    max-width: 105px;
 }
 
 .Boolean .table-form, th.is-leaf.Boolean {
     width: 50px;
+    max-width: 50px;
 }
 
 .el-checkbox__input {
@@ -250,14 +280,17 @@ input.el-input__inner{
 
 .cancel, .save {
     width: 94px;
+    max-width: 94px;
 }
 
 .button {
     width: 45px;
+    max-width: 45px;
 }
 
 .radif {
-    width: 23px;
+    width: 30px;
+    max-width: 30px;
 }
 
 .el-form-item:hover {
@@ -281,10 +314,6 @@ input.el-input__inner{
     background: white;
     top: 0;
     z-index: 10;
-}
-
-.el-table td, .el-table th.is-leaf {
-    padding: 0px;
 }
 
 .hidden {
@@ -348,11 +377,25 @@ input.el-input__inner{
 }
 
 .master-item {
+    width: 60%;
     display: inline-block;
     font-size: 14px;
 }
 .master-field .el-form-item__content {
+    border: solid 1px lightgray;
+    border-radius: 4px;
+    padding: 23px 15px;
     text-align: right;
+    font-weight: 700;
+}
+.master-field:hover .el-form-item__content {
+    box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1);
+    transition: all 0.20s cubic-bezier(1, 0.53, 0, 0.68);
+}
+
+.master-title {
+    width: 40%;
+    float: right;
 }
 .el-select-dropdown{
 }
@@ -434,4 +477,49 @@ span[data-v-99c23128]{
     text-align: center;
     box-shadow: none!important;
     margin-right: -14px;
+}
+
+/* tr.odd-row input.el-input__inner { */
+/*     background: #f1f1f1; */
+/* } */
+/* tr.odd-row .cov-datepicker { */
+/*     background: #f1f1f1; */
+/* } */
+
+/* .el-input.is-disabled .el-input__inner { */
+/*     background-color: #ffffff; */
+/* } */
+/* tr.odd-row .el-input.is-disabled .el-input__inner { */
+/*     background-color: #f1f1f1; */
+/* } */
+
+.el-table tr.odd-row td {
+    background-color: #eef1f6d1;
+}
+
+.el-table tr.odd-row td .el-input__inner {
+    background-color: #eef1f6d1;
+}
+
+.el-table tr.odd-row td .datepickbox input{
+    background-color: #eef1f6d1;
+}
+
+.el-tooltip.item.master {
+    width: 100%;
+    height: 49px;
+    max-height: 49px;
+}
+
+.master div.cov-vue-date.el-input__inner {
+    width: 120px;
+    overflow: hidden;
+}
+
+.master i.el-icon-date {
+    margin: 11px 96px !important;
+}
+
+.master div.datepickbox {
+    margin-top: 6px;
 }
