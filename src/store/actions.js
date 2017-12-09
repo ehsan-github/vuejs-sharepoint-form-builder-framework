@@ -255,7 +255,7 @@ export function loadTemplateMetaData({ commit, state }) {
     return getTemplate(state.listId)
         .map(R.head)
         .fork(
-            err  => commit('loadTemplateMetaData', { templateName: 'TwoColumn', template: '' + err }),
+            err  => commit('loadTemplateMetaData', { templateName: 'SimpleColumn', columnsNum: 2, template: '' + err }),
             succ => {
                 let fields = transformFields(state.fields)
                 let firstTemplate = replaceTemplateStr(succ.template || '', fields)
@@ -266,7 +266,12 @@ export function loadTemplateMetaData({ commit, state }) {
                     }
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
-                commit('loadTemplateMetaData', { templateName: succ.templateName || 'TwoColumn', template })
+                commit('loadTemplateMetaData', {
+                    templateName: succ.templateName || 'SimpleColumn',
+                    columnsNum: succ.columnsNum || 2,
+                    template
+                })
+
             }
         )
 }

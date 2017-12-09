@@ -1,15 +1,15 @@
 import { mapState } from 'vuex'
-import TwoColumn from './TwoColumn'
+import SimpleColumn from './SimpleColumn'
 import Custom from './Custom'
 import Loading from './Loading'
 
 
 export default {
-    components: { TwoColumn, Custom, Loading },
+    components: { SimpleColumn, Custom, Loading },
     template: `
-        <component :is="templateName" />
+        <component :is="templateName" :columnsNum="columnsNum"/>
     `,
     computed: {
-        ...mapState(['templateName'])
+        ...mapState(['templateName', 'columnsNum'])
     }
 }

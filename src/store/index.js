@@ -22,6 +22,7 @@ const store = new Vuex.Store({
         serverErrors: [],
         deletedItems: [],
         templateName: 'Loading',
+        columnsNum: 2,
         templateStr: ''
     }: StoreType),
     getters: {
@@ -127,9 +128,10 @@ const store = new Vuex.Store({
         removeError (state, error) {
             state.errors = R.reject(R.equals(error), state.errors)
         },
-        loadTemplateMetaData(state, { templateName, template }){
+        loadTemplateMetaData(state, { templateName, template, columnsNum }){
             state.templateName = templateName
             state.templateStr = template
+            state.columnsNum = columnsNum
         },
         removeServerError(state, { row, internalName }){
             let relatedFields = R.pipe(

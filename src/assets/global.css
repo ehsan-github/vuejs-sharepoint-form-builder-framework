@@ -394,8 +394,14 @@ input.el-input__inner{
 }
 
 .master-title {
+    word-wrap: break-word;
     width: 40%;
     float: right;
+    text-align: center;
+}
+
+.el-col.detail-col {
+    width: auto;
 }
 .el-select-dropdown{
 }
@@ -507,8 +513,6 @@ span[data-v-99c23128]{
 
 .el-tooltip.item.master {
     width: 100%;
-    height: 49px;
-    max-height: 49px;
 }
 
 .master div.cov-vue-date.el-input__inner {
