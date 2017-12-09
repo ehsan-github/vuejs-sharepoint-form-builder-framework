@@ -527,3 +527,7 @@ span[data-v-99c23128]{
 .master div.datepickbox {
     margin-top: 6px;
 }
+
+.detail-col form.el-form.master-field.el-form--label-top {
+    width: min-content;
+}
