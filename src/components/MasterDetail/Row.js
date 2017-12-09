@@ -79,7 +79,9 @@ export default {
         ...mapActions(['MDChangeFieldRow', 'MDLoadFilteredOptions', 'MDLoadComputed', 'removeServerError']),
         change (idx, rowId, index, fieldId, value, multi) {
             if (multi) value = value.toString()
-            this.removeServerError({ row: idx, internalName: this.row[index]['InternalName'] })
+            if (this.serverErrors && this.serverErrors[this.showingRow[index]['InternalName']]) {
+                this.removeServerError({ row: idx, internalName: this.showingRow[index]['InternalName'] })
+            }
             this.MDChangeFieldRow ({ masterId: this.masterId, rowId , fieldId, value })
         },
         delRow (rowId, idx) {

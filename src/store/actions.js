@@ -307,8 +307,21 @@ export function removeServerError({ commit }, { row, internalName }){
 }
 
 export function loadServerErrors({ commit }, errors){
+    errors = R.chain(transformError, errors)
     commit('loadServerErrors', errors)
 }
+
+const transformError = ({ Message, RowNumber, FieldNames }) => {
+    return R.map(field => {
+        return {
+            Message,
+            RowNumber,
+            InternalName: field,
+            RelatedFields: FieldNames
+        }
+    }, FieldNames)
+}
+
 const shapeData = (value, InternalName) => { // key in the comming items is the InternalName of Field
     return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
 }

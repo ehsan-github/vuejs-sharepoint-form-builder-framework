@@ -24,7 +24,9 @@ export default {
     methods: {
         ...mapActions(['removeServerError']),
         change (value) {
-            this.removeServerError({ row: -1, internalName: this.fieldInternalName })
+            if (this.hasError) {
+                this.removeServerError({ row: -1, internalName: this.fieldInternalName })
+            }
             this.$emit('input', value)
             this.$emit('change', value)
         }

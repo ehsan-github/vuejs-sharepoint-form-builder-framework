@@ -132,11 +132,26 @@ const store = new Vuex.Store({
             state.templateStr = template
         },
         removeServerError(state, { row, internalName }){
-            state.serverErrors = R.reject(
-                R.where({
-                    RowNumber: R.equals(row),
-                    InternalName: R.equals(internalName)
-                }), state.serverErrors)
+            let relatedFields = R.pipe(
+                R.filter(
+                    R.where({
+                        RowNumber: R.equals(row),
+                        InternalName: R.equals(internalName)
+                    })),
+                R.head,
+                R.prop('RelatedFields')
+            )(state.serverErrors)
+            state.serverErrors = R.reduce(
+                (errors, fieldName) => R.reject(
+                    R.where({
+                        RowNumber: R.equals(row),
+                        InternalName: R.equals(fieldName)
+                    }),
+                    errors
+                ),
+                state.serverErrors,
+                relatedFields
+            )
         },
         loadServerErrors(state, errors){
             state.serverErrors = errors
