@@ -21,7 +21,9 @@ export default {
                     <TableHeader :fields="showingFields" />
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
-                            <Row v-for='(row, id, idx) in showingRows'
+                            <Row v-for='(row, id, idx) in rows'
+                                :relatedFields="relatedFields"
+                                :listOfShowFields="listOfShowFields"
                                 :options="field.options"
                                 :serverErrors="transformedServerErrors[idx]"
                                 :key="id" :masterId="fieldId"
@@ -41,30 +43,21 @@ export default {
             masterFields(state) { return state.fields },
             serverErrors (state) { return state.serverErrors }
         }),
+        rows() { return this.field.rows || [] },
+        fields() { return this.field.fields || {} },
+        relatedFields() { return this.field.RelatedFields || [] },
         transformedServerErrors(){ return transformErrors(this.serverErrors) },
         listOfShowFields() { return this.showFields ? this.showFields.split(',') : [] },
         showingFields() {
             if (this.listOfShowFields.length ===  0) {
                 return getFilteredView(
-                    this.field.RelatedFields || [],
-                    R.values(this.field.fields || {}))
-            } else if (R.equals(this.field.fields || {}, {})) {
+                    this.relatedFields,
+                    R.values(this.fields))
+            } else if (R.equals(this.fields, {})) {
                 return {}
             } else {
-                return getSortedList(this.listOfShowFields)(this.field.fields) }
-        },
-        showingRows() {
-            if (this.listOfShowFields.length === 0) {
-                return R.pipe(
-                    R.map(R.values),
-                    R.map(getFilteredView(this.field.RelatedFields || []))
-                )(this.field.rows || [])
-            } else {
-                R.map(
-                    getSortedList(this.listOfShowFields),
-                    this.field.rows || [])
-            }
-        },
+                return getSortedList(this.listOfShowFields)(this.fields) }
+        }
     },
     methods: {
         ...mapActions([
