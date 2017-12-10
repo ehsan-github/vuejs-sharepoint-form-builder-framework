@@ -84,11 +84,21 @@ const store = new Vuex.Store({
         },
         MDSetFieldRow (state, { masterId, rowIndex, InternalName, value }) {
             let fieldId = getFieldId(InternalName, state.fields[masterId].fields)
-            value = R.head(value.split(';#'))
-            value = isNaN(value) || value == '' ? value : Number(value)
-            if (value == 'True') value = true
             let rowId = R.keys(state.fields[masterId].rows)[rowIndex]
-            fieldId && value ? state.fields[masterId].rows[rowId] = R.assocPath([fieldId, 'value'], value, state.fields[masterId].rows[rowId]) : null
+            let fieldType = state.fields[masterId].rows[rowId][fieldId]['Type']
+            if (fieldType == 'LookupMulti') {
+                value = R.pipe(
+                    R.filter(x => Number(x)),
+                    R.map(x => Number(x))
+                )(value.split(';#'))
+            } else {
+                value = R.head(value.split(';#'))
+                value = isNaN(value) || value == '' ? value : Number(value)
+            }
+            if (value == 'True') value = true
+            if (fieldId && value) {
+                state.fields[masterId].rows[rowId] = R.assocPath([fieldId, 'value'], value, state.fields[masterId].rows[rowId])
+            }
         },
         MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
