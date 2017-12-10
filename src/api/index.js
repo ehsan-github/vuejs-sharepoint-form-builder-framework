@@ -7,7 +7,7 @@ export const getEntityTypeName = listId => getApiF(
 
 export const getFieldsList = (listId, itemId) => postApiF(
     '/_Layouts/15/BaseSolution/Services.aspx/GetFieldsList',
-    { listId, itemId }
+    { listId, itemId, formType: 'Edit' }
 )
 
 export const getListData = listId => getApiF(
