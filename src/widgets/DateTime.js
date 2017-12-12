@@ -1,6 +1,7 @@
 // @flow
 import Datepicker from 'vue-jalaali-datepicker/vue-jalaali-datepicker-es6'
 import moment from 'moment-jalaali'
+import R from 'ramda'
 
 export default {
     inject: ['$validator'],
@@ -9,7 +10,7 @@ export default {
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
 <div><i class="el-icon-date" style="display: inline-block;position: absolute;margin: 11px 80px;color: darkgray;"></i>
         <Datepicker
-            v-validate="rules"
+            v-validate:value="rules"
             :class="{'error-box': hasError, 'el-input__inner': true}"
             :data-vv-name='name'
             v-model="model"
@@ -24,7 +25,9 @@ export default {
     props: ['value', 'name', 'rules'],
     data () {
         return {
-            model: new Date(),
+            model: {
+                time: ''
+            },
             startTime: {
                 time: '' // '1396-05-02' (type=day) && '["1396/05/02", "1396/06/02", "1396/07/02"]' (type="multi-day")
             },
@@ -54,7 +57,7 @@ export default {
                 type: 'min',
                 week: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
                 month: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
-                format: 'jYYYY-jMM-jDD HH:mm'
+                format: 'jYYYY-jMM-jDD'
             },
             limit: [{
                 type: 'weekday',
@@ -69,11 +72,27 @@ export default {
     methods: {
         change(newValue) {
             let value = moment(newValue, 'jYYYY-jMM-jDD HH:mm').format('YYYY/MM/DD HH:mm')
+            this.model = { time: newValue }
             this.$emit('input', value)
             this.$emit('change', value)
         }
     },
     mounted() {
-        this.model = this.value
+        if (this.value) {
+            let value = R.pipe(
+                R.split(' '),
+                R.head,
+                R.split('/'),
+                ([m, d, y]) => [y, m, d],
+                R.join('/')
+            )(this.value)
+            let time = moment(value, 'YYYY/MM/DD').format('jYYYY-jMM-jDD')
+            this.model = { time }
+            this.startTime = { time }
+        } else {
+            this.model = {
+                time: ''
+            }
+        }
     }
 }
