@@ -1,5 +1,8 @@
 .DS_Store
-node_modules/
+node_modules/*
+!node_modules/vue-jalaali-datepicker
+node_modules/vue-jalaali-datepicker/*
+!node_modules/vue-jalaali-datepicker/vue-jalaali-datepicker-es6.vue
 dist/
 npm-debug.log*
 yarn-debug.log*
