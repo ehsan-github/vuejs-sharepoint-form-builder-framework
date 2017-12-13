@@ -2,17 +2,25 @@
 import PageTemplate from '../templates'
 import ContractSpecForm from '../components/ContractSpec'
 import TitleHeader from '../widgets/TitleHeader'
+import Histories from './Histories'
 
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
     inject: ['$validator'],
+    components: { PageTemplate, ContractSpecForm, TitleHeader, Histories },
     template: `
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='24'>
                 <TitleHeader :title="listData.Title" />
                 <PageTemplate/>
                 <el-row type='flex' justify="center">
+                    <el-col :xs="24" :sm="20" :md="14" :lg="16" :xl="14" class="centeralize">
+                        <div>مشاهده سوابق</div>
+                        <Histories />
+                    </el-col>
+                </el-row>
+                <el-row type='flex' justify="center" class="footer">
                     <el-col :span='2'>
                         <el-button class="save" type='primary' @click='click'>ذخیره</el-button>
                     </el-col>
@@ -39,7 +47,6 @@ export default {
             return '/Lists/' + this.listName + '/AllItems.aspx'
         }
     },
-    components: { PageTemplate, ContractSpecForm, TitleHeader },
     methods: {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {

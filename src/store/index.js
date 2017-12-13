@@ -18,6 +18,7 @@ const store = new Vuex.Store({
         itemId: new URLSearchParams(location.search).get('Item'),
         listData: {},
         fields: {},
+        histories: [],
         errors: [],
         serverErrors: [],
         deletedItems: [],
@@ -170,6 +171,9 @@ const store = new Vuex.Store({
         },
         setLoadingFalse(state){
             state.loading = false
+        },
+        loadHistories(state, histories){
+            state.histories = histories
         }
     },
     actions

@@ -38,19 +38,23 @@ function setListData ({ commit, state }) {
 export function loadFields ({ commit, state, getters }) {
     return new Promise((resolve, reject) => {
         getFieldsList(state.listId, Number(state.itemId))
-            .map(R.prop('fields'))
-            .map(R.map(assignValue))
-            .map(transformFieldsList)
             .fork(
                 err => {
                     commit('addError', err)
                     reject(err)
                 },
                 res => {
+                    let fields = R.pipe(
+                        R.prop('fields'),
+                        R.map(assignValue),
+                        transformFieldsList
+                    )(res)
+                    commit('loadFields', fields)
                     setListData({ commit, state })
-                    commit('loadFields', res)
-                    const select = constructSelect(res)
+                    const select = constructSelect(fields)
                     showFieldsList({ commit, state, getters }, { select })
+
+                    commit('loadHistories', res.histories)
                     resolve(res)
                 }
             )
@@ -255,7 +259,7 @@ export function loadTemplateMetaData({ commit, state }) {
     return getTemplate(state.listId)
         .map(R.head)
         .fork(
-            err  => commit('loadTemplateMetaData', { templateName: 'SimpleColumn', columnsNum: 2, template: '' + err }),
+            err  => commit('loadTemplateMetaData', { templateName: 'TwoSide', columnsNum: 2, template: '' + err }),
             succ => {
                 let fields = transformFields(state.fields)
                 let firstTemplate = replaceTemplateStr(succ.template || '', fields)
@@ -267,7 +271,7 @@ export function loadTemplateMetaData({ commit, state }) {
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
                 commit('loadTemplateMetaData', {
-                    templateName: succ.templateName || 'SimpleColumn',
+                    templateName: succ.templateName || 'TwoSide',
                     columnsNum: succ.columnsNum || 2,
                     template
                 })
