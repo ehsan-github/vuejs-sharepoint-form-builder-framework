@@ -627,3 +627,7 @@ primary.is-plain:hover {
     padding-bottom: 40px;
     padding-top: 15px;
 }
+
+.centeralize {
+    text-align: center;
+}
