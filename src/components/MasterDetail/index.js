@@ -85,7 +85,7 @@ export default {
             })
         },
         handleScroll() {
-            if (this.$refs.table.getBoundingClientRect().top <= 0) {
+            if (this.$refs.table.getBoundingClientRect().top <= 0 && this.$refs.table.getBoundingClientRect().bottom >= 100) {
                 this.headIsOnTop = true
             } else {
                 this.headIsOnTop = false
