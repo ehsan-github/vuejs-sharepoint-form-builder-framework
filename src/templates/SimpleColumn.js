@@ -7,13 +7,13 @@ export default {
     template: `
     <div>
         <el-row v-for='(row, rowId) in rows' justify="center" type="flex" :gutter="4" :key='rowId'>
-            <el-col :xs="24" :sm="24" :md="23" :lg="23" :xl="20">
-                <el-row v-for='(rowFields, id) in row' :key='id' :gutter="20">
+            <el-col :xs="24" :sm="24" :md="20" :lg="14" :xl="14">
+                <el-row v-for='(rowFields, id) in row' :key='id' :gutter="20" justify="center" type="flex">
                     <el-col v-for='f in rowFields' :key='f.Guid' :span="isMasterOrNote(f) ? 24 : columnSpan" :class="{'detail-col': !isMaster(f)}">
-                        <el-form ref='form' label-position="top" class="master-field">
+                        <el-form ref='form' label-position="top" :class="{'master-field': isMaster(f)}">
                             <el-form-item :class="{require: f.IsRequire}">
-                                <div :class="{'master-title': isMaster(f)}">{{f.Title}}</div>
-                                <div :class="{'master-item': isMaster(f)}">
+                                <div :class="{'master-title': isMaster(f), 'detail-title': !isMaster(f)}">{{f.Title}}</div>
+                                <div :class="{'master-item': isMaster(f), 'detail-item': !isMaster(f)}">
                                     <Field :fieldId='f.Guid'/>
                                 </div>
                             </el-form-item>
