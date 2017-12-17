@@ -416,6 +416,10 @@ td.radif {
 
 .el-col.detail-col {
     width: auto;
+    border: solid 2px #49b4ba;
+    border-radius: 30px;
+    background: white;
+    margin-bottom: 15px;
 }
 
 .detail-col-2.el-col.el-col-24 {
@@ -430,7 +434,6 @@ td.radif {
 
 h3.title {
     border-radius: 4px;
-    width: 94%;
     background: #49b4ba;
     color: white;
     font-size: 24px;
@@ -439,7 +442,7 @@ h3.title {
     -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.2), 0 0 200px rgba(221, 80, 80, 0.8);
     box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1);
     text-align: center;
-    margin: 0 auto;
+    margin: 0 7%;
     margin-bottom: 20px;
 }
 
@@ -595,7 +598,7 @@ thead {
     content: "* ";
     position: absolute;
     margin-top: 1px;
-    right: 0;
+    right: 10px;
     color: red;
     font-size: 20px;
 }
@@ -626,8 +629,8 @@ primary.is-plain:hover {
 }
 
 .border {
-    border: solid 2px #49b4ba;
-    margin: 1% 7%;
+    /* border: solid 2px #49b4ba; */
+    margin: 1% 7% -1%;
     border-radius: 4px;
     padding-top: 25px;
     padding: 2%;
