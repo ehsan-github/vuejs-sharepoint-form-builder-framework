@@ -13,7 +13,7 @@ export default {
         <el-row type='flex' justify='center' v-loading='loading'>
             <el-col :span='24'>
                 <TitleHeader :title="listData.Title" />
-                <PageTemplate/>
+                <PageTemplate class="border"/>
                 <el-row type='flex' justify="center">
                     <el-col :xs="24" :sm="20" :md="14" :lg="16" :xl="14" class="centeralize">
                         <div>مشاهده سوابق</div>
@@ -52,40 +52,26 @@ export default {
         click () {
             this.$validator.validateAll().then((result) => {
                 if (result && this.serverHasNotError && this.detailsHasAtLeastOneRow) {
-
-                    return this.$confirm('اطلاعات فرم ذخیره شود؟', '', {
-                        confirmButtonText: 'بله',
-                        cancelButtonText: 'خیر',
-                        type: 'info'
-                    })
-                        .then(() => {
-                            this.saveData()
-                                .then(succ => {
-                                    if (succ == 'ok') {
-                                        this.$message.success({
-                                            title: 'موفقیت ',
-                                            showClose: true,
-                                            message: 'داده ها با موفقیت ذ‌خیره شد'
-                                        })
-                                        setTimeout(()=> {
-                                            location.href = this.redirectURL
-                                        }, 1000)
-                                    }
-                                    else{
-                                        this.$message.error({
-                                            showClose: true,
-                                            title: 'خطا',
-                                            message : 'در اطلاعات وارد شده خطا وجود دارد لطفا خطاها را رفع کرده مجددا ذخیره نمایید.'
-                                        })
-                                        this.loadServerErrors(JSON.parse(succ))
-                                    }
+                    return this.saveData()
+                        .then(succ => {
+                            if (succ == 'ok') {
+                                this.$message.success({
+                                    title: 'موفقیت ',
+                                    showClose: true,
+                                    message: 'داده ها با موفقیت ذ‌خیره شد'
                                 })
-                        })
-                        .catch(() => {
-                            this.$message({
-                                type : 'info',
-                                message : 'عملیات ذخیره لغو شد',
-                            })
+                                setTimeout(()=> {
+                                    location.href = this.redirectURL
+                                }, 1000)
+                            }
+                            else{
+                                this.$message.error({
+                                    showClose: true,
+                                    title: 'خطا',
+                                    message : 'در اطلاعات وارد شده خطا وجود دارد لطفا خطاها را رفع کرده مجددا ذخیره نمایید.'
+                                })
+                                this.loadServerErrors(JSON.parse(succ))
+                            }
                         })
                 }
 
