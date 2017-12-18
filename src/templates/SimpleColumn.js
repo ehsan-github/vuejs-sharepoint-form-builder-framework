@@ -52,18 +52,15 @@ export default {
 }
 
 const buildRows = fields => {
-    if (fields === undefined) return []
     if (fields.length == 0) return fields
     if (fields.length == 1) return [fields]
-    if (R.pipe(
-        R.head,
-        R.or(
-            R.propEq('Type', 'MasterDetail'),
-            R.propEq('Type', 'Note')))(fields)) {
+    if (R.pipe(R.head, isMasterOrNote)(fields)) {
         return R.concat([[R.head(fields)]], buildRows(R.tail(fields)))
     }
-    let splited = R.splitWhen(R.or(
-        R.propEq('Type', 'MasterDetail'),
-        R.propEq('Type', 'Note')), fields)
+    let splited = R.splitWhen(isMasterOrNote, fields)
     return R.concat([R.head(splited)], buildRows(R.last(splited)))
 }
+
+const isMasterOrNote = R.or(
+    R.propEq('Type', 'MasterDetail'),
+    R.propEq('Type', 'Note'))
