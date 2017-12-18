@@ -7,9 +7,9 @@ html, body {
 
 @font-face {
     font-family: 'yekanRegular';
-    src: 	url('fonts/Yekan.eot?#') format('eot'),
-		url('fonts/Yekan.woff') format('woff'),
-		url('fonts/Yekan.ttf') format('truetype');
+    src: 	url('./fonts/Yekan.eot?#') format('eot'),
+		url('./fonts/Yekan.woff') format('woff'),
+		url('./fonts/Yekan.ttf') format('truetype');
 }
 
 .table-form {
@@ -322,6 +322,12 @@ td.radif {
     direction: rtl;
 }
 
+.absolute-position {
+    position: absolute;
+    background: white;
+    top: 0;
+    z-index: 10;
+}
 .fixes-position {
     position: fixed;
     background: white;
@@ -481,19 +487,20 @@ span[data-v-99c23128]{
 .cov-date-caption span:nth-child(3){margin-top: 0px;margin-right: -31%;}
 .cov-date-caption span:nth-child(1){font-size: 31px;margin-right: 10%;margin-top: 17px;position: absolute;}
 
-.cov-date-previous, .cov-date-previous:hover{
-    background: url('./previous.png')no-repeat!important;
-       background-size: 24px 18px!important;
-       background-position-x: 22px!Important;
-       background-position-y: 28px!important;
+.cov-date-next, .cov-date-next:hover {
+    background: url('./next.png') no-repeat !important;
+    background-size: 24px 18px !important;
+    background-position-x: 22px !important;
+    background-position-y: 28px !important;
 }
 
-.cov-date-next,.cov-date-next:hover {
-    background: url('./Navigate.png')no-repeat!important;
-    background-size: 24px 18px!important;
-    background-position-x: 22px!Important;
-    background-position-y: 28px!important;
-    }
+.cov-date-previous, .cov-date-previous:hover{
+    background: url('./previous.png') no-repeat !important;
+    background-size: 24px 18px !important;
+    background-position-x: 22px !important;
+    background-position-y: 28px !important;
+}
+
 
 .cov-date-next[data-v-99c23128]:before, .cov-date-previous[data-v-99c23128]:before , .cov-date-next[data-v-99c23128]:after, .cov-date-previous[data-v-99c23128]:after  {
     display:none;
@@ -556,7 +563,7 @@ span[data-v-99c23128]{
     width: min-content;
 }
 
-/*/////////////////////*/
+/* ///////////////////// */
 
 .el-select .el-tag {
     /* height: 24px; */
@@ -629,7 +636,7 @@ primary.is-plain:hover {
 }
 
 .border {
-    /* border: solid 2px #49b4ba; */
+    border: solid 2px #eef1f6;
     margin: 1% 7% -1%;
     border-radius: 4px;
     padding-top: 25px;
