@@ -15,7 +15,9 @@ const store = new Vuex.Store({
     state: ({
         loading: true,
         listId: new URLSearchParams(location.search).get('List'),
-        itemId: new URLSearchParams(location.search).get('Item'),
+        itemId: new URLSearchParams(location.search).get('ID'),
+        contentTypeId: new URLSearchParams(location.search).get('ContentTypeId') || '',
+        dContentTypeId: new URLSearchParams(location.search).get('dContentTypeId') || '',
         listData: {},
         fields: {},
         histories: [],
@@ -32,8 +34,6 @@ const store = new Vuex.Store({
         serverHasNotError: s => s.serverErrors.length == 0,
         filteredFields: s => R.pipe(
             R.reject(R.propEq('InternalName', 'ID')),
-            R.reject(R.propEq('InternalName', 'Title')),
-            R.reject(R.propEq('InternalName', 'Message'))
         )(s.fields),
         isThereDetails: s => R.pipe(R.values,
                                     R.filter(R.propEq('Type', 'MasterDetail')),
