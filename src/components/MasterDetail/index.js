@@ -15,9 +15,7 @@ export default {
                 <table ref="table" class="el-table__header">
                     <TableHeader
                         :fields="showingFields"
-                        @scroll="handleScroll"
                         class="fixes-position hidden"
-                        :class="{visible: headIsOnTop}" />
                     <TableHeader :fields="showingFields" />
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
@@ -36,7 +34,7 @@ export default {
             </div>
         </div>
     `,
-    data (){ return { headIsOnTop: false } },
+    // data (){ return { headIsOnTop: false } },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] },
@@ -84,18 +82,18 @@ export default {
                 this.$message({ type: 'info', message: 'حذف لغو گردید' })
             })
         },
-        handleScroll() {
-            if (this.$refs.table.getBoundingClientRect().top <= 0 && this.$refs.table.getBoundingClientRect().bottom >= 100) {
-                this.headIsOnTop = true
-            } else {
-                this.headIsOnTop = false
-            }
-        }
+        // handleScroll() {
+        //     if (this.$refs.table.getBoundingClientRect().top <= 0 && this.$refs.table.getBoundingClientRect().bottom >= 100) {
+        //         this.headIsOnTop = true
+        //     } else {
+        //         this.headIsOnTop = false
+        //     }
+        // }
     },
     async mounted () {
         await this.MDLoadFields({ id: this.fieldId, listId: this.field.LookupList, masterLookupName: this.field.MasterLookupName })
         this.MDLoadAllLookupOptions({ masterId: this.fieldId })
         this.changeField({ id: this.fieldId, value: this.field.MasterLookupName })
-        window.addEventListener('scroll', this.handleScroll)
+        // window.addEventListener('scroll', this.handleScroll)
     }
 }

@@ -10,7 +10,7 @@ export default {
     props: ['relatedFields', 'listOfShowFields', 'masterId', 'row', 'id', 'idx', 'serverErrors', 'options'],
     template: `
             <tr :class="[{'even-row': idx%2==0, 'odd-row': idx%2==1}, 'el-table__row']" :key="id">
-                <td>
+                <td class="button">
                     <el-button type="danger" plain @click='() => delRow(id, idx)'><i class="el-icon-delete"></i></el-button>
                 </td>
                 <td class="radif">{{idx + 1}}</td>

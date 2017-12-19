@@ -77,12 +77,20 @@ html, body {
     border-color: #ff4949 !important;
     border-width: medium !important;
 }
-input.el-input__inner{
+
+.detail-col input.el-input__inner, .detail-col-2 input.el-input__inner{
     font-family: inherit;
-    text-align: center;
+    text-align: right;
     padding: 3px 3px 0px 0px !important;
 }
 
+.master-item .Number input.el-input__inner {
+    text-align: left;
+}
+
+.master-item input.el-input__inner {
+    padding: 0px 10px;
+}
 .datepickbox input {
     border: none !important;
 }
@@ -140,6 +148,7 @@ td.radif {
     padding: 0px;
     /* padding: 0px 2px 0px 2px; */
     border-bottom: none !important;
+    line-height: 2;
 }
 
 .el-table td>div {
@@ -169,17 +178,17 @@ td.radif {
 }
 
 .Number .table-form, th.is-leaf.Number {
-    width: 72px;
+    min-width: 72px;
     max-width: 72px;
 }
 
 .Text .table-form, th.is-leaf.Text {
-    width: 90px;
+    min-width: 90px;
     max-width: 90px;
 }
 
 .Choice .table-form, th.is-leaf.Choice {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 
@@ -188,7 +197,7 @@ td.radif {
 }
 
 .MultiChoice .table-form, th.is-leaf.MultiChoice {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 
@@ -197,7 +206,7 @@ td.radif {
 }
 
 .RelatedCustomLookupQuery .table-form,th.is-leaf.RelatedCustomLookupQuery {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 
@@ -206,7 +215,7 @@ td.radif {
 }
 
 .Lookup .table-form, th.is-leaf.Lookup {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 .Lookup .table-form input {
@@ -214,7 +223,7 @@ td.radif {
 }
 
 .LookupMulti .table-form, th.is-leaf.LookupMulti {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 .LookupMulti .table-form input {
@@ -222,7 +231,7 @@ td.radif {
 }
 
 .DateTime .table-form, th.is-leaf.DateTime {
-    width: 100px;
+    min-width: 100px;
     max-width: 100px;
 }
 
@@ -233,17 +242,17 @@ td.radif {
 }
 
 .CustomComputedField .table-form, th.is-leaf.CustomComputedField {
-    width: 70px;
+    min-width: 70px;
     max-width: 70px;
 }
 
 .Note .table-form, th.is-leaf.Note {
-    width: 105px;
+    min-width: 105px;
     max-width: 105px;
 }
 
 .Boolean .table-form, th.is-leaf.Boolean {
-    width: 50px;
+    min-width: 50px;
     max-width: 50px;
 }
 
@@ -279,7 +288,7 @@ td.radif {
 
 .el-form-item__content {
     /* line-height: 18px !important; */
-    text-align: center;
+    text-align: right;
 }
 
 .el-row {
@@ -298,11 +307,12 @@ td.radif {
 
 .button {
     width: 45px;
+    min-width: 45px !important;
     max-width: 45px;
 }
 
 .radif {
-    width: 30px;
+    min-width: 30px !important;
     max-width: 30px;
 }
 
@@ -320,6 +330,10 @@ td.radif {
 
 .el-message__group p {
     direction: rtl;
+}
+
+.table-header {
+    position: relative;
 }
 
 .absolute-position {
@@ -396,17 +410,16 @@ td.radif {
 }
 
 .master-item {
-    width: 60%;
+    width: 75%;
     display: inline-block;
     font-size: 14px;
 }
 .master-field .el-form-item__content {
     /* border: solid 1px lightgray; */
     /* border-radius: 4px; */
-    padding: 23px 30px;
+    padding: 0px;
     text-align: right;
     font-weight: 700;
-    margin: -25px;
 }
 .master-field:hover .el-form-item__content {
     /* box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1); */
@@ -415,15 +428,14 @@ td.radif {
 
 .master-title {
     word-wrap: break-word;
-    width: 30%;
+    width: 25%;
     float: right;
-    text-align: right;
+    text-align: center;
 }
 
 .el-col.detail-col {
-    width: auto;
-    border: solid 2px #49b4ba;
-    border-radius: 30px;
+    border: solid 2px #f1f1f1;
+    border-radius: 4px;
     background: white;
     margin-bottom: 15px;
 }
@@ -603,9 +615,7 @@ thead {
 
 .require .master-title:before {
     content: "* ";
-    position: absolute;
-    margin-top: 1px;
-    right: 10px;
+    margin-right: 5px;
     color: red;
     font-size: 20px;
 }
@@ -657,3 +667,16 @@ primary.is-plain:hover {
 }
 
 @import 'edit.css'
+.header-span {
+    display: block;
+}
+
+.el-table__header-wrapper {
+    max-height: 10531px;
+    overflow: scroll !important;
+}
+
+.description {
+    font-size: 12px;
+    font-weight: 100;
+}

@@ -7,14 +7,18 @@ export default {
     props: ['fieldId', 'showFields'],
     components: { Field },
     template: `
+    <div>
         <el-tooltip :disabled="fieldType == 'MasterDetail' || !hasError" class="item" effect="dark" :content="errorMessage" placement="bottom">
-            <Field :fieldId="fieldId" :showFields="showFields" @change="change" :class="{'error-box': hasError, master: fieldType != 'MasterDetail'}"></Field>
+            <Field :fieldId="fieldId" :showFields="showFields" @change="change" :class="[{'error-box': hasError, master: fieldType != 'MasterDetail'}, fieldType]"></Field>
         </el-tooltip>
+        <div class="description">{{description}}</div>
+    </div>
     `,
     computed: {
         ...mapState({
             fieldType (state) { return state.fields[this.fieldId].Type },
             fieldInternalName (state) { return state.fields[this.fieldId].InternalName },
+            description (state) { return state.fields[this.fieldId].Description},
             serverErrors (state) { return state.serverErrors }
         }),
         error() { return getError(this.fieldInternalName, this.serverErrors) },
