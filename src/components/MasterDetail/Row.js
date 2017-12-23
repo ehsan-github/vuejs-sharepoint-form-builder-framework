@@ -36,7 +36,7 @@ export default {
                     getFilteredView(this.relatedFields)
                 )(this.row)
             } else {
-                getSortedList(this.listOfShowFields, this.row)
+                return getSortedList(this.listOfShowFields)(this.row)
             }
         },
         computedQueries() {

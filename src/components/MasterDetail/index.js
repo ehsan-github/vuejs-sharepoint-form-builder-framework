@@ -52,7 +52,7 @@ export default {
                     this.relatedFields,
                     R.values(this.fields))
             } else if (R.equals(this.fields, {})) {
-                return {}
+                return []
             } else {
                 return getSortedList(this.listOfShowFields)(this.fields) }
         }
