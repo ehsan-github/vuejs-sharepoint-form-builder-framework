@@ -299,7 +299,6 @@ td.radif {
 }
 
 .el-form-item__content {
-    /* line-height: 18px !important; */
     text-align: right;
 }
 
@@ -413,6 +412,7 @@ td.radif {
 
 .master {
     font-size: 16px;
+    height: 36px;
 }
 
 .master-item input.el-input__inner {
@@ -422,7 +422,7 @@ td.radif {
 }
 
 .master-item {
-    width: 75%;
+    width: 73%;
     display: inline-block;
     font-size: 14px;
 }
@@ -437,10 +437,13 @@ td.radif {
     /* box-shadow: 0 0 8px rgba(190, 190, 190, 0.2), 0 0 4px rgba(213, 213, 213, 1); */
     transition: all 0.20s cubic-bezier(1, 0.53, 0, 0.68);
 }
+.el-form-item__content {
+    text-align: center;
+}
 
 .master-title {
     word-wrap: break-word;
-    width: 25%;
+    width: 23%;
     float: right;
     text-align: center;
 }
@@ -450,6 +453,7 @@ td.radif {
     border-radius: 4px;
     background: white;
     margin-bottom: 15px;
+    width: 1900px;
 }
 
 .detail-col-2.el-col.el-col-24 {
@@ -659,7 +663,7 @@ primary.is-plain:hover {
 
 .border {
     border: solid 2px #eef1f6;
-    margin: 1% 7% -1%;
+    margin: 1% 7% 1%;
     border-radius: 4px;
     padding-top: 25px;
     padding: 2%;
@@ -685,7 +689,7 @@ primary.is-plain:hover {
 
 .detail-item .el-table__header-wrapper {
     max-height: 10531px;
-    overflow: scroll !important;
+    /* overflow: scroll !important; */
 }
 
 .description {
