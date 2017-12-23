@@ -15,7 +15,8 @@ export default {
             fields(state) { return state.fields }
         }),
         value () { return this.field.value },
-        query () { return replaceQueryFields(this.field.Query, this.fields) }
+        query () { return replaceQueryFields(this.fields)(this.field.Query) }
+
     },
     watch : {
         query: {
