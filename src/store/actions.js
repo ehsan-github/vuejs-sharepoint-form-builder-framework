@@ -70,11 +70,13 @@ export function loadOptions({ commit }, { id, listId }) {
 }
 
 export function loadFilteredOptions({ commit }, { id, listId, query }) {
-    return getFilteredItems(listId, query)
-        .fork(
-            err     => commit('addError', err),
-            options => commit('loadOptions', { id, options })
-        )
+    if (query.indexOf('null') === -1) {
+        return getFilteredItems(listId, query)
+            .fork(
+                err     => commit('addError', err),
+                options => commit('loadOptions', { id, options })
+            )
+    }
 }
 
 // export function loadContractSpec({ commit, state }){
