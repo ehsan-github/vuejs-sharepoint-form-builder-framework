@@ -42,7 +42,10 @@ export default {
         computedQueries() {
             let computedColumns = R.filter(R.propEq('Type', 'CustomComputedField'), this.showingRow)
             return R.map(({ Guid, LookupList, LookupTitleField, Query, AggregationFunction }) => {
-                let query = replaceQueryFields(this.showingRow)(Query)
+                let query = R.pipe(
+                    replaceQueryFields(this.showingRow),
+                    replaceQueryMasterFields(this.masterFields)
+                )(Query)
                 return { id: Guid, masterId: this.masterId, rowId: this.id, listId: LookupList, query, select: LookupTitleField , func: AggregationFunction }
             }, computedColumns)
         },
