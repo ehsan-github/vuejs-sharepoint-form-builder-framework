@@ -55,6 +55,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'file-loader',
+        options: {
+          name: utils.assetsPath('img/[name].[hash:7].[ext]'),
+        }
+      },
+      {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
