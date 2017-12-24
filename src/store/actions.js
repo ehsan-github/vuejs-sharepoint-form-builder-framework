@@ -241,14 +241,19 @@ const transFormForSave = R.pipe(
 
 export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
+    commit('setLoadingTrue')
     return new Promise((resolve, reject) => {
         saveFieldItems(state.listId, data, state.deletedItems)
             .fork(
                 err  => {
-                    commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید'),
+                    commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید')
+                    commit('setLoadingFalse')
                     reject(err)
                 },
-                succ => resolve(succ)
+                succ => {
+                    commit('setLoadingFalse')
+                    resolve(succ)
+                }
             )
     })
 }

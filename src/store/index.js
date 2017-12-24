@@ -172,6 +172,9 @@ const store = new Vuex.Store({
         setLoadingFalse(state){
             state.loading = false
         },
+        setLoadingTrue(state){
+            state.loading = true
+        },
         loadHistories(state, histories){
             state.histories = histories
         }
