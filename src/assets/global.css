@@ -16,7 +16,7 @@ html, body {
     width: 125px;
 }
 
-.el-textarea__inner {
+.table-form .el-textarea__inner {
     max-height: 36px;
 }
 
@@ -140,6 +140,9 @@ html, body {
 
 td.radif {
     display: inline-block;
+    min-width: 30px !important;
+    max-width: 30px;
+    line-height: inherit;
 }
 
 .el-table td, .el-table th.is-leaf {
@@ -322,11 +325,6 @@ td.radif {
     max-width: 45px;
 }
 
-.radif {
-    min-width: 30px !important;
-    max-width: 30px;
-}
-
 .el-form-item:hover {
     /* background: rgba(245, 245, 220, 0.43); */
     transition: all 0.44s cubic-bezier(1, 0.53, 0, 0.68);
@@ -446,6 +444,14 @@ td.radif {
     width: 23%;
     float: right;
     text-align: center;
+}
+
+.el-col-24.main-col .master-title {
+    width: 11%;
+}
+
+.el-col-24.main-col .master-item {
+    width: 89%;
 }
 
 .el-col.detail-col {
@@ -695,4 +701,9 @@ primary.is-plain:hover {
 .description {
     font-size: 12px;
     font-weight: 100;
+    line-height: 28px;
+}
+
+.el-tooltip.item.el-tooltip.item.el-textarea.master.Note {
+    height: auto;
 }
