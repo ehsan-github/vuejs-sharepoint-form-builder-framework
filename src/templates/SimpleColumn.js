@@ -9,7 +9,7 @@ export default {
         <el-row v-for='(row, rowId) in rows' justify="center" type="flex" :gutter="4" :key='rowId'>
             <el-col :xs="24" :sm="24" :md="20" :lg="24" :xl="14">
                 <el-row v-for='(rowFields, id) in row' :key='id' :gutter="20" justify="right" type="flex">
-                    <el-col v-for='f in rowFields' :key='f.Guid' :span="isMasterOrNote(f) ? 24 : columnSpan" :class="{'detail-col': !isMaster(f)}">
+                    <el-col v-for='f in rowFields' :key='f.Guid' :span="isMasterOrNote(f) ? 24 : columnSpan" :class="[{'detail-col': !isMaster(f)}, 'main-col']">
                         <el-form ref='form' label-position="top" :class="{'master-field': isMaster(f)}">
                             <el-form-item :class="{require: f.IsRequire}">
                                 <div :class="{'master-title': isMaster(f), 'detail-title': !isMaster(f)}">{{f.Title}}</div>
@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         isMasterOrNote(field){
-            return R.or(
+            return R.either(
                 R.propEq('Type', 'MasterDetail'),
                 R.propEq('Type', 'Note'))(field)
         },
@@ -61,6 +61,6 @@ const buildRows = fields => {
     return R.concat([R.head(splited)], buildRows(R.last(splited)))
 }
 
-const isMasterOrNote = R.or(
+const isMasterOrNote = R.either(
     R.propEq('Type', 'MasterDetail'),
     R.propEq('Type', 'Note'))
