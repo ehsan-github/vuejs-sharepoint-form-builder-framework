@@ -61,7 +61,7 @@ export default {
             },
             limit: [{
                 type: 'weekday',
-                available: [1, 2, 3, 4, 5, 6]
+                available: [1, 2, 3, 4, 5, 6, 7]
             }],
         }
     },
