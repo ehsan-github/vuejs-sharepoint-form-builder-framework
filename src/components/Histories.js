@@ -13,12 +13,12 @@ export default {
             <el-table-column
                 prop="UserName"
                 label="کاربر"
-                width="150">
+                width="170">
             </el-table-column>
             <el-table-column
                 prop="state"
                 label="رویداد"
-                width="90">
+                width="100">
             </el-table-column>
             <el-table-column
                 prop="HistoryDate"

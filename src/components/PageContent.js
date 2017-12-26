@@ -15,7 +15,7 @@ export default {
                 <TitleHeader :title="listData.Title" />
                 <PageTemplate class="border"/>
                 <el-row type='flex' justify="center">
-                    <el-col :xs="24" :sm="20" :md="14" :lg="16" :xl="14" class="centeralize">
+                    <el-col :xs="24" :sm="20" :md="18" :lg="18" :xl="16" class="centeralize">
                         <div>مشاهده سوابق</div>
                         <Histories />
                     </el-col>
