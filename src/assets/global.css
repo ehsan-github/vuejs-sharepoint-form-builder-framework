@@ -73,6 +73,10 @@ html, body {
     border-width: medium !important;
 }
 
+.cov-date-caption{
+    margin-top: -50px !important;
+}
+
 .error-box div.cov-vue-date.el-input__inner{
     border-color: #ff4949 !important;
     border-width: medium !important;
@@ -143,6 +147,10 @@ td.radif {
     min-width: 30px !important;
     max-width: 30px;
     line-height: inherit;
+}
+
+.radif div {
+    padding-top: 8px;
 }
 
 .el-table td, .el-table th.is-leaf {
@@ -514,10 +522,33 @@ h3.title {
     font-weight: 200;
     font-size: 12px;
     font-variant: normal;
+    font-family: yekanRegular;
+    color: #003e42 !important;
+    padding: 5px 0px;
 }
 
 .datepicker-overlay{background: rgba(0, 0, 0, 0.13)!important;}
-.cov-date-body{    background-color: rgb(0, 0, 130)!important;}
+.cov-date-body {
+    background-color: #49b4ba !important;
+    font-size: 11px !important;
+    font-weight: 100 !important;
+    border-radius: 25px;
+}
+
+.date-item[data-v-99c23128] {
+    color: #003e42;
+}
+
+.date-item[data-v-99c23128]:hover {
+    background: ghostwhite;
+    font-weight: bold;
+}
+
+.checked[data-v-99c23128] {
+    background-color: #49b4ba !important;
+    font-weight: bold;
+}
+
 span[data-v-99c23128]{
     color: white;
 }
@@ -529,29 +560,37 @@ span[data-v-99c23128]{
     margin-right: -18px;
 }
 .week ul[data-v-99c23128] {
-    margin: 11px 0 2px;
+    margin: -10px -5px 2px !important;
+    background: ghostwhite;
 }
-
+.day[data-v-99c23128]:hover {
+    background: ghostwhite !important;
+    border-radius: 4px;
+    font-weight: bold;
+}
 .cov-date-caption span:nth-child(3){margin-top: 0px;margin-right: -31%;}
 .cov-date-caption span:nth-child(1){font-size: 31px;margin-right: 10%;margin-top: 17px;position: absolute;}
 
 .cov-date-next, .cov-date-next:hover {
-    background: url('./next.png') no-repeat !important;
-    background-size: 24px 18px !important;
-    background-position-x: 22px !important;
-    background-position-y: 28px !important;
+    /* background: url('./next.png') no-repeat !important; */
+    /* background-size: 24px 18px !important; */
+    /* background-position-x: 22px !important; */
+    /* background-position-y: 28px !important; */
 }
 
 .cov-date-previous, .cov-date-previous:hover{
-    background: url('./previous.png') no-repeat !important;
-    background-size: 24px 18px !important;
-    background-position-x: 22px !important;
-    background-position-y: 28px !important;
+    /* background: url('./previous.png') no-repeat !important; */
+    /* background-size: 24px 18px !important; */
+    /* background-position-x: 22px !important; */
+    /* background-position-y: 28px !important; */
 }
 
 
 .cov-date-next[data-v-99c23128]:before, .cov-date-previous[data-v-99c23128]:before , .cov-date-next[data-v-99c23128]:after, .cov-date-previous[data-v-99c23128]:after  {
-    display:none;
+    /* display:none; */
+    width: 19px !important;
+    height: 3px !important;
+    background-color: #e0e0e0!important;
 }
 .cov-datepicker {
     border-radius: 4px!important;
@@ -563,7 +602,10 @@ span[data-v-99c23128]{
     box-shadow: none!important;
     margin-right: -14px;
 }
-
+.cov-picker-box {
+    padding: 25px 15px !important;
+    height: 245px !important;
+}
 /* tr.odd-row input.el-input__inner { */
 /*     background: #f1f1f1; */
 /* } */
@@ -702,7 +744,6 @@ primary.is-plain:hover {
     text-align: center;
 }
 
-@import 'edit.css'
 .header-span {
     display: block;
 }
@@ -721,3 +762,17 @@ primary.is-plain:hover {
 .el-tooltip.item.el-tooltip.item.el-textarea.master.Note {
     height: auto;
 }
+
+.cov-date-previous, .cov-date-caption, .cov-date-next, .cov-date-monthly, .cov-date-monthly > div{
+    max-height: 60px;
+    padding: 0!important;
+    font-weight: 400;
+}
+
+.button-box {
+    display: none;
+}
+
+/* end of global */
+
+@import 'edit.css'
