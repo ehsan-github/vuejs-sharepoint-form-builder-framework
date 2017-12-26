@@ -6,6 +6,7 @@ import moment from 'moment-jalaali'
 export default {
     template: `
         <el-table
+            class="histories"
             :data="tableData"
             border
             style="width: 80%"

@@ -13,7 +13,7 @@ export default {
                 <td class="button">
                     <el-button type="danger" plain @click='() => delRow(id, idx)'><i class="el-icon-delete"></i></el-button>
                 </td>
-                <td class="radif">{{idx + 1}}</td>
+                <td class="radif"><div>{{idx + 1}}</div></td>
                 <td v-for='(f, index) in showingRow' :key='id+f.Guid' :class="f.Type">
                     <div label-position="top">
                         <div :class="['table-form', {'error-box': serverErrors ? serverErrors[f.InternalName] != undefined : false}]">

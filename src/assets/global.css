@@ -448,7 +448,7 @@ td.radif {
 
 .detail-title {
     word-wrap: break-word;
-    width: 11%;
+    width: 11.:3%;
     float: right;
     text-align: center;
 }
@@ -469,7 +469,7 @@ td.radif {
 }
 
 .el-col-24.main-col .master-title {
-    width: 11%;
+    width: 11.3%;
 }
 
 .el-col-24.main-col .master-item {

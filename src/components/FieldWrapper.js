@@ -4,12 +4,12 @@ import Field from './Field'
 import R from 'ramda'
 
 export default {
-    props: ['fieldId', 'showFields'],
+    props: ['fieldId', 'showFields', 'headers'],
     components: { Field },
     template: `
     <div>
         <el-tooltip :disabled="fieldType == 'MasterDetail' || !hasError" class="item" effect="dark" :content="errorMessage" placement="bottom">
-            <Field :fieldId="fieldId" :showFields="showFields" @change="change" :class="[{'error-box': hasError, master: fieldType != 'MasterDetail'}, fieldType]"></Field>
+            <Field :fieldId="fieldId" :showFields="showFields" :headers="headers" @change="change" :class="[{'error-box': hasError, master: fieldType != 'MasterDetail'}, fieldType]"></Field>
         </el-tooltip>
         <div class="description">{{description}}</div>
     </div>

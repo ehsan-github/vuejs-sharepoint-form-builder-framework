@@ -8,15 +8,16 @@ import { getSortedList, getFilteredView, transformErrors } from '../../functions
 
 export default {
     components: { Row, TableHeader, TableFooter },
-    props:  ['fieldId', 'showFields'],
+    props:  ['fieldId', 'showFields', 'headers'],
     template: `
         <div class="el-table el-table--fit el-table--enable-row-hover el-table--enable-row-transition">
             <div class="el-table__header-wrapper">
                 <table ref="table" class="el-table__header">
                     <TableHeader
                         :fields="showingFields"
+                        :headers="headers"
                         class="fixes-position hidden"
-                    <TableHeader :fields="showingFields" />
+                    <TableHeader :fields="showingFields" :headers="headers"/>
                     <tbody>
                         <transition-group enter-active-class="animated fadeIn" leave-active-class="animated lightSpeedOut" >
                             <Row v-for='(row, id, idx) in rows'
