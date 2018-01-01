@@ -1,18 +1,18 @@
 // @flow
 import { mapState } from 'vuex'
 
-import TextField from './Text'
-import TextAreaField from './TextArea'
-import NumberField from './Number'
-import SelectField from './Select'
+import BooleanField from './Boolean'
+import ChoiceField from './Choice'
+import CustomComputedField from './CustomComputed'
 import CustomSelectField from './CustomSelect'
 import DateTimeField from './DateTime'
-import BooleanField from './Boolean'
 import MasterDetail from './MasterDetail'
-import MultiSelectField from './MultiSelect'
-import ChoiceField from './Choice'
 import MultiChoiceField from './MultiChoice'
-import CustomComputedField from './CustomComputed'
+import MultiSelectField from './MultiSelect'
+import NumberField from './Number'
+import SelectField from './Select'
+import TextAreaField from './TextArea'
+import TextField from './Text'
 
 export default {
     components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField },
