@@ -557,7 +557,7 @@ h3.title {
     background: ghostwhite;
 }
 .day:hover {
-    background: ghostwhite !important;
+    background: ghostwhite;
     border-radius: 4px;
     font-weight: bold;
 }
