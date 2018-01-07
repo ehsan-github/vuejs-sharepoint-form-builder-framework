@@ -25,11 +25,11 @@ export const saveFieldItems = (guid, fields, deletedItems) => postApiF(
 )
 
 export const getItems = listId => getApiF(
-    `/_api/web/lists(guid'${listId}')/items`
+    `/_api/web/lists(guid'${listId}')/items?$filter=FSObjType eq 0`
 ).chain(path(r => r.results))
 
 export const getFilteredItems = (listId, query) => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?$filter=${query}`
+    `/_api/web/lists(guid'${listId}')/items?$filter=${query} and FSObjType eq 0`
 ).chain(path(r => r.results))
 
 export const getItemById = (listId, itemId) => getApiF(
