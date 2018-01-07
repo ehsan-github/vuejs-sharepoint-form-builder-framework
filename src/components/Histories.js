@@ -19,7 +19,7 @@ export default {
             <el-table-column
                 prop="state"
                 label="رویداد"
-                width="140">
+                width="160">
             </el-table-column>
             <el-table-column
                 prop="HistoryDate"
