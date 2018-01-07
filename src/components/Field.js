@@ -3,6 +3,7 @@ import { mapState } from 'vuex'
 
 import BooleanField from './Boolean'
 import ChoiceField from './Choice'
+import ComputedText from './ComputedText'
 import CustomComputedField from './CustomComputed'
 import CustomSelectField from './CustomSelect'
 import DateTimeField from './DateTime'
@@ -13,9 +14,10 @@ import NumberField from './Number'
 import SelectField from './Select'
 import TextAreaField from './TextArea'
 import TextField from './Text'
+import UploadField from './Upload'
 
 export default {
-    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField },
+    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField, UploadField, ComputedText },
     props: ['fieldId', 'showFields', 'headers'],
     render () {
         switch (this.fieldType) {
@@ -43,13 +45,24 @@ export default {
             return <TextAreaField fieldId={this.fieldId} onChange={this.change}></TextAreaField>
         case 'CustomComputedField':
             return <CustomComputedField fieldId={this.fieldId} />
+        case 'File':
+            return <UploadField fieldId={this.fieldId} />
+        case 'ComputedText':
+            return <ComputedText fieldId={this.fieldId} />
         default:
             return <div>Unexpected Type: {this.fieldType}</div>
         }
     },
     computed: {
         ...mapState({
-            fieldType (state) { return state.fields[this.fieldId].Type }
+            fieldType (state) {
+                let field = state.fields[this.fieldId]
+                let Type = field.Type
+                if (Type == 'Text' && field.DefaultValue != null ){ //TODO needs checking for {{}} sign
+                    return 'ComputedText'
+                }
+                return Type
+            }
         })
     },
     methods: {
