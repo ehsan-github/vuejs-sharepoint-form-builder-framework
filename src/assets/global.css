@@ -157,7 +157,8 @@ td.radif {
 .el-table th>div {
     text-align: -webkit-center;
     /* display: inline-block; */
-    line-height: none !important;
+    line-height: 22px !important;
+    margin-top: -10px;
     padding: 0px 5px !important;
     overflow: -webkit-paged-x;
     white-space: pre-line !important;
@@ -292,13 +293,6 @@ td.radif {
 
 .el-table__header-wrapper {
     text-align: -webkit-center;
-}
-
-.detail-item .el-table__header-wrapper thead div {
-    margin: -40px 0px -10px 0px;
-}
-
-.el-input__inner {
 }
 
 .el-form-item__content {
