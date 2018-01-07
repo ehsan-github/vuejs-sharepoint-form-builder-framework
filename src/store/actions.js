@@ -274,8 +274,16 @@ export function loadTemplateMetaData({ commit, state }) {
                 let secondTemplate = firstTemplate.replace(
                     new RegExp(/{{(\w+)(:[^}:]+)(:\[.*\])}}/, 'g'),
                     (s, fname, fields, headers) => {
+                        let showFields = fields.substr(1).split(',')
                         let headersArr = headers.substr(1)
-                        return `<Field fieldId='{{${fname}}}' class="${fname}" showFields="${fields.substr(1).split(',')}" headers='${headersArr}'></Field>`
+                        return `<el-form label-position="top">
+                                    <el-form-item>
+                                        <div class='detail-title'>${fname}</div>
+                                            <Field fieldId='{{${fname}}}' class="${fname}" showFields="${showFields}" headers='${headersArr}'></Field>
+                                            <div class='detail-item'>
+                                        </div>
+                                    </el-form-item>
+                                </el-form>`
                     }
                 )
                 let template = replaceNameWithId(secondTemplate, fields)
@@ -305,7 +313,14 @@ const transformFields= R.pipe(
 const replaceTemplateStr = (str, fields) => R.reduce(
     (q, field) => R.replace(
         new RegExp('{{'+field+'}}', 'g'),
-        `<div :class="{require: ${fields[field].isRequire}}"><span class="${fields[field].intName}">${fields[field].title}</span><Field fieldId="${fields[field].id}" class="${field}" ></Field></div>`,
+        `<el-form label-position="top" class="master-field">
+            <el-form-item :class="{require: ${fields[field].IsRequire}}">
+            <div class='master-title'>${fields[field].title}</div>
+            <div class='master-item'>
+                <Field fieldId="${fields[field].id}" class="${field}" ></Field>
+            </div>
+            </el-form-item>
+        </el-form>`,
         q),
     str,
     R.keys(fields)
