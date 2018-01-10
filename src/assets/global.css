@@ -467,7 +467,7 @@ td.radif {
     border-radius: 4px;
     background: white;
     margin-bottom: 15px;
-    width: 1900px;
+    /* width: 1900px; */
 }
 
 .detail-col-2.el-col.el-col-24 {
@@ -736,6 +736,11 @@ primary.is-plain:hover {
 .header-span {
     display: block;
 }
+
+tbody > span {
+    display: block;
+}
+
 
 .detail-item .el-table__header-wrapper {
     max-height: 10531px;
