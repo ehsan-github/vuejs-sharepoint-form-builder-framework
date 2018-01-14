@@ -2,7 +2,7 @@
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
 
-import { getFieldsList, getItems, getFilteredItems, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData, updateListItem, getListItem, uploadFile } from '../api'
+import { getFieldsList, getItems, getFilteredItems, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData } from '../api'
 
 // [{Guid: 1}, ...] -> {1: {}, ...}
 export const transformFieldsList = R.pipe(
@@ -224,7 +224,7 @@ const transFormFields= R.pipe(
     R.map(f => f.rows == '' ? R.assoc('rows', [], f) : f), // replace rows null value with empty array
     R.map(f => (f.InternalName == 'ID' && f.value == '') ? R.assoc('value', 0, f) : f), // replace ID of null with 0 value
     R.map(f => (f.Type == 'Number' && f.value == '') ? R.assoc('value', 0, f) : f), // replace Number of null with 0 value
-    // R.reject(R.propEq('value', ''))
+    R.reject(R.propEq('Type', 'File'))
 )
 
 const transFormRows = R.map(
@@ -244,7 +244,7 @@ export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
     commit('setLoadingTrue')
     return new Promise((resolve, reject) => {
-        saveFieldItems(state.listId, data, state.deletedItems)
+        saveFieldItems(state.listId, data, state.deletedItems, R.values(state.addFiles), state.deleteFiles)
             .fork(
                 err  => {
                     commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید')
@@ -409,24 +409,6 @@ export function showDetailFieldsList ({ commit, state }, { id, listId, select, m
         )
 }
 
-export function uploadFieldFile({ commit }, { arrayBuffer, id, fileName, saveName, lookupList }){
-    uploadFile(lookupList, arrayBuffer, saveName)
-        .fork(
-            err  => commit('addError', err),
-            file => getListItem(file.ListItemAllFields.__deferred.uri)
-                .fork(
-                    err  => commit('addError', err),
-                    listItem => {
-                        commit('changeField', { id, value: listItem.Id })
-                        updateListItem(listItem.__metadata, saveName, fileName)
-                            .fork(
-                                err  => commit('addError', err),
-                                succ => alert(succ)
-                            )
-                    }
-                ))
-}
-
 export function loadUpload({ commit }, { id, listId }) {
     return getItems(listId)
         .fork(
@@ -437,4 +419,16 @@ export function loadUpload({ commit }, { id, listId }) {
 
 export function addError({ commit }, err) {
     commit('addError', err)
+}
+
+export function addToAddFiles({ commit }, payload ){
+    commit('addToAddFiles', payload)
+}
+
+export function removeFromAddFiles({ commit }, id ){
+    commit('removeFromAddFiles', id)
+}
+
+export function addToDeleteFiles({ commit }, payload){
+    commit('addToDeleteFiles', payload)
 }

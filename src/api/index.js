@@ -1,4 +1,4 @@
-import { getApiF, postApiF, uploadPostApiF,  updateApiF, deleteApiF, path } from './utils'
+import { getApiF, postApiF, path } from './utils'
 
 import { /*CONTRACTS_LIST_ID, */TEMPLATE_LIST_ID } from '../constants'
 
@@ -20,9 +20,9 @@ export const addItem = (listId, item) => postApiF(
     item
 )
 
-export const saveFieldItems = (guid, fields, deletedItems) => postApiF(
+export const saveFieldItems = (guid, fields, deletedItems, addFiles, deleteFiles) => postApiF(
     '/_Layouts/15/BaseSolution/Services.aspx/SaveFieldItems',
-    { guid, fields, deletedItems, files: [] }
+    { guid, fields, deletedItems, addFiles, deleteFiles }
 )
 
 export const getItems = listId => getApiF(
@@ -55,30 +55,6 @@ export const getItemDetail = (listId, fieldName, itemNumber, select) => postApiF
     '/_Layouts/15/BaseSolution/Services.aspx/GetData',
     { listId, fieldName, value: Number(itemNumber), select }
 )
-
-export const uploadFile = (listId, data, name) => uploadPostApiF(
-    `/_api/web/lists(guid'${listId}')/rootfolder/files/add(overwrite=true,url='${name}')`,
-    data
-)
-
-export const getListItem = getApiF
-
-export const updateListItem = (itemMetadata, name, title) => updateApiF(
-    itemMetadata.uri,
-    `{'__metadata':{'type':'${itemMetadata.type}'},'FileLeafRef':'${name}','Title':'${title}'}`,
-    {
-        'IF-MATCH': itemMetadata.etag,
-        'X-HTTP-Method': 'MERGE'
-    })
-
-export const deleteListItem = (url, itemMetadata) => deleteApiF(
-    url,
-    {
-        'IF-MATCH': itemMetadata.etag,
-        'X-HTTP-Method': 'DELETE'
-    })
-
-
 
 export const loadUploadedFile = (listId, itemId) => getApiF(
     `/_api/web/lists(guid'${listId}')/items?$select=EncodedAbsUrl,Title&$filter=Id eq ${itemId}`

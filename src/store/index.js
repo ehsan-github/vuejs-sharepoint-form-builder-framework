@@ -20,6 +20,8 @@ const store = new Vuex.Store({
         dContentTypeId: new URLSearchParams(location.search).get('dContentTypeId') || '',
         listData: {},
         fields: {},
+        addFiles: {},
+        deleteFiles: [],
         histories: [],
         errors: [],
         serverErrors: [],
@@ -177,6 +179,15 @@ const store = new Vuex.Store({
         },
         loadHistories(state, histories){
             state.histories = histories
+        },
+        addToAddFiles(state, { id, attachment }){
+            state.addFiles = R.assoc(id, attachment, state.addFiles)
+        },
+        removeFromAddFiles(state, id){
+            state.addFiles = R.dissoc(id, state.addFiles)
+        },
+        addToDeleteFiles(state, payload){
+            state.deleteFiles = R.append(payload, state.deleteFiles)
         }
     },
     actions

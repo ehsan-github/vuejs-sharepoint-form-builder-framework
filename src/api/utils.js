@@ -58,29 +58,3 @@ export const postApiF = R.pipeK(
     json,
     path(r => r.d)
 )
-
-export const uploadPostApiF = R.pipeK(
-    (addr, body) => R.sequence(Future.of, [Future.of(addr), Future.of(body), requestFormDigest]),
-    ([addr, body, digest]) => {
-        const opts = R.mergeAll([postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest)), { body }])
-        return fetchF(opts, addr)
-    },
-    json,
-    path(r => r.d)
-)
-
-export const updateApiF = R.pipeK(
-    (addr, body, head) => R.sequence(Future.of, [Future.of(addr), Future.of(body), Future.of(head), requestFormDigest]),
-    ([addr, body, head, digest]) => {
-        const opts = R.mergeAll([postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest), head), { body }])
-        return fetchF(opts, addr)
-    }
-)
-
-export const deleteApiF = R.pipeK(
-    (addr, head) => R.sequence(Future.of, [Future.of(addr), Future.of(head), requestFormDigest]),
-    ([addr, head, digest]) => {
-        const opts = R.mergeAll([postOpt, headerOpt(acceptHdr, contentHdr, credHdr, digestHdr(digest), head)])
-        return fetchF(opts, addr)
-    }
-)

@@ -1,6 +1,6 @@
 // @flow
 import { mapActions } from 'vuex'
-import { uploadFile, getListItem, updateListItem, deleteListItem, loadUploadedFile } from '../api'
+import { loadUploadedFile } from '../api'
 import jQuery from 'jquery'
 import uuidv1 from 'uuid/v1'
 import R from 'ramda'
@@ -18,6 +18,7 @@ export default {
             :auto-upload=false
             :uploadFiles="fileList"
             :file-list="fileList"
+            :on-preview="handlePreview"
         >
             <el-button size="small" type="primary">Click to upload</el-button>
         </el-upload>
@@ -25,9 +26,7 @@ export default {
     props: ['value', 'rules', 'name', 'lookupList'],
     data() {
         return {
-            fileList: [],
-            uri: '',
-            itemMetadata: {}
+            fileList: []
         }
     },
     mounted(){
@@ -37,8 +36,8 @@ export default {
                 .fork(
                     ()   => {},
                     succ => {
-                        this.fileList = [{ name: succ.Title, url: succ.EncodedAbsUrl }]
-                        this.uri = `/_api/Web/GetFileByServerRelativeUrl('${succ.EncodedAbsUrl.replace(/^.*\/\/[^\/]+/, '')}')`
+                        let saveName = R.last(succ.EncodedAbsUrl.split(['/']))
+                        this.fileList = [{ name: succ.Title, url: succ.EncodedAbsUrl, saveName }]
                     }
                 )
         }
@@ -50,47 +49,36 @@ export default {
     methods: {
         ...mapActions(['addError']),
         change(file) {
-            this.remove()
+            let [ oldFile ] = this.fileList
+            if (oldFile.saveName){
+                this.$emit('addToDelete', oldFile.saveName)
+            }
+
             this.fileList = []
             let getFile = getFileBuffer(file.raw);
-            let fileName = file.name
-            let fileExtention = R.last(fileName.split('.'))
-            let saveName = uuidv1() + '.' + fileExtention
+            let Title = file.name
+            let fileExtention = R.last(Title.split('.'))
+            let FileName = uuidv1() + '.' + fileExtention
             getFile
                 .then(arrayBuffer => {
-                    this.uploadFieldFile(arrayBuffer, fileName, saveName, this.lookupList)
+                    let Content = arrayBuffer.split('base64,')[1]
+                    this.fileList = [{ name: Title, url: '' }]
+                    this.$emit('change', { FileName, Title, Content })
                 })
         },
         remove() {
+            let [ oldFile ] = this.fileList
+            if (oldFile.saveName){
+                this.$emit('addToDelete', oldFile.saveName)
+            }
+
             this.$refs.upload.clearFiles()
-            deleteListItem(this.uri, this.itemMetadata)
-                .fork(
-                    err  => this.addError(err),
-                    () => {}
-                )
+            this.$emit('remove')
         },
-        uploadFieldFile(arrayBuffer, fileName, saveName, lookupList){
-            uploadFile(lookupList, arrayBuffer, saveName)
-                .fork(
-                    err  => this.addError(err),
-                    file => {
-                        this.fileList = [{ name: fileName, url: file.__metadata.uri }]
-                        this.uri= file.__metadata.uri
-                        this.itemMetadata = file.__metadata
-                        getListItem(file.ListItemAllFields.__deferred.uri)
-                            .fork(
-                                err  => this.addError(err),
-                                listItem => {
-                                    this.$emit('change', listItem.Id)
-                                    updateListItem(listItem.__metadata, saveName, fileName)
-                                        .fork(
-                                            err  => this.addError(err),
-                                            () => {}
-                                        )
-                                }
-                            )
-                    }
-                )
+        handlePreview(file){
+            if (file.url != ''){
+                window.open(file.url,'_blank');
+            }
         }
     }
 }
@@ -104,6 +92,6 @@ const getFileBuffer = data => {
     reader.onerror = function (e) {
         deferred.reject(e.target.error);
     }
-    reader.readAsArrayBuffer(data);
+    reader.readAsDataURL(data);
     return deferred.promise();
 }
