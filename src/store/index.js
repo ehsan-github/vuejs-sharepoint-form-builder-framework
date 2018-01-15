@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import R from 'ramda'
 
 import * as actions from './actions'
+import { urlParam } from '../functions'
 
 Vue.use(Vuex)
 
@@ -14,14 +15,14 @@ type StoreType = {}
 const store = new Vuex.Store({
     state: ({
         loading: true,
-        listId: new URLSearchParams(location.search).get('List'),
-        itemId: new URLSearchParams(location.search).get('ID'),
-        contentTypeId: new URLSearchParams(location.search).get('ContentTypeId') || '',
-        dContentTypeId: new URLSearchParams(location.search).get('dContentTypeId') || '',
+        listId: urlParam('List'),
+        itemId: urlParam('ID'),
+        contentTypeId: urlParam('ContentTypeId') || '',
+        dContentTypeId: urlParam('dContentTypeId') || '',
         listData: {},
         fields: {},
         addFiles: {},
-        deleteFiles: [],
+        deleteFiles: {},
         histories: [],
         errors: [],
         serverErrors: [],
@@ -186,8 +187,8 @@ const store = new Vuex.Store({
         removeFromAddFiles(state, id){
             state.addFiles = R.dissoc(id, state.addFiles)
         },
-        addToDeleteFiles(state, payload){
-            state.deleteFiles = R.append(payload, state.deleteFiles)
+        addToDeleteFiles(state, { id, attachment }){
+            state.deleteFiles = R.assoc(id, attachment, state.deleteFiles)
         }
     },
     actions
