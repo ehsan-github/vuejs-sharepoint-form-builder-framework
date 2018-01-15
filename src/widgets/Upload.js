@@ -16,11 +16,12 @@ export default {
             :on-change="change"
             :on-remove="remove"
             :auto-upload=false
-            :uploadFiles="fileList"
             :file-list="fileList"
             :on-preview="handlePreview"
+            :multiple="false"
+            :thumbnail-mode="true"
         >
-            <el-button size="small" type="primary">Click to upload</el-button>
+            <el-button size="small" type="primary" >Click to upload</el-button>
         </el-upload>
     `,
     props: ['value', 'rules', 'name', 'lookupList'],
@@ -50,29 +51,27 @@ export default {
         ...mapActions(['addError']),
         change(file) {
             let [ oldFile ] = this.fileList
-            if (oldFile.saveName){
+            if (oldFile && oldFile.saveName){
                 this.$emit('addToDelete', oldFile.saveName)
             }
-
             this.fileList = []
-            let getFile = getFileBuffer(file.raw);
+
+            let getFile = getFileBuffer(file.raw)
             let Title = file.name
             let fileExtention = R.last(Title.split('.'))
             let FileName = uuidv1() + '.' + fileExtention
             getFile
                 .then(arrayBuffer => {
                     let Content = arrayBuffer.split('base64,')[1]
-                    this.fileList = [{ name: Title, url: '' }]
+                    this.fileList = [{ name: Title, url: '', status: 'success' }]
                     this.$emit('change', { FileName, Title, Content })
                 })
         },
         remove() {
             let [ oldFile ] = this.fileList
-            if (oldFile.saveName){
+            if (oldFile && oldFile.saveName){
                 this.$emit('addToDelete', oldFile.saveName)
             }
-
-            this.$refs.upload.clearFiles()
             this.$emit('remove')
         },
         handlePreview(file){
