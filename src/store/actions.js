@@ -244,7 +244,7 @@ export function saveData ({ commit, state }) {
     let data = transFormForSave(state.fields)
     commit('setLoadingTrue')
     return new Promise((resolve, reject) => {
-        saveFieldItems(state.listId, data, state.deletedItems, R.values(state.addFiles), state.deleteFiles)
+        saveFieldItems(state.listId, data, state.deletedItems, R.values(state.addFiles), R.values(state.deleteFiles))
             .fork(
                 err  => {
                     commit('addError', 'در عملیات ذخیره سازی خطای شبکه رخ داد مجددا ذخیره کنید')
@@ -363,7 +363,7 @@ const shapeData = (value, InternalName) => { // key in the comming items is the 
 export function loadFieldsList({ commit, state, getters }, { items }) {
     let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
     R.map(x => commit('setFieldValue', x), fieldValues)
-    if (!getters.isThereDetails) { commit('setLoadingFalse') }
+    if (!getters.isThereDetails) { setTimeout(() => commit('setLoadingFalse'), 1000)}
 }
 
 export function showFieldsList ({ commit, state, getters }, { select }) {
