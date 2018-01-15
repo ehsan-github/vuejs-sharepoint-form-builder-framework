@@ -8,11 +8,6 @@ export default {
         <UploadField :value='value' :lookupList="lookupList" :name="name" :rules="rules" @change='change' @remove='remove' @addToDelete="addToDelete"/>
     `,
     props: ['fieldId'],
-    data(){
-        return {
-            uploadedValue: null
-        }
-    },
     computed: {
         ...mapState({
             field(state) { return state.fields[this.fieldId] }
@@ -37,7 +32,7 @@ export default {
             this.removeFromAddFiles(this.fieldId)
         },
         addToDelete(FileName){
-            this.addToDeleteFiles({ FileName, LookupList: this.lookupList, InternalName: this.field.InternalName, Content: '', Title: '' })
+            this.addToDeleteFiles({ id: this.fieldId, attachment: { FileName, LookupList: this.lookupList, InternalName: this.field.InternalName, Content: '', Title: '' } })
         }
     }
 }
