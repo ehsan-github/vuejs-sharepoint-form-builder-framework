@@ -19,9 +19,9 @@ export default {
     },
     watch : {
         defaultValue: {
-            handler: function (query, old) {
-                if (query != old){
-                    this.changeField({ id: this.fieldId, value: eval(query) })
+            handler: function (defVal, old) {
+                if (defVal != old){
+                    this.changeField({ id: this.fieldId, value: eval(defVal) })
                 }
             }
         }
@@ -30,6 +30,6 @@ export default {
         ...mapActions(['changeField'])
     },
     mounted(){
-        this.changeField({ id: this.fieldId, value: 0 })
+        this.changeField({ id: this.fieldId, value: eval(this.defaultValue) })
     }
 }
