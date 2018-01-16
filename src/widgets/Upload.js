@@ -22,9 +22,17 @@ export default {
             :thumbnail-mode="true"
         >
             <el-button size="small" type="primary" >Click to upload</el-button>
+            <div v-if='volume > 0 || types[0] != ""' slot="tip" class="el-upload__tip">فایل های {{types.join('/')}} {{volumeMessage}} </div>
         </el-upload>
     `,
-    props: ['value', 'rules', 'name', 'lookupList'],
+    props: [
+        'value',
+        'rules',
+        'name',
+        'lookupList',
+        'types',
+        'volume'
+    ],
     data() {
         return {
             fileList: []
@@ -45,7 +53,8 @@ export default {
     },
     computed: {
         hasError() { return this.$validator.errors.has(this.name) },
-        firstError() { return this.$validator.errors.first(this.name) }
+        firstError() { return this.$validator.errors.first(this.name) },
+        volumeMessage() { return this.volume == 0 ? '' : `با حجم کمتر از ${this.volume/1000}kb` }
     },
     methods: {
         ...mapActions(['addError']),
@@ -60,12 +69,20 @@ export default {
             let Title = file.name
             let fileExtention = R.last(Title.split('.'))
             let FileName = uuidv1() + '.' + fileExtention
-            getFile
-                .then(arrayBuffer => {
-                    let Content = arrayBuffer.split('base64,')[1]
-                    this.fileList = [{ name: Title, url: '', status: 'success' }]
-                    this.$emit('change', { FileName, Title, Content })
-                })
+            if (!typeCheck(fileExtention, this.types)){
+                this.addError(`فقط فرمت های ${this.types.join('/')} قابل قبول می باشد`)
+            }
+            if (!volumeCheck(file.size, this.volume)) {
+                this.addError(`حجم فایل باید کمتر از ${this.volume/1000}kb باشد`)
+            }
+            if (typeCheck(fileExtention, this.types) && volumeCheck(file.size, this.volume)) {
+                getFile
+                    .then(arrayBuffer => {
+                        let Content = arrayBuffer.split('base64,')[1]
+                        this.fileList = [{ name: Title, url: '' }]
+                        this.$emit('change', { FileName, Title, Content })
+                    })
+            }
         },
         remove() {
             let [ oldFile ] = this.fileList
@@ -94,3 +111,7 @@ const getFileBuffer = data => {
     reader.readAsDataURL(data);
     return deferred.promise();
 }
+
+const volumeCheck = (size, maxVolume) => R.or(maxVolume == 0, size <= maxVolume)
+
+const typeCheck = (type, types) => R.or(types[0] == '', R.contains(type, types))

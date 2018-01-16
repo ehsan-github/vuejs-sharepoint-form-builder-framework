@@ -5,7 +5,16 @@ import UploadField from '../widgets/Upload'
 export default {
     components: { UploadField },
     template: `
-        <UploadField :value='value' :lookupList="lookupList" :name="name" :rules="rules" @change='change' @remove='remove' @addToDelete="addToDelete"/>
+        <UploadField
+            :value='value'
+            :lookupList="lookupList"
+            :name="name"
+            :types="types"
+            :volume="volume"
+            :rules="rules"
+            @change='change'
+            @remove='remove'
+        />
     `,
     props: ['fieldId'],
     computed: {
@@ -15,6 +24,8 @@ export default {
         value () { return this.field.value },
         lookupList () { return this.field.LookupList },
         name (){ return this.field.Title },
+        types() { return this.field.TypeFile.split(',') },
+        volume() { return this.field.VolumeFile * 1000 },
         rules () {
             return {
                 rules: {
