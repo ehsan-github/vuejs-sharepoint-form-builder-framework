@@ -17,7 +17,8 @@ export default {
             :date="startTime"
             :option="option"
             :limit="limit"
-            @change="change">
+            @change="change"
+        >
         </Datepicker>
 </div>
     </el-tooltip>
@@ -57,7 +58,7 @@ export default {
                 type: 'min',
                 week: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
                 month: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
-                format: 'jYYYY-jMM-jDD'
+                format: 'jYYYY-jMM-jDD HH:mm'
             },
             limit: [{
                 type: 'weekday',
@@ -71,8 +72,11 @@ export default {
     },
     methods: {
         change(newValue) {
-            let value = moment(newValue, 'jYYYY-jMM-jDD HH:mm').format('YYYY/MM/DD HH:mm')
-            this.model = { time: newValue }
+            let value = null
+            if (newValue.time != '') {
+                value = moment(newValue, 'jYYYY-jMM-jDD HH:mm').format('YYYY/MM/DD HH:mm')
+            }
+            this.model = newValue
             this.$emit('input', value)
             this.$emit('change', value)
         }

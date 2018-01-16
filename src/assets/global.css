@@ -768,6 +768,10 @@ tbody > span {
     display: none;
 }
 
+i.el-icon-close:hover {
+    cursor: pointer;
+}
+
 /* histories */
 .histories .el-table__footer-wrapper thead div, .histories .el-table__header-wrapper thead div, .histories th, .histories .el-table tr {
     background-color: #49b4ba !important;
