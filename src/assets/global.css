@@ -419,14 +419,14 @@ td.radif {
 }
 
 .master-item {
-    width: 73%;
+    width: 75%;
     display: inline-block;
     font-size: 14px;
 }
 
 .master-title {
     word-wrap: break-word;
-    width: 23%;
+    width: 25%;
     float: right;
     text-align: center;
 }
@@ -771,6 +771,11 @@ tbody > span {
 
 .button-box {
     display: none;
+}
+
+.detail-item i.el-icon-close{
+    margin: 11px -47px !important;
+    font-size: 7px !important;
 }
 
 i.el-icon-close:hover {
