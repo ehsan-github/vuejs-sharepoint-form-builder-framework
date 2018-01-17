@@ -70,10 +70,10 @@ export default {
             let fileExtention = R.last(Title.split('.'))
             let FileName = uuidv1() + '.' + fileExtention
             if (!typeCheck(fileExtention, this.types)){
-                this.addError(`فقط فرمت های ${this.types.join('/')} قابل قبول می باشد`)
+                return this.addError(`فقط فرمت های ${this.types.join('/')} قابل قبول می باشد`)
             }
             if (!volumeCheck(file.size, this.volume)) {
-                this.addError(`حجم فایل باید کمتر از ${this.volume/1000}kb باشد`)
+                return this.addError(`حجم فایل باید کمتر از ${this.volume/1000}kb باشد`)
             }
             if (typeCheck(fileExtention, this.types) && volumeCheck(file.size, this.volume)) {
                 getFile
