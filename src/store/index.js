@@ -98,9 +98,8 @@ const store = new Vuex.Store({
         MDChangeFieldRow (state, { masterId, rowId, fieldId, value }) {
             state.fields = R.assocPath([masterId, 'rows', rowId, fieldId, 'value'], value, state.fields)
         },
-        MDSetFieldRow (state, { masterId, rowIndex, InternalName, value }) {
+        MDSetFieldRow (state, { masterId, rowId, InternalName, value }) {
             let fieldId = getFieldId(InternalName, state.fields[masterId].fields)
-            let rowId = R.keys(state.fields[masterId].rows)[rowIndex]
             let fieldType = state.fields[masterId].rows[rowId][fieldId]['Type']
             if (fieldType == 'LookupMulti') {
                 value = R.pipe(

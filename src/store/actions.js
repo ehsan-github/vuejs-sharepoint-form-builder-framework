@@ -178,6 +178,7 @@ export function MDLoadFilteredOptions ({ state, commit }, { id, masterId, rowId,
 export function MDAddRow ({ commit }, { id }) {
     let rowId = uuidv1()
     commit('MDAddRow', { id, rowId })
+    return rowId
 }
 
 export function MDDelRow ({ commit }, rowProps) {
@@ -379,21 +380,27 @@ export function showFieldsList ({ commit, state, getters }, { select }) {
         )
 }
 
-export function loadMasterFieldsList({ commit }, { items, id }) {
-    return new Promise(resolve => {
-        if (items.length > 0) {
-            items.map((rowItems, k) => {
-                let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
-                R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
-                if (k == items.length - 1) {
-                    setTimeout(() => resolve('done'), 2000)
-                }
-            })
-        } else {
-            MDAddRow({ commit }, { id })
-            setTimeout(() => resolve('done'), 20)
-        }
-    })
+// export function loadMasterFieldsList({ commit }, { items, id }) {
+//     return new Promise(resolve => {
+//         if (items.length > 0) {
+//             items.map((rowItems, k) => {
+//                 let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
+//                 R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
+//                 if (k == items.length - 1) {
+//                     setTimeout(() => resolve('done'), 2000)
+//                 }
+//             })
+//         } else {
+//             MDAddRow({ commit }, { id })
+//             setTimeout(() => resolve('done'), 20)
+//         }
+//     })
+// }
+
+export function loadMasterField({ commit }, { item, id, rowId, load }) {
+    let fieldValues = R.values(R.mapObjIndexed(shapeData, item))
+    R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowId }), fieldValues)
+    if (load) commit('setLoadingFalse')
 }
 
 export function showDetailFieldsList ({ commit, state }, { id, listId, select, masterLookupName }) {
@@ -403,8 +410,12 @@ export function showDetailFieldsList ({ commit, state }, { id, listId, select, m
         .fork(
             err     => commit('addError', err),
             items   => {
-                items.map(() => MDAddRow({ commit }, { id }))
-                loadMasterFieldsList({ commit }, { items, id }).then(() => commit('setLoadingFalse'))
+                items.forEach((item, k) => {
+                    let load = k == items.length - 1
+                    let rowId = MDAddRow({ commit }, { id })
+                    loadMasterField({ commit }, { item, id, rowId, load })
+                })
+                commit('setLoadingFalse')
             }
         )
 }
