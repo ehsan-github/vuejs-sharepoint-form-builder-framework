@@ -8,8 +8,9 @@ import R from 'ramda'
 export default {
     inject: ['$validator'],
     template: `
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="errorMessage" placement="top-end">
         <el-upload
-            class="upload-demo"
+            :class="[{'error-box': hasError}, 'upload-demo']"
             ref="upload"
             action=""
             name="ctl00$PlaceHolderMain$UploadDocumentSection$ctl05$InputFile"
@@ -18,12 +19,11 @@ export default {
             :auto-upload=false
             :file-list="fileList"
             :on-preview="handlePreview"
-            :multiple="false"
-            :thumbnail-mode="true"
         >
-            <el-button size="small" type="primary" >Click to upload</el-button>
+            <el-button size="small" type="primary" >پیوست فایل</el-button>
             <div v-if='volume > 0 || types[0] != ""' slot="tip" class="el-upload__tip">فایل های {{types.join('/')}} {{volumeMessage}} </div>
         </el-upload>
+    </el-tooltip>
     `,
     props: [
         'value',
@@ -43,7 +43,9 @@ export default {
             loadUploadedFile(this.lookupList, this.value)
                 .map(R.head)
                 .fork(
-                    ()   => {},
+                    ()   => {
+                        this.$emit('setValueNull')
+                    },
                     succ => {
                         let saveName = R.last(succ.EncodedAbsUrl.split(['/']))
                         this.fileList = [{ name: succ.Title, url: succ.EncodedAbsUrl, saveName }]
@@ -52,8 +54,8 @@ export default {
         }
     },
     computed: {
-        hasError() { return this.$validator.errors.has(this.name) },
-        firstError() { return this.$validator.errors.first(this.name) },
+        hasError() { return this.rules.rules.required && this.fileList.length == 0 },
+        errorMessage() { return 'پیوست فایل الزامی است' },
         volumeMessage() { return this.volume == 0 ? '' : `با حجم کمتر از ${this.volume/1000}kb` }
     },
     methods: {
@@ -89,6 +91,7 @@ export default {
             if (oldFile && oldFile.saveName){
                 this.$emit('addToDelete', oldFile.saveName)
             }
+            this.fileList = []
             this.$emit('remove')
         },
         handlePreview(file){

@@ -14,6 +14,8 @@ export default {
             :rules="rules"
             @change='change'
             @remove='remove'
+            @addToDelete='addToDelete'
+            @setValueNull='setValueNull'
         />
     `,
     props: ['fieldId'],
@@ -35,9 +37,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['addToAddFiles', 'removeFromAddFiles', 'addToDeleteFiles']),
+        ...mapActions(['addToAddFiles', 'removeFromAddFiles', 'addToDeleteFiles', 'changeField']),
         change({ FileName, Title, Content }){
             this.addToAddFiles({ id: this.fieldId, attachment: { InternalName: this.field.InternalName, LookupList: this.field.LookupList, FileName, Title, Content } })
+        },
+        setValueNull(){
+            this.changeField({ id: this.fieldId, value: null })
         },
         remove(){
             this.removeFromAddFiles(this.fieldId)

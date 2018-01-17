@@ -57,6 +57,18 @@ const store = new Vuex.Store({
             } else {
                 return true
             }
+        },
+        requiredFilesFilled: s => {
+            let requiredFiles = R.pipe(
+                R.filter(
+                    R.both(
+                        R.propEq('Type', 'File'),
+                        R.propEq('IsRequire', true))),
+                R.keys)(s.fields)
+            return requiredFiles.every(x => R.or(
+                R.has(x, s.addFiles),
+                s.fields[x].value != null
+            ))
         }
     },
     mutations: {

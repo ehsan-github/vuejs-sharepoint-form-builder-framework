@@ -35,7 +35,7 @@ export default {
         loading: Boolean
     },
     computed: {
-        ...mapGetters(['serverHasNotError', 'detailsHasAtLeastOneRow']),
+        ...mapGetters(['serverHasNotError', 'detailsHasAtLeastOneRow', 'requiredFilesFilled']),
         ...mapState({
             specs: s => s.contractSpecs,
             listData: s => s.listData,
@@ -51,7 +51,7 @@ export default {
         ...mapActions(['saveData', 'loadServerErrors']),
         click () {
             this.$validator.validateAll().then((result) => {
-                if (result && this.serverHasNotError && this.detailsHasAtLeastOneRow) {
+                if (result && this.serverHasNotError && this.detailsHasAtLeastOneRow && this.requiredFilesFilled) {
                     return this.saveData()
                         .then(succ => {
                             if (succ == 'ok') {
