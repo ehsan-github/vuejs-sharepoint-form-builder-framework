@@ -5,7 +5,7 @@ import { mapState } from 'vuex'
 export default {
     inject: ['$validator'],
     template: `
-    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-end">
         <el-select
             v-validate="rules"
             :class="{'error-box': hasError}"

@@ -7,7 +7,7 @@ export default {
     inject: ['$validator'],
     components: { Datepicker },
     template: `
-    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-start">
+    <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-end">
 <div><i class="el-icon-date" style="display: inline-block;position: absolute;margin: 11px 80px;color: darkgray;"></i>
         <Datepicker
             v-validate:value="rules"
