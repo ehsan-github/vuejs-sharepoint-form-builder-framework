@@ -14,10 +14,11 @@ import NumberField from './Number'
 import SelectField from './Select'
 import TextAreaField from './TextArea'
 import TextField from './Text'
+import TimeField from './TimePicker'
 import UploadField from './Upload'
 
 export default {
-    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField, UploadField, ComputedText },
+    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField, UploadField, ComputedText, TimeField },
     props: ['fieldId', 'showFields', 'headers'],
     render () {
         switch (this.fieldType) {
@@ -49,6 +50,8 @@ export default {
             return <UploadField fieldId={this.fieldId} />
         case 'ComputedText':
             return <ComputedText fieldId={this.fieldId} />
+        case 'Time':
+            return <TimeField fieldId={this.fieldId} onChange={this.change}/>
         default:
             return <div>Unexpected Type: {this.fieldType}</div>
         }
@@ -60,6 +63,9 @@ export default {
                 let Type = field.Type
                 if (Type == 'Text' && field.DefaultValue != null ){ //TODO needs checking for {{}} sign
                     return 'ComputedText'
+                }
+                if (Type == 'Text' && field.MaxLength == 254){
+                    return 'Time'
                 }
                 return Type
             }
