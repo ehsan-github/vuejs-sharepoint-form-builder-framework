@@ -34,7 +34,7 @@ export default {
         }
     },
     mounted() {
-        this.model = this.value ? this.value.replace(/\\n/g, '\\\n').replace(/\\/g, '') : this.value
+        this.model = this.value ? this.value.toString().replace(/\\n/g, '\\\n').replace(/\\/g, '') : this.value
     }
 }
 
