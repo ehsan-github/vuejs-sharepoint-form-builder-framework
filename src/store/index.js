@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import R from 'ramda'
+import uuidv1 from 'uuid/v1'
 
 import * as actions from './actions'
 import { urlParam } from '../functions'
@@ -84,12 +85,15 @@ const store = new Vuex.Store({
         changeField (state, { id, value }) {
             state.fields = R.assocPath([id, 'value'], value, state.fields)
         },
-        setFieldValue(state, { InternalName, value }) {
-            let id = getFieldId(InternalName, state.fields)
-            value = R.head(value.split(';#'))
-            value = isNaN(value) || value == '' ? value : Number(value)
-            if (value == 'True') value = true
-            id ? state.fields = R.assocPath([id, 'value'], value, state.fields) : null
+        showFieldsList(state, items){
+            let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
+            R.map(({ InternalName, value }) => {
+                let id = getFieldId(InternalName, state.fields)
+                value = R.head(value.split(';#'))
+                value = isNaN(value) || value == '' ? value : Number(value)
+                if (value == 'True') value = true
+                id ? state.fields = R.assocPath([id, 'value'], value, state.fields) : null
+            }, fieldValues)
         },
         MDLoadFields (state, { id, fields }) {
             state.fields[id] = { ...state.fields[id], fields }
@@ -98,22 +102,30 @@ const store = new Vuex.Store({
         MDChangeFieldRow (state, { masterId, rowId, fieldId, value }) {
             state.fields = R.assocPath([masterId, 'rows', rowId, fieldId, 'value'], value, state.fields)
         },
-        MDSetFieldRow (state, { masterId, rowId, InternalName, value }) {
-            let fieldId = getFieldId(InternalName, state.fields[masterId].fields)
-            let fieldType = state.fields[masterId].rows[rowId][fieldId]['Type']
-            if (fieldType == 'LookupMulti') {
-                value = R.pipe(
-                    R.filter(x => Number(x)),
-                    R.map(x => Number(x))
-                )(value.split(';#'))
-            } else {
-                value = R.head(value.split(';#'))
-                value = isNaN(value) || value == '' ? value : Number(value)
-            }
-            if (value == 'True') value = true
-            if (fieldId && value) {
-                state.fields[masterId].rows[rowId] = R.assocPath([fieldId, 'value'], value, state.fields[masterId].rows[rowId])
-            }
+        showDetailFieldsList(state, { id, items }){
+            items.forEach(item => {
+                let fields = { ...state.fields[id].fields }
+                let fieldValues = R.values(R.mapObjIndexed(shapeData, item))
+                fieldValues.forEach(({ InternalName, value }) => {
+                    let fieldId = getFieldId(InternalName, fields)
+                    let fieldType = fields[fieldId]['Type']
+                    if (fieldType == 'LookupMulti') {
+                        value = R.pipe(
+                            R.filter(x => Number(x)),
+                            R.map(x => Number(x))
+                        )(value.split(';#'))
+                    } else {
+                        value = R.head(value.split(';#'))
+                        value = isNaN(value) || value == '' ? value : Number(value)
+                    }
+                    if (value == 'True') value = true
+                    if (fieldId && value) {
+                        fields =  R.assocPath([fieldId, 'value'], value, fields)
+                    }
+                })
+                let rowId = uuidv1()
+                state.fields = R.assocPath([id, 'rows', rowId], fields, state.fields)
+            })
         },
         MDAddRow (state, { id, rowId }) {
             const fields = { ...state.fields[id].fields }
@@ -211,4 +223,9 @@ const getFieldId = (InternalName, fields) => R.pipe( //find the key of first ite
     R.head
 )(fields)
 
+const shapeData = (value, InternalName) => { // key in the comming items is the InternalName of Field
+    return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
+}
+
 export default store
+

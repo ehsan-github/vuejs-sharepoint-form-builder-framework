@@ -357,17 +357,7 @@ const transformError = ({ Message, RowNumber, FieldNames }) => {
     }, FieldNames)
 }
 
-const shapeData = (value, InternalName) => { // key in the comming items is the InternalName of Field
-    return typeof value == 'object' ? { InternalName, value: value ? value.Title : '' } : { InternalName, value }
-}
-
-export function loadFieldsList({ commit, state, getters }, { items }) {
-    let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
-    R.map(x => commit('setFieldValue', x), fieldValues)
-    if (!getters.isThereDetails) { setTimeout(() => commit('setLoadingFalse'), 1000)}
-}
-
-export function showFieldsList ({ commit, state, getters }, { select }) {
+function showFieldsList ({ commit, state, getters }, { select }) {
     let { listId, itemId } = state
     return getItemMaster(listId, itemId, select)
         .map(x => JSON.parse(x))
@@ -375,46 +365,20 @@ export function showFieldsList ({ commit, state, getters }, { select }) {
         .fork(
             err     => commit('addError', err),
             items   => {
-                loadFieldsList({ commit, state, getters }, { items })
+                commit('showFieldsList', items)
+                if (!getters.isThereDetails) { setTimeout(() => commit('setLoadingFalse'), 1500)}
             }
         )
 }
 
-// export function loadMasterFieldsList({ commit }, { items, id }) {
-//     return new Promise(resolve => {
-//         if (items.length > 0) {
-//             items.map((rowItems, k) => {
-//                 let fieldValues = R.values(R.mapObjIndexed(shapeData, rowItems))
-//                 R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowIndex: k }), fieldValues)
-//                 if (k == items.length - 1) {
-//                     setTimeout(() => resolve('done'), 2000)
-//                 }
-//             })
-//         } else {
-//             MDAddRow({ commit }, { id })
-//             setTimeout(() => resolve('done'), 20)
-//         }
-//     })
-// }
-
-export function loadMasterField({ commit }, { item, id, rowId, load }) {
-    let fieldValues = R.values(R.mapObjIndexed(shapeData, item))
-    R.map(x => commit('MDSetFieldRow', { ...x, masterId: id, rowId }), fieldValues)
-    if (load) commit('setLoadingFalse')
-}
-
-export function showDetailFieldsList ({ commit, state }, { id, listId, select, masterLookupName }) {
+function showDetailFieldsList ({ commit, state }, { id, listId, select, masterLookupName }) {
     let { itemId } = state
     return getItemDetail(listId, masterLookupName, itemId, select)
         .map(x => JSON.parse(x))
         .fork(
             err     => commit('addError', err),
             items   => {
-                items.forEach((item, k) => {
-                    let load = k == items.length - 1
-                    let rowId = MDAddRow({ commit }, { id })
-                    loadMasterField({ commit }, { item, id, rowId, load })
-                })
+                commit('showDetailFieldsList', { id, items })
                 commit('setLoadingFalse')
             }
         )
