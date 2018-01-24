@@ -14,18 +14,18 @@ export default {
             <el-col :span='24'>
                 <TitleHeader :title="listData.Title" />
                 <PageTemplate class="border"/>
-                <el-row type='flex' justify="center">
-                    <el-col :xs="24" :sm="20" :md="18" :lg="18" :xl="16" class="centeralize">
-                        <div>مشاهده سوابق</div>
-                        <Histories />
-                    </el-col>
-                </el-row>
                 <el-row type='flex' justify="center" class="footer">
                     <el-col :span='2'>
                         <el-button class="save" type='primary' @click='click'>ذخیره</el-button>
                     </el-col>
                     <el-col :span='2'>
                         <el-button class="cancel" type='primary' @click='cancel'>انصراف</el-button>
+                    </el-col>
+                </el-row>
+                <el-row type='flex' justify="center">
+                    <el-col :xs="24" :sm="20" :md="18" :lg="18" :xl="16" class="centeralize">
+                        <div>مشاهده سوابق</div>
+                        <Histories />
                     </el-col>
                 </el-row>
             </el-col>
