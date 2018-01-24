@@ -273,22 +273,22 @@ export function loadTemplateMetaData({ commit, state }) {
                 let fields = transformFields(state.fields)
                 let firstTemplate = replaceTemplateStr(succ.template || '', fields)
 
-                let secondTemplate = firstTemplate.replace(
+                let template = firstTemplate.replace(
                     new RegExp(/{{(\w+)(:[^}:]+)(:\[.*\])}}/, 'g'),
-                    (s, fname, fields, headers) => {
-                        let showFields = fields.substr(1).split(',')
+                    (s, fname, shFields, headers) => {
+                        let showFields = shFields.substr(1).split(',')
                         let headersArr = headers.substr(1)
+                        let field = fields[fname]
                         return `<el-form label-position="top">
                                     <el-form-item>
-                                        <div class='detail-title'>${fname}</div>
-                                            <Field fieldId='{{${fname}}}' class="${fname}" showFields="${showFields}" headers='${headersArr}'></Field>
+                                        <div class='detail-title'>${field.title}</div>
+                                            <Field fieldId='${field.id}' class="${fname}" showFields="${showFields}" headers='${headersArr}'></Field>
                                             <div class='detail-item'>
                                         </div>
                                     </el-form-item>
                                 </el-form>`
                     }
                 )
-                let template = replaceNameWithId(secondTemplate, fields)
                 commit('loadTemplateMetaData', {
                     templateName: succ.templateName || 'TwoSide',
                     columnsNum: succ.columnsNum || 2,
@@ -323,15 +323,6 @@ const replaceTemplateStr = (str, fields) => R.reduce(
             </div>
             </el-form-item>
         </el-form>`,
-        q),
-    str,
-    R.keys(fields)
-)
-
-const replaceNameWithId = (str, fields) => R.reduce(
-    (q, field) => R.replace(
-        new RegExp('{{'+field+'}}', 'g'),
-        `${fields[field].id}`,
         q),
     str,
     R.keys(fields)
