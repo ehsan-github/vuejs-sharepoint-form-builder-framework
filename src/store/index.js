@@ -119,7 +119,7 @@ const store = new Vuex.Store({
                         value = isNaN(value) || value == '' ? value : Number(value)
                     }
                     if (value == 'True') value = true
-                    if (fieldId && value) {
+                    if (fieldId && (value == 0 || value)) {
                         fields =  R.assocPath([fieldId, 'value'], value, fields)
                     }
                 })
