@@ -70,7 +70,7 @@ export function loadOptions({ commit }, { id, listId }) {
 }
 
 export function loadFilteredOptions({ commit }, { id, listId, query }) {
-    if (query.indexOf('null') === -1) {
+    if (!query.includes('null')) {
         return getFilteredItems(listId, query)
             .fork(
                 err     => commit('addError', err),
@@ -79,22 +79,13 @@ export function loadFilteredOptions({ commit }, { id, listId, query }) {
     }
 }
 
-// export function loadContractSpec({ commit, state }){
-//     return getContractSpec(state.contractId)
-//         .map(R.head) //TODO: should change for deployment!
-//         .fork(
-//             err => commit('addError', err),
-//             res => commit('loadContractSpec', res)
-//         )
-// }
-
 export function changeField({ commit }, payload) {
     commit('changeField', payload)
 }
 
 export function loadComputed ({ commit }, { id, listId, query , select , func }) {
     let realFunc = computeFunction(func)
-    if (query.indexOf('null') === -1) {
+    if (!query.includes('null')) {
         return getFilteredItems(listId, query)
             .map(R.map(R.prop(select)))
             .fork(
@@ -163,7 +154,7 @@ export function MDLoadAllLookupOptions ({ commit, state }, { masterId } ) {
 }
 
 export function MDLoadFilteredOptions ({ state, commit }, { id, masterId, rowId, listId, query }) {
-    return query.indexOf('null') === -1
+    return !query.includes('null')
         ? getFilteredItems(listId, query)
         .fork (
             err     => {
@@ -204,7 +195,7 @@ const computeFunction = func => {
 
 export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query , select , func }) {
     let realFunc = computeFunction(func)
-    if (query.indexOf('null') === -1) {
+    if (!query.includes('null')) {
         return getFilteredItems(listId, query)
             .map(R.map(R.prop(select)))
             .fork(
@@ -316,7 +307,7 @@ const replaceTemplateStr = (str, fields) => R.reduce(
     (q, field) => R.replace(
         new RegExp('{{'+field+'}}', 'g'),
         `<el-form label-position="top" class="master-field">
-            <el-form-item :class="{require: ${fields[field].IsRequire}}">
+            <el-form-item :class="{require: ${fields[field].isRequire}}">
             <div class='master-title'>${fields[field].title}</div>
             <div class='master-item'>
                 <Field fieldId="${fields[field].id}" class="${field}" ></Field>
