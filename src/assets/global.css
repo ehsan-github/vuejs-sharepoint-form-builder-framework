@@ -419,14 +419,14 @@ td.radif {
 }
 
 .master-item {
-    width: 75%;
+    width: 77%;
     display: inline-block;
     font-size: 14px;
 }
 
 .master-title {
     word-wrap: break-word;
-    width: 25%;
+    width: 23%;
     float: right;
     text-align: center;
 }
