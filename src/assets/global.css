@@ -272,7 +272,9 @@ td.radif {
     min-width: 50px;
     max-width: 50px;
 }
-
+.el-date-editor.el-input {
+    width: auto !important;
+}
 .el-checkbox__input {
     vertical-align: text-bottom !important;
 }

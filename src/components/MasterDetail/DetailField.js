@@ -43,6 +43,8 @@ export default {
             return <MultiChoiceField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.changeMulti} />
         case 'CustomComputedField':
             return <CustomComputedField value={this.value} />
+        case 'ComputedText':
+            return <CustomComputedField value={this.value} />
         case 'Time':
             return <TimeField value={this.value} name={this.name} rules={this.rules} onChange={this.change} />
         default:

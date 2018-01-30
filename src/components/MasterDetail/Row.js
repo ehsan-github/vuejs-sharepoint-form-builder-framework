@@ -59,6 +59,21 @@ export default {
                 return { id: Guid, masterId: this.masterId, rowId: this.id, listId: LookupList, query }
             }, customLookup )
         },
+        computedText() {
+            let computedText = R.filter(
+                R.both(
+                    R.propEq('Type', 'Text'),
+                    f => f.DefaultValue != null
+                ),
+                this.showingRow)
+            return R.map(({ Guid, DefaultValue }) => {
+                let query = R.pipe(
+                    replaceQueryFields(this.showingRow),
+                    replaceQueryMasterFields(this.masterFields)
+                )(DefaultValue)
+                return { fieldId: Guid, masterId: this.masterId, rowId: this.id, value: eval(query) }
+            }, computedText )
+        }
     },
     watch: {
         computedQueries: {
@@ -73,6 +88,14 @@ export default {
             handler: function (customSelectQueries, oldValue) {
                 if (!R.equals(customSelectQueries, oldValue)){
                     R.map((obj, id) => { if (!R.equals(obj, oldValue[id])) this.MDLoadFilteredOptions(obj) }, customSelectQueries)
+                }
+            },
+            deep: true
+        },
+        computedText: {
+            handler: function (computedText, oldValue) {
+                if (!R.equals(computedText, oldValue)){
+                    R.map((obj, id) => { if (!R.equals(obj, oldValue[id])) this.MDChangeFieldRow(obj) }, computedText)
                 }
             },
             deep: true
