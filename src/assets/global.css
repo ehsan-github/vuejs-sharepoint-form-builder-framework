@@ -784,6 +784,11 @@ i.el-icon-close:hover {
     cursor: pointer;
 }
 
+.el-time-panel__btn {
+    width: auto;
+    float: right;
+}
+
 /* histories */
 .histories .el-table__footer-wrapper thead div, .histories .el-table__header-wrapper thead div, .histories th, .histories .el-table tr {
     background-color: #49b4ba !important;

@@ -4,26 +4,25 @@ export default {
     inject: ['$validator'],
     template: `
     <el-tooltip :disabled="!hasError" class="item" effect="dark" :content="firstError" placement="top-end">
-        <el-time-select
+        <el-time-picker
             v-validate="rules"
             :class="{'error-box': hasError}"
             :data-vv-name='name'
             v-model="model"
-            :default-value="model"
-            :picker-options="{
-                start: '00:00',
-                step: '00:15',
-                end: '23:45'
-            }"
+            :default-value="defaultValue"
+            arrow-control
+            format="HH:mm"
+            :clearable="false"
             @change="change"
         >
-        </el-time-select>
+        </el-time-picker>
     </el-tooltip>
     `,
     props: ['value', 'rules', 'name'],
     data() {
         return {
-            model: ''
+            model: '',
+            defaultValue: new Date()
         }
     },
     computed: {
@@ -37,6 +36,11 @@ export default {
         }
     },
     mounted() {
-        this.model = this.value
+        if (this.value){
+            let [ hour, minute ] = this.value.split(':')
+            this.defaultValue.setHours(hour, minute)
+            let time = new Date(2017,1,1, hour, minute)
+            this.model = time
+        }
     }
 }
