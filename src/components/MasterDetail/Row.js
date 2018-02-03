@@ -92,15 +92,23 @@ export default {
         },
         loadCustomSelects(){
             R.map(
-                obj => { this.MDLoadFilteredOptions(obj) }, this.customSelectQueries)
+                obj => { this.MDLoadFilteredOptions(obj) },
+                this.customSelectQueries)
         },
         loadComputeds(){
             R.map(
-                obj => { this.MDLoadComputed(obj) }, this.computedQueries)
+                obj => { this.MDLoadComputed(obj) },
+                this.computedQueries)
         },
+        evaluateComputedTexts(){
+            R.map(
+                obj => { this.MDChangeFieldRow(obj) },
+                this.computedText)
+        }
     },
     mounted(){
         this.loadCustomSelects()
         this.loadComputeds()
+        this.evaluateComputedTexts()
     }
 }
