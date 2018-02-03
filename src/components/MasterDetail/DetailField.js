@@ -11,12 +11,13 @@ import MultiSelectField from '../../widgets/MultiSelect'
 import MultiChoiceField from '../../widgets/MultiChoice'
 import CustomSelectField from '../../widgets/CustomSelect'
 import CustomComputedField from '../../widgets/CustomComputed'
+import TimeField from '../../widgets/TimePicker'
 
 export default {
     components: {
         TextField, NoteField, SelectField, NumberField, DateTimeField,
         ChoiceField, BooleanField, MultiSelectField, MultiChoiceField,
-        CustomSelectField, CustomComputedField
+        CustomSelectField, CustomComputedField, TimeField
     },
     render () {
         switch (this.fieldType) {
@@ -42,6 +43,10 @@ export default {
             return <MultiChoiceField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.changeMulti} />
         case 'CustomComputedField':
             return <CustomComputedField value={this.value} />
+        case 'ComputedText':
+            return <CustomComputedField value={this.value} />
+        case 'Time':
+            return <TimeField value={this.value} name={this.name} rules={this.rules} onChange={this.change} />
         default:
             return <div> Unxp T {this.fieldType}</div>
         }
@@ -49,7 +54,16 @@ export default {
     props: ['field', 'rowId', 'onStoreOptions'],
     computed: {
         fieldId() { return this.field.Guid },
-        fieldType() { return this.field.Type },
+        fieldType() {
+            let Type = this.field.Type
+            if (Type == 'Text' && this.field.DefaultValue != null ){ //TODO needs checking for {{}} sign
+                return 'ComputedText'
+            }
+            if (Type == 'Text' && this.field.MaxLength == 254){
+                return 'Time'
+            }
+            return Type
+        },
         value() { return this.field.value },
         name() { return this.field.Title + this.rowId },
         onFieldOptions() { return this.field.options },
