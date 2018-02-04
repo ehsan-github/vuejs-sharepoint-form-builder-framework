@@ -12,6 +12,7 @@ export default {
             :types="types"
             :volume="volume"
             :rules="rules"
+            :description="description"
             @change='change'
             @remove='remove'
             @addToDelete='addToDelete'
@@ -28,6 +29,7 @@ export default {
         name (){ return this.field.Title },
         types() { return this.field.TypeFile.split(',') },
         volume() { return this.field.VolumeFile * 1000 },
+        description() { return this.field.Description },
         rules () {
             return {
                 rules: {

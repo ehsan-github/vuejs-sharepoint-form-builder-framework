@@ -759,6 +759,7 @@ tbody > span {
     font-size: 12px;
     font-weight: 100;
     line-height: 28px;
+    color: #8391a5;
 }
 
 .el-tooltip.item.el-tooltip.item.el-textarea.master.Note {
@@ -787,6 +788,10 @@ i.el-icon-close:hover {
 .el-time-panel__btn {
     width: auto;
     float: right;
+}
+
+.el-upload__tip {
+    line-height: 15px;
 }
 
 /* histories */

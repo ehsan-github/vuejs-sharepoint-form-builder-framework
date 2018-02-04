@@ -11,7 +11,7 @@ export default {
         <el-tooltip :disabled="fieldType == 'MasterDetail' || !hasError" class="item" effect="dark" :content="errorMessage" placement="bottom">
             <Field :fieldId="fieldId" :showFields="showFields" :headers="headers" @change="change" :class="[{'error-box': hasError, master: fieldType != 'MasterDetail'}, fieldType]"></Field>
         </el-tooltip>
-        <div class="description">{{description}}</div>
+        <div v-if="fieldType != 'File'" class="description">{{description}}</div>
     </div>
     `,
     computed: {

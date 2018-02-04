@@ -21,6 +21,7 @@ export default {
             :on-preview="handlePreview"
         >
             <el-button size="small" type="primary" >پیوست فایل</el-button>
+            <div v-if='description' slot="tip" class="el-upload__tip description">{{description}}</div>
             <div v-if='volume > 0 || types[0] != ""' slot="tip" class="el-upload__tip">فایل های {{types.join('/')}} {{volumeMessage}} </div>
         </el-upload>
     </el-tooltip>
@@ -31,6 +32,7 @@ export default {
         'name',
         'lookupList',
         'types',
+        'description',
         'volume'
     ],
     data() {
