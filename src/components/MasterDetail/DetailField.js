@@ -51,7 +51,13 @@ export default {
             return <div> Unxp T {this.fieldType}</div>
         }
     },
-    props: ['field', 'rowId', 'onStoreOptions'],
+    props: [
+        'field',
+        'rowId',
+        'idx',
+        'index',
+        'onStoreOptions'
+    ],
     computed: {
         fieldId() { return this.field.Guid },
         fieldType() {
@@ -83,10 +89,26 @@ export default {
     },
     methods: {
         change (value) {
-            this.$emit('change', { value, multi: false })
+            this.$emit(
+                    'change', {
+                        value,
+                        multi: false,
+                        fieldId: this.field.Guid,
+                        idx: this.idx,
+                        rowId: this.rowId,
+                        index: this.index
+                    })
         },
         changeMulti (value) {
-            this.$emit('change', { value, multi: true })
+            this.$emit(
+                'change', {
+                    value,
+                    multi: true,
+                    fieldId: this.field.Guid,
+                    idx: this.idx,
+                    rowId: this.rowId,
+                    index: this.index
+                })
         }
     }
 }

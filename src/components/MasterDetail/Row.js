@@ -11,14 +11,14 @@ export default {
     template: `
             <tr :class="[{'even-row': idx%2==0, 'odd-row': idx%2==1}, 'el-table__row']" :key="id">
                 <td class="button">
-                    <el-button type="danger" plain @click='() => delRow(id, idx)'><i class="el-icon-delete"></i></el-button>
+                    <el-button type="danger" plain @click='delRow(id, idx)'><i class="el-icon-delete"></i></el-button>
                 </td>
                 <td class="radif"><div>{{idx + 1}}</div></td>
                 <td v-for='(f, index) in showingRow' :key='id+f.Guid' :class="f.Type">
                     <div label-position="top">
                         <div :class="['table-form', {'error-box': serverErrors ? serverErrors[f.InternalName] != undefined : false}]">
                             <el-tooltip class="item" :disabled="serverErrors?serverErrors[f.InternalName] == undefined : true" :content="serverErrors ? serverErrors[f.InternalName] : null" placement="bottom">
-                                <DetailField :field="f" :rowId="id" :onStoreOptions="options[f.Guid] || []" @change="({ value, multi }) => change(idx, id, index, f.Guid, value, multi)" :class="f.InternalName"/>
+                                <DetailField :field="f" :rowId="id" :idx="idx" :index="index" :onStoreOptions="options[f.Guid] || []" @change="change" :class="f.InternalName"/>
                             </el-tooltip>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         ...mapActions(['MDChangeFieldRow', 'MDLoadFilteredOptions', 'MDLoadComputed', 'removeServerError']),
-        change (idx, rowId, index, fieldId, value, multi) {
+        change ({ value, multi, idx, rowId, index, fieldId }) {
             if (multi) value = value.toString()
             if (this.serverErrors && this.serverErrors[this.showingRow[index]['InternalName']]) {
                 this.removeServerError({ row: idx, internalName: this.showingRow[index]['InternalName'] })
