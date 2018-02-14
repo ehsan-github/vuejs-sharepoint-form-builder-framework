@@ -562,8 +562,8 @@ h3.title {
     border-radius: 4px;
     font-weight: bold;
 }
-.cov-date-caption span:nth-child(3){margin-top: 0px;margin-right: -31%;}
-.cov-date-caption span:nth-child(1){font-size: 31px;margin-right: 10%;margin-top: 17px;position: absolute;}
+.cov-date-caption span:nth-child(3){margin-top: 0px;right: 130px;}
+.cov-date-caption span:nth-child(1){font-size: 31px;left: 130px;margin-top: 17px;position: absolute;}
 
 .cov-date-next, .cov-date-next:hover {
     /* background: url('./next.png') no-repeat !important; */
