@@ -185,9 +185,9 @@ const computeFunction = func => {
     case 'Avg':
         return R.mean
     case 'Min':
-        return R.apply(R.min)
+        return R.reduce(R.min, Number.MAX_SAFE_INTEGER)
     case 'Max':
-        return R.apply(R.max)
+        return R.reduce(R.max, Number.MIN_SAFE_INTEGER)
     case 'First':
         return R.head
     }
