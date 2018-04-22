@@ -87,11 +87,12 @@ export function loadComputed ({ commit }, { id, listId, query , select , func })
     let realFunc = computeFunction(func)
     if (!query.includes('null')) {
         return getFilteredItems(listId, query)
+            .map(x => Array.isArray(x) ? x : [x])
             .map(R.map(R.prop(select)))
             .fork(
                 err      => commit('addError', err),
                 computed => {
-                    let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
+                    let value = realFunc(computed)
                     commit('changeField', { id, value })
                 }
             )
@@ -197,11 +198,12 @@ export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query
     let realFunc = computeFunction(func)
     if (!query.includes('null')) {
         return getFilteredItems(listId, query)
+            .map(x => Array.isArray(x) ? x : [x])
             .map(R.map(R.prop(select)))
             .fork(
                 err      => commit('addError', err),
                 computed => {
-                    let value = Array.isArray(computed) ? realFunc(computed) : computed // it needs to check different strunctors of retruned value
+                    let value = realFunc(computed)
                     commit('MDChangeFieldRow', { masterId, rowId, fieldId: id, value })
                 }
             )
