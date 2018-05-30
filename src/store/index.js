@@ -109,7 +109,7 @@ const store = new Vuex.Store({
                 fieldValues.forEach(({ InternalName, value }) => {
                     let fieldId = getFieldId(InternalName, fields)
                     let fieldType = fields[fieldId]['Type']
-                    if (fieldType == 'LookupMulti') {
+                    if (fieldType == 'LookupMulti' || fields[fieldId]['AllowMultipleValue']) {
                         value = R.pipe(
                             R.filter(x => Number(x)),
                             R.map(x => Number(x))
@@ -228,4 +228,3 @@ const shapeData = (value, InternalName) => { // key in the comming items is the 
 }
 
 export default store
-

@@ -10,6 +10,7 @@ import BooleanField from '../../widgets/Boolean'
 import MultiSelectField from '../../widgets/MultiSelect'
 import MultiChoiceField from '../../widgets/MultiChoice'
 import CustomSelectField from '../../widgets/CustomSelect'
+import CustomMultiSelectField from '../../widgets/CustomMultiSelect'
 import CustomComputedField from '../../widgets/CustomComputed'
 import TimeField from '../../widgets/TimePicker'
 
@@ -17,7 +18,7 @@ export default {
     components: {
         TextField, NoteField, SelectField, NumberField, DateTimeField,
         ChoiceField, BooleanField, MultiSelectField, MultiChoiceField,
-        CustomSelectField, CustomComputedField, TimeField
+        CustomSelectField, CustomMultiSelectField, CustomComputedField, TimeField
     },
     render () {
         switch (this.fieldType) {
@@ -37,6 +38,8 @@ export default {
             return <DateTimeField value={this.value} name={this.name} rules={this.rules} onChange={this.change} />
         case 'RelatedCustomLookupQuery':
             return <CustomSelectField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.change} />
+        case 'CustomMultiSelect':
+            return <CustomMultiSelectField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.changeMulti}></CustomMultiSelectField>
         case 'Choice':
             return <ChoiceField value={this.value} options={this.onFieldOptions} name={this.name} rules={this.rules} onChange={this.change} />
         case 'MultiChoice':
@@ -67,6 +70,9 @@ export default {
             }
             if (Type == 'Text' && this.field.MaxLength == 254){
                 return 'Time'
+            }
+            if (Type == 'RelatedCustomLookupQuery' && this.field.AllowMultipleValue){
+                return 'CustomMultiSelect'
             }
             return Type
         },

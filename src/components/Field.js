@@ -6,6 +6,7 @@ import ChoiceField from './Choice'
 import ComputedText from './ComputedText'
 import CustomComputedField from './CustomComputed'
 import CustomSelectField from './CustomSelect'
+import CustomMultiSelectField from './CustomMultiSelect'
 import DateTimeField from './DateTime'
 import MasterDetail from './MasterDetail'
 import MultiChoiceField from './MultiChoice'
@@ -18,7 +19,7 @@ import TimeField from './TimePicker'
 import UploadField from './Upload'
 
 export default {
-    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, DateTimeField, MasterDetail, ChoiceField, MultiChoiceField, UploadField, ComputedText, TimeField },
+    components: { TextField, TextAreaField, NumberField, BooleanField, SelectField, CustomSelectField, CustomMultiSelectField,  DateTimeField, MasterDetail, ChoiceField, MultiChoiceField, UploadField, ComputedText, TimeField },
     props: ['fieldId', 'showFields', 'headers'],
     render () {
         switch (this.fieldType) {
@@ -35,7 +36,9 @@ export default {
         case 'DateTime':
             return <DateTimeField fieldId={this.fieldId} onChange={this.change}></DateTimeField>
         case 'RelatedCustomLookupQuery':
-            return <CustomSelectField fieldId={this.fieldId} multiple={false} onChange={this.change}></CustomSelectField>
+            return <CustomSelectField fieldId={this.fieldId} onChange={this.change}></CustomSelectField>
+        case 'CustomMultiSelect':
+            return <CustomMultiSelectField fieldId={this.fieldId} onChange={this.change}></CustomMultiSelectField>
         case 'MasterDetail':
             return <MasterDetail fieldId={this.fieldId} onChange={this.change} showFields={this.showFields} headers={this.headers}></MasterDetail>
         case 'Choice':
@@ -66,6 +69,9 @@ export default {
                 }
                 if (Type == 'Text' && field.MaxLength == 254){
                     return 'Time'
+                }
+                if (Type == 'RelatedCustomLookupQuery' && field.AllowMultipleValue){
+                    return 'CustomMultiSelect'
                 }
                 return Type
             }
