@@ -26,11 +26,11 @@ export const saveFieldItems = (guid, fields, deletedItems, addFiles, deleteFiles
 )
 
 export const getItems = listId => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?$filter=FSObjType eq 0`
+    `/_api/web/lists(guid'${listId}')/items?$filter=FSObjType eq 0&$top=999999`
 ).chain(path(r => r.results))
 
 export const getFilteredItems = (listId, query) => getApiF(
-    `/_api/web/lists(guid'${listId}')/items?$filter=${query} and FSObjType eq 0`
+    `/_api/web/lists(guid'${listId}')/items?$filter=${query} &FSObjType eq 0${query.includes('top') ? '' : '&$top=999999'}`
 ).chain(path(r => r.results))
 
 export const getItemById = (listId, itemId) => getApiF(
