@@ -12,7 +12,7 @@ export const transformFieldsList = R.pipe(
 
 // {DefaultValue: 1} -> {DefaultValue: 1, value: 1}
 const assignValue = R.pipe(
-    R.juxt([f => f.DefaultValue, R.identity]),
+    R.juxt([f => (f.Type == 'CustomComputedField') ? null : R.prop('DefaultValue', f), R.identity]),
     x => R.assoc('value', ...x)
 )
 
