@@ -14,7 +14,7 @@ export default {
             field(state) { return state.fields[this.fieldId] },
             masterFields(state) { return state.fields }
         }),
-        value() { return [] },
+        value() { return this.field.value },
         options() { return this.field.options },
         name (){ return this.field.Title },
         rules () {
@@ -36,7 +36,8 @@ export default {
     methods: {
         ...mapActions(['changeField', 'loadFilteredOptions']),
         change(value) {
-            this.changeField({ id: this.fieldId, value: value.toString() })
+            console.log('heeee', value)
+            this.changeField({ id: this.fieldId, value: value ? value.toString() : '' })
             this.$emit('change', value)
         }
     },

@@ -86,14 +86,24 @@ const store = new Vuex.Store({
             state.fields = R.assocPath([id, 'value'], value, state.fields)
         },
         showFieldsList(state, items){
+            let fields = state.fields
             let fieldValues = R.values(R.mapObjIndexed(shapeData, items))
-            R.map(({ InternalName, value }) => {
+            fieldValues.forEach(({ InternalName, value }) => {
+                let fieldId = getFieldId(InternalName, fields)
+                let fieldType = fields[fieldId]['Type']
                 let id = getFieldId(InternalName, state.fields)
-                value = R.head(value.split(';#'))
-                value = isNaN(value) || value == '' ? value : Number(value)
-                if (value == 'True') value = true
+                if (fieldType == 'LookupMulti' || fields[fieldId]['AllowMultipleValue']) {
+                    value = R.pipe(
+                        R.filter(x => Number(x)),
+                        R.map(x => Number(x))
+                    )(value.split(';#'))
+                } else {
+                    value = R.head(value.split(';#'))
+                    value = isNaN(value) || value == '' ? value : Number(value)
+                    if (value == 'True') value = true
+                }
                 id ? state.fields = R.assocPath([id, 'value'], value, state.fields) : null
-            }, fieldValues)
+            })
         },
         MDLoadFields (state, { id, fields }) {
             state.fields[id] = { ...state.fields[id], fields }

@@ -13,7 +13,7 @@ export default {
             field(state) { return state.fields[this.fieldId] }
         }),
         // value() { return this.field.value},
-        value() { return []},
+        value() { return this.field.value || [] },
         options() { return this.field.options },
         name (){ return this.field.Title },
         rules () {

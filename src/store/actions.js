@@ -350,7 +350,7 @@ function showFieldsList ({ commit, state, getters }, { select }) {
             err     => commit('addError', err),
             items   => {
                 commit('showFieldsList', items)
-                if (!getters.isThereDetails) { setTimeout(() => commit('setLoadingFalse'), 1500)}
+                if (!getters.isThereDetails) { setTimeout(() => commit('setLoadingFalse'), 3000)}
             }
         )
 }
