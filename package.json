@@ -26,7 +26,6 @@
     "uuid": "^3.1.0",
     "vee-validate": "^2.0.0-rc.17",
     "vue": "^2.3.2",
-    "vue-jalaali-datepicker": "^1.0.1",
     "vue-router": "^2.3.1",
     "vue-template-compiler": "^2.3.2",
     "vuex": "^2.3.1"

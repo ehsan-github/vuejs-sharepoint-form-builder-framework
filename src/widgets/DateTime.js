@@ -1,5 +1,5 @@
 // @flow
-import Datepicker from 'vue-jalaali-datepicker/vue-jalaali-datepicker-es6'
+import Datepicker from '../vue-jalaali-datepicker-es6'
 import moment from 'moment-jalaali'
 import R from 'ramda'
 
