@@ -177,20 +177,24 @@ export function MDDelRow ({ commit }, rowProps) {
     commit('MDDelRow', rowProps)
 }
 
-const computeFunction = func => {
+const computeFunction = func => arr => {
     switch(func) {
     case 'Sum':
-        return R.sum
+        return R.sum(arr)
     case 'Multi':
-        return R.product
+        return R.product(arr)
     case 'Avg':
-        return R.mean
+        return R.mean(arr)
     case 'Min':
-        return R.reduce(R.min, Number.MAX_SAFE_INTEGER)
+        return typeof arr[0] === 'object' ?
+            moment(new Date(Math.min.apply(null, arr))).format('YYYY/MM/DD HH:mm')
+            : R.reduce(R.min, Number.MAX_SAFE_INTEGER, arr)
     case 'Max':
-        return R.reduce(R.max, Number.MIN_SAFE_INTEGER)
+        return typeof arr[0] === 'object' ?
+            moment(new Date(Math.max.apply(null, arr))).format('YYYY/MM/DD HH:mm')
+            : R.reduce(R.max, Number.MIN_SAFE_INTEGER, arr)
     case 'First':
-        return R.head
+        return R.head(arr)
     }
 }
 
