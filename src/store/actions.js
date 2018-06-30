@@ -1,6 +1,7 @@
 // @flow
 import R from 'ramda'
 import uuidv1 from 'uuid/v1'
+import moment from 'moment-jalaali'
 
 import { getFieldsList, getItems, getFilteredItems, saveFieldItems, getTemplate, getItemMaster, getItemDetail, getListData } from '../api'
 
@@ -89,6 +90,7 @@ export function loadComputed ({ commit }, { id, listId, query , select , func })
         return getFilteredItems(listId, query)
             .map(x => Array.isArray(x) ? x : [x])
             .map(R.map(R.prop(select)))
+            .map(R.filter(R.identity))
             .fork(
                 err      => commit('addError', err),
                 computed => {
@@ -177,7 +179,11 @@ export function MDDelRow ({ commit }, rowProps) {
     commit('MDDelRow', rowProps)
 }
 
-const computeFunction = func => arr => {
+const computeFunction = func => inArr => {
+    const isDate = (typeof inArr[0] == 'string' && inArr[0].slice(4, 5) === '-')
+    let arr = isDate ?
+        R.map(x => new Date(x), inArr)
+        : inArr
     switch(func) {
     case 'Sum':
         return R.sum(arr)
@@ -186,12 +192,12 @@ const computeFunction = func => arr => {
     case 'Avg':
         return R.mean(arr)
     case 'Min':
-        return typeof arr[0] === 'object' ?
-            moment(new Date(Math.min.apply(null, arr))).format('YYYY/MM/DD HH:mm')
+        return isDate ?
+            moment(new Date(Math.min.apply(null, arr))).format('jYYYY/jMM/jDD')
             : R.reduce(R.min, Number.MAX_SAFE_INTEGER, arr)
     case 'Max':
-        return typeof arr[0] === 'object' ?
-            moment(new Date(Math.max.apply(null, arr))).format('YYYY/MM/DD HH:mm')
+        return isDate ?
+            moment(new Date(Math.max.apply(null, arr))).format('jYYYY/jMM/jDD')
             : R.reduce(R.max, Number.MIN_SAFE_INTEGER, arr)
     case 'First':
         return R.head(arr)
@@ -204,6 +210,7 @@ export function MDLoadComputed ({ commit }, { id, masterId, rowId, listId, query
         return getFilteredItems(listId, query)
             .map(x => Array.isArray(x) ? x : [x])
             .map(R.map(R.prop(select)))
+            .map(R.filter(R.identity))
             .fork(
                 err      => commit('addError', err),
                 computed => {
