@@ -194,11 +194,11 @@ const computeFunction = func => inArr => {
     case 'Min':
         return isDate ?
             moment(new Date(Math.min.apply(null, arr))).format('jYYYY/jMM/jDD')
-            : R.reduce(R.min, Number.MAX_SAFE_INTEGER, arr)
+            : arr.length == 0 ? '' : R.reduce(R.min, Number.MAX_SAFE_INTEGER, arr)
     case 'Max':
         return isDate ?
             moment(new Date(Math.max.apply(null, arr))).format('jYYYY/jMM/jDD')
-            : R.reduce(R.max, Number.MIN_SAFE_INTEGER, arr)
+            : arr.length == 0 ? '' : R.reduce(R.max, Number.MIN_SAFE_INTEGER, arr)
     case 'First':
         return R.head(arr)
     }
