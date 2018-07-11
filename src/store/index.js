@@ -92,7 +92,7 @@ const store = new Vuex.Store({
                 let fieldId = getFieldId(InternalName, fields)
                 let fieldType = fields[fieldId]['Type']
                 let id = getFieldId(InternalName, state.fields)
-                if (fieldType == 'LookupMulti' || fields[fieldId]['AllowMultipleValue']) {
+                if (fieldType == 'LookupMulti' || fieldType == 'MultiChoice' || fields[fieldId]['AllowMultipleValue']) {
                     value = R.pipe(
                         R.filter(x => Number(x)),
                         R.map(x => Number(x))
@@ -119,7 +119,7 @@ const store = new Vuex.Store({
                 fieldValues.forEach(({ InternalName, value }) => {
                     let fieldId = getFieldId(InternalName, fields)
                     let fieldType = fields[fieldId]['Type']
-                    if (fieldType == 'LookupMulti' || fields[fieldId]['AllowMultipleValue']) {
+                    if (fieldType == 'LookupMulti' || fieldType == 'MultiChoice' || fields[fieldId]['AllowMultipleValue']) {
                         value = R.pipe(
                             R.filter(x => Number(x)),
                             R.map(x => Number(x))
